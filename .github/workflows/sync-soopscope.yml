@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       target_month:
-        description: '대상 월 (예: 2026-09 또는 2026-10). 비워두면 2026-09'
+        description: '대상 월 (예: 2026-10). 비워두면 현재 월(한국시간 기준)'
         required: false
-        default: '2026-09'
+        default: ''
 
 permissions:
   contents: write
@@ -43,7 +43,7 @@ jobs:
         run: |
           TARGET_MONTH="${{ inputs.target_month }}"
           if [ -z "$TARGET_MONTH" ]; then
-            TARGET_MONTH="2026-09"
+            TARGET_MONTH=$(TZ="Asia/Seoul" date +'%Y-%m')
           fi
           node scripts/sync-viewership.mjs "$TARGET_MONTH" --shard=${{ matrix.shard }}/8 --output="shards/shard-${{ matrix.shard }}.json"
 
@@ -84,7 +84,7 @@ jobs:
         run: |
           TARGET_MONTH="${{ inputs.target_month }}"
           if [ -z "$TARGET_MONTH" ]; then
-            TARGET_MONTH="2026-09"
+            TARGET_MONTH=$(TZ="Asia/Seoul" date +'%Y-%m')
           fi
           node scripts/sync-viewership.mjs "$TARGET_MONTH" --merge=shards-downloaded
 
@@ -98,7 +98,7 @@ jobs:
             TIMESTAMP=$(TZ="Asia/Seoul" date +'%Y-%m-%d %H:%M:%S')
             TARGET_STR="${{ inputs.target_month }}"
             if [ -z "$TARGET_STR" ]; then
-              TARGET_STR="2026-09"
+              TARGET_STR=$(TZ="Asia/Seoul" date +'%Y-%m')
             fi
             git commit -m "chore(sync): archive 100% complete $TARGET_STR snapshot [$TIMESTAMP KST]"
             git push origin main
