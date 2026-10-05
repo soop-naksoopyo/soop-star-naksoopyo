@@ -82,11 +82,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          if [ -n "$(git status --porcelain src/data/archiveData.ts)" ]; then
-            git add src/data/archiveData.ts
+          if [ -n "$(git status --porcelain src/data/)" ]; then
+            git add src/data/
             git commit -m "chore(archive): auto-record monthly snapshot for ${TARGET_MONTH:-previous month} [skip ci]"
             git push origin main
-            echo "✅ Successfully pushed updated archiveData.ts to GitHub main branch."
+            echo "✅ Successfully pushed updated archive snapshots to GitHub main branch."
           else
-            echo "ℹ️ No changes detected in src/data/archiveData.ts. Nothing to commit."
+            echo "ℹ️ No changes detected in src/data/. Nothing to commit."
           fi

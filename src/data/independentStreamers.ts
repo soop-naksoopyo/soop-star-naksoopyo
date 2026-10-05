@@ -124,5 +124,80 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
       "totalStars": 38878,
       "broadcastHours": 30.5
     }
+  ],
+  "2026-11": [
+    {
+      "soopId": "xodud1898",
+      "nickname": "태영♥",
+      "totalStars": 0,
+      "broadcastHours": 0
+    },
+    {
+      "soopId": "yochba0402",
+      "nickname": "졈니",
+      "totalStars": 0,
+      "broadcastHours": 0
+    },
+    {
+      "soopId": "yjk011599",
+      "nickname": "나무늘봉순",
+      "totalStars": 0,
+      "broadcastHours": 0
+    },
+    {
+      "soopId": "zalalz",
+      "nickname": "조은",
+      "totalStars": 0,
+      "broadcastHours": 0
+    },
+    {
+      "soopId": "qpqpro",
+      "nickname": "디임",
+      "totalStars": 0,
+      "broadcastHours": 0
+    },
+    {
+      "soopId": "ouo20411",
+      "nickname": "히댕",
+      "totalStars": 0,
+      "broadcastHours": 0
+    },
+    {
+      "soopId": "sdkels",
+      "nickname": "강덕구",
+      "totalStars": 0,
+      "broadcastHours": 0
+    },
+    {
+      "soopId": "kmj05317",
+      "nickname": "우리밍_",
+      "totalStars": 0,
+      "broadcastHours": 0
+    },
+    {
+      "soopId": "rhakdncjs90",
+      "nickname": "으냉이",
+      "totalStars": 0,
+      "broadcastHours": 0
+    },
+    {
+      "soopId": "gks2wl",
+      "nickname": "앵지",
+      "totalStars": 0,
+      "broadcastHours": 0
+    }
   ]
 };
+
+export function getIndependentStreamers(yearMonth: string): StreamerRowData[] {
+  if (INDEPENDENT_STREAMERS_BY_MONTH[yearMonth]) {
+    return INDEPENDENT_STREAMERS_BY_MONTH[yearMonth];
+  }
+  const keys = Object.keys(INDEPENDENT_STREAMERS_BY_MONTH).sort();
+  const fallbackKey = keys[keys.length - 1];
+  return (INDEPENDENT_STREAMERS_BY_MONTH[fallbackKey] || []).map((s) => ({
+    ...s,
+    totalStars: 0,
+    broadcastHours: 0,
+  }));
+}

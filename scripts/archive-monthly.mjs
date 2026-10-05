@@ -24,23 +24,57 @@ function getTargetMonth() {
   return `${yyyy}-${mm}`;
 }
 
-// 2. 크루 데이터 가져오기 (실시간 API 우선, 실패 시 starCrewsData 파일 파싱)
+// 2. 크루 데이터 가져오기 (실시간 API 우선, 실패 시 로컬 스냅샷 파싱)
 async function fetchCrewData(targetMonth) {
-  const url = new URL('https://soop-star-naksoopyo.pages.dev/api/stats');
-  url.searchParams.set('month', targetMonth);
-  const res = await fetch(url, {
-    headers: { 'User-Agent': 'GitHubActions-MonthlyArchive' }
-  });
-  if (!res.ok) {
-    throw new Error(`Could not load ${targetMonth} snapshots (HTTP ${res.status})`);
+  try {
+    const url = new URL('https://soop-star-naksoopyo.pages.dev/api/stats');
+    url.searchParams.set('month', targetMonth);
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'GitHubActions-MonthlyArchive' }
+    });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success && Array.isArray(json.starCrews) && json.starCrews.length > 0) {
+        console.log(`[Archive] ✅ Loaded ${json.starCrews.length} crews from ${targetMonth} live API.`);
+        return json.starCrews;
+      }
+    }
+  } catch (err) {
+    console.warn(`[Archive] Live API fetch failed (${err.message}). Trying local fallback...`);
   }
 
-  const json = await res.json();
-  if (!json.success || !Array.isArray(json.starCrews) || json.starCrews.length === 0) {
-    throw new Error(`No complete ${targetMonth} snapshot is available to archive`);
+  // Local fallback: read viewershipSnapshots.ts
+  const snapshotsPath = path.join(rootDir, 'src/data/viewershipSnapshots.ts');
+  if (fs.existsSync(snapshotsPath)) {
+    const content = fs.readFileSync(snapshotsPath, 'utf8');
+    const pattern = /export const VIEWERSHIP_MONTHLY_SNAPSHOTS:\s*Record<string,\s*ViewershipMonthlySnapshot>\s*=\s*(\{[\s\S]*?\});\s*$/m;
+    const match = content.match(pattern);
+    if (match) {
+      const data = JSON.parse(match[1]);
+      const monthSnapshot = data[targetMonth];
+      if (monthSnapshot?.streamers?.length > 0) {
+        const crewsMap = new Map();
+        for (const streamer of monthSnapshot.streamers) {
+          if (!streamer.crewName) continue;
+          if (!crewsMap.has(streamer.crewName)) {
+            crewsMap.set(streamer.crewName, { crewName: streamer.crewName, members: [] });
+          }
+          crewsMap.get(streamer.crewName).members.push({
+            soopId: streamer.soopId,
+            nickname: streamer.nickname,
+            profileImageUrl: streamer.profileImageUrl,
+            totalStars: streamer.totalStars || 0,
+            broadcastHours: streamer.broadcastMinutes ? Math.round((streamer.broadcastMinutes / 60) * 10) / 10 : 0,
+          });
+        }
+        const fallbackCrews = Array.from(crewsMap.values());
+        console.log(`[Archive] ✅ Loaded ${fallbackCrews.length} crews from local snapshot for ${targetMonth}.`);
+        return fallbackCrews;
+      }
+    }
   }
-  console.log(`[Archive] ✅ Loaded ${json.starCrews.length} crews from ${targetMonth} snapshots.`);
-  return json.starCrews;
+
+  throw new Error(`No complete ${targetMonth} snapshot is available to archive`);
 }
 
 // 3. 랭킹 및 통계 산출
@@ -167,6 +201,15 @@ async function saveToSupabaseIfConfigured(archive) {
   }
 }
 
+function saveCrewArchiveFileIfApplicable(targetMonth, crews) {
+  if (targetMonth === '2026-10') {
+    const octPath = path.join(rootDir, 'src/data/octoberStarCrews.ts');
+    const octContent = `import { StarCrewGroup } from '@/lib/starCrewsData';\n\n// 2026년 10월 마감 당시 소속과 월간 통계 스냅샷.\nexport const OCTOBER_2026_STAR_CREWS: StarCrewGroup[] = ${JSON.stringify(crews, null, 2)};\n`;
+    fs.writeFileSync(octPath, octContent, 'utf-8');
+    console.log(`[Archive] ✅ Successfully saved 10월 crew snapshot into ${octPath}`);
+  }
+}
+
 async function main() {
   const targetMonth = getTargetMonth();
   console.log(`\n========================================`);
@@ -181,6 +224,7 @@ async function main() {
   console.log(`[Summary] 전체 누적: ${snapshot.summary.totalStars.toLocaleString()}개 (${snapshot.summary.totalMembers}명)\n`);
 
   saveToArchiveDataTs(snapshot);
+  saveCrewArchiveFileIfApplicable(targetMonth, crews);
   await saveToSupabaseIfConfigured(snapshot);
 
   console.log(`\n🎉 Monthly Archive for ${targetMonth} Completed Successfully!\n`);

@@ -6,7 +6,8 @@ import { SEPTEMBER_2026_STAR_CREWS } from '@/data/septemberStarCrews';
 import { INDEPENDENT_STREAMERS_BY_MONTH } from '@/data/independentStreamers';
 import { SEPTEMBER_CURRENT_NICKNAMES } from '@/data/septemberCurrentNicknames';
 import { getCurrentMonthDate } from '@/lib/month';
-import { VIEWERSHIP_EXCLUDED_SOOP_IDS } from '@/lib/viewership';
+import { VIEWERSHIP_EXCLUDED_SOOP_IDS, type ViewershipMonthlySnapshot } from '@/lib/viewership';
+import { VIEWERSHIP_MONTHLY_SNAPSHOTS } from '@/data/viewershipSnapshots';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
@@ -25,16 +26,71 @@ function withMonthNickname<T extends { soopId: string; nickname: string }>(item:
   };
 }
 
+function localSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySnapshot) {
+  const byId = new Map(snapshot.streamers.map((s) => [s.soopId.toLowerCase(), s]));
+  const starCrews = OFFICIAL_STAR_CREWS.map((crew) => ({
+    ...crew,
+    members: crew.members.map((member) => {
+      const soopId = member.soopId.toLowerCase();
+      const snap = byId.get(soopId);
+      return snap ? {
+        ...member,
+        nickname: withMonthNickname(member, yearMonth).nickname,
+        profileImageUrl: snap.profileImageUrl || member.profileImageUrl,
+        totalStars: snap.totalStars,
+        broadcastHours: snap.broadcastMinutes > 0 ? Math.round((snap.broadcastMinutes / 60) * 10) / 10 : 0,
+        collectionStatus: snap.collectionStatus,
+        starsSource: snap.starsSource,
+      } : member;
+    }),
+  }));
+  const independentStreamers = (INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? [])
+    .map((member) => {
+      const snap = byId.get(member.soopId.toLowerCase());
+      return snap ? {
+        ...member,
+        nickname: withMonthNickname(member, yearMonth).nickname,
+        profileImageUrl: snap.profileImageUrl || member.profileImageUrl,
+        totalStars: snap.totalStars,
+        broadcastHours: snap.broadcastMinutes > 0 ? Math.round((snap.broadcastMinutes / 60) * 10) / 10 : 0,
+        collectionStatus: snap.collectionStatus,
+        starsSource: snap.starsSource,
+      } : member;
+    });
+
+  return NextResponse.json({
+    success: true,
+    timestamp: snapshot.updatedAt || new Date().toISOString(),
+    yearMonth,
+    isClosed: true,
+    starCrews,
+    independentStreamers,
+    source: 'local_viewership_snapshot',
+    matchedCount: snapshot.streamers.length,
+  });
+}
+
 function fileSnapshot(source: string, yearMonth: string, error?: string) {
+  const isNewLiveMonth = yearMonth > '2026-10';
+  const shouldResetLiveStats = isNewLiveMonth && (source.includes('empty_database') || source.includes('initial_sync_pending'));
   return NextResponse.json({
     success: true,
     timestamp: new Date().toISOString(),
+    yearMonth,
     starCrews: OFFICIAL_STAR_CREWS.map((crew) => ({
       ...crew,
-      members: crew.members.map((member) => withMonthNickname(member, yearMonth)),
+      members: crew.members.map((member) => ({
+        ...withMonthNickname(member, yearMonth),
+        totalStars: shouldResetLiveStats ? 0 : member.totalStars,
+        broadcastHours: shouldResetLiveStats ? 0 : member.broadcastHours,
+      })),
     })),
     independentStreamers: (INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? [])
-      .map((member) => withMonthNickname(member, yearMonth)),
+      .map((member) => ({
+        ...withMonthNickname(member, yearMonth),
+        totalStars: shouldResetLiveStats ? 0 : member.totalStars,
+        broadcastHours: shouldResetLiveStats ? 0 : member.broadcastHours,
+      })),
     source,
     ...(error ? { error } : {}),
   });
@@ -92,24 +148,13 @@ export async function GET(request: Request) {
     || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!supabaseUrl || !anonKey) {
     if (isHistoricalMonth) {
+      const localSnap = VIEWERSHIP_MONTHLY_SNAPSHOTS[yearMonth];
+      if (localSnap && localSnap.streamers?.length > 0) {
+        return localSnapshotResponse(yearMonth, localSnap);
+      }
       return historicalSnapshotError(yearMonth, 503, 'Historical snapshots require Supabase configuration');
     }
-    return NextResponse.json({
-      success: true,
-      timestamp: new Date().toISOString(),
-      starCrews: OFFICIAL_STAR_CREWS.map((crew) => ({
-        ...crew,
-        members: crew.members.map((member) => withMonthNickname(member, yearMonth)),
-      })),
-      independentStreamers: (INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? [])
-        .map((member) => withMonthNickname(member, yearMonth)),
-      source: 'soopscope_file_missing_db_config',
-      configuration: {
-        pagesRuntimeAvailable: Boolean(pagesEnv),
-        supabaseUrlAvailable: Boolean(supabaseUrl),
-        publishableKeyAvailable: Boolean(anonKey),
-      },
-    });
+    return fileSnapshot('soopscope_file_missing_db_config', yearMonth);
   }
 
   const url = new URL(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_monthly_snapshots`);
@@ -122,6 +167,10 @@ export async function GET(request: Request) {
     const response = await fetch(url, { headers });
     if (!response.ok) {
       if (isHistoricalMonth) {
+        const localSnap = VIEWERSHIP_MONTHLY_SNAPSHOTS[yearMonth];
+        if (localSnap && localSnap.streamers?.length > 0) {
+          return localSnapshotResponse(yearMonth, localSnap);
+        }
         return historicalSnapshotError(yearMonth, 502, `Supabase returned ${response.status}`);
       }
       return fileSnapshot('soopscope_file_fallback', yearMonth, `Supabase returned ${response.status}`);
@@ -138,7 +187,13 @@ export async function GET(request: Request) {
       stars_source: 'stats' | 'canonical';
     }>;
     if (rows.length === 0) {
-      if (isHistoricalMonth) return historicalSnapshotError(yearMonth, 404, 'No monthly snapshot is available');
+      if (isHistoricalMonth) {
+        const localSnap = VIEWERSHIP_MONTHLY_SNAPSHOTS[yearMonth];
+        if (localSnap && localSnap.streamers?.length > 0) {
+          return localSnapshotResponse(yearMonth, localSnap);
+        }
+        return historicalSnapshotError(yearMonth, 404, 'No monthly snapshot is available');
+      }
       return fileSnapshot('soopscope_file_empty_database', yearMonth);
     }
 
@@ -149,6 +204,10 @@ export async function GET(request: Request) {
     const expectedCount = ARCHIVE_MONTHS[yearMonth]?.summary.totalMembers
       ?? Array.from(targetIds).filter((soopId) => !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(soopId)).length;
     if (isHistoricalMonth && rows.length < expectedCount) {
+      const localSnap = VIEWERSHIP_MONTHLY_SNAPSHOTS[yearMonth];
+      if (localSnap && localSnap.streamers?.length >= expectedCount) {
+        return localSnapshotResponse(yearMonth, localSnap);
+      }
       return historicalSnapshotError(yearMonth, 409, 'Monthly snapshot is incomplete', rows.length);
     }
     if (!isHistoricalMonth && rows.length < expectedCount) {

@@ -248,3 +248,41 @@ it('does not fall back to current file data when an archived month is missing', 
   expect(data.success).toBe(false);
   expect(data.yearMonth).toBe('2026-08');
 });
+
+it('returns local snapshot fallback for historical 2026-10 when Supabase is unreachable', async () => {
+  vi.stubEnv('SUPABASE_URL', '');
+  vi.stubEnv('SUPABASE_ANON_KEY', '');
+  // Mock current month as 2026-11 so 2026-10 is treated as historical
+  vi.spyOn(await import('@/lib/month'), 'getCurrentMonthDate').mockReturnValue('2026-11-01');
+
+  const response = await GET(new Request('https://app.test/api/stats?month=2026-10'));
+  const data = await response.json();
+
+  expect(response.status).toBe(200);
+  expect(data.success).toBe(true);
+  expect(data.yearMonth).toBe('2026-10');
+  expect(data.isClosed).toBe(true);
+  expect(data.source).toBe('local_viewership_snapshot');
+  expect(data.starCrews.length).toBeGreaterThan(0);
+});
+
+it('resets live stats to 0 when transitioning to a new live month before first sync', async () => {
+  vi.stubEnv('SUPABASE_URL', 'https://example.supabase.co');
+  vi.stubEnv('SUPABASE_ANON_KEY', 'test-anon-key');
+  // Mock empty Supabase response for 2026-11
+  const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => [] });
+  vi.stubGlobal('fetch', fetchMock);
+
+  // Mock current month as 2026-11
+  vi.spyOn(await import('@/lib/month'), 'getCurrentMonthDate').mockReturnValue('2026-11-01');
+
+  const response = await GET(new Request('https://app.test/api/stats'));
+  const data = await response.json();
+
+  expect(response.status).toBe(200);
+  expect(data.success).toBe(true);
+  expect(data.yearMonth).toBe('2026-11');
+  // First member should have 0 stars and 0 broadcastHours
+  expect(data.starCrews[0].members[0].totalStars).toBe(0);
+  expect(data.starCrews[0].members[0].broadcastHours).toBe(0);
+});

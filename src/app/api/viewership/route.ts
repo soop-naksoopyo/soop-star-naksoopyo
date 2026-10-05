@@ -151,6 +151,38 @@ export async function GET(request: Request) {
   }
 
   if (!savedSnapshot) {
+    if (yearMonth === currentMonth) {
+      const visibleStreamers = [
+        ...OFFICIAL_STAR_CREWS.flatMap((crew) => crew.members.map((member) => ({ ...member, crewName: crew.crewName }))),
+        ...(INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? INDEPENDENT_STREAMERS_BY_MONTH['2026-11'] ?? []).map((member) => ({ ...member, crewName: null })),
+      ]
+        .filter((member) => !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(member.soopId.toLowerCase()))
+        .map((member) => ({
+          soopId: member.soopId,
+          nickname: withMonthNickname(member, yearMonth).nickname,
+          profileImageUrl: member.profileImageUrl || null,
+          crewName: member.crewName,
+          averageViewers: 0,
+          totalViewers: 0,
+          peakViewers: 0,
+          broadcastMinutes: 0,
+          viewerShip: 0,
+          fetchedAt: new Date().toISOString(),
+          collectionStatus: 'available' as const,
+          viewershipStatus: 'available' as const,
+        }));
+
+      return NextResponse.json({
+        success: true,
+        yearMonth,
+        updatedAt: new Date().toISOString(),
+        requestedCount: visibleStreamers.length,
+        fetchedCount: 0,
+        failedCount: 0,
+        streamers: visibleStreamers,
+      });
+    }
+
     return NextResponse.json({ success: false, yearMonth, error: 'No viewership snapshot is available' }, { status: 404 });
   }
   return savedSnapshotResponse(yearMonth, savedSnapshot);

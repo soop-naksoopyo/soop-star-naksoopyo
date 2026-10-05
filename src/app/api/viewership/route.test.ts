@@ -90,3 +90,20 @@ it('returns not found for months without a snapshot', async () => {
   const response = await GET(new Request('https://app.test/api/viewership?month=2026-08'));
   expect(response.status).toBe(404);
 });
+
+it('returns graceful initial roster for a new live month before first snapshot is available', async () => {
+  vi.stubEnv('SUPABASE_URL', '');
+  vi.stubEnv('SUPABASE_ANON_KEY', '');
+  // Mock current month as 2026-11
+  vi.spyOn(await import('@/lib/month'), 'getCurrentMonthDate').mockReturnValue('2026-11-01');
+
+  const response = await GET(new Request('https://app.test/api/viewership?month=2026-11'));
+  const data = await response.json();
+
+  expect(response.status).toBe(200);
+  expect(data.success).toBe(true);
+  expect(data.yearMonth).toBe('2026-11');
+  expect(data.streamers.length).toBeGreaterThan(0);
+  expect(data.streamers[0].viewerShip).toBe(0);
+  expect(data.streamers[0].averageViewers).toBe(0);
+});
