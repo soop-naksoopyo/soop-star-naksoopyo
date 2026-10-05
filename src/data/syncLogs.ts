@@ -22,6 +22,20 @@ export interface SyncLogEntry {
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791201612249",
+    "timestamp": "2026-10-05T12:00:12.249Z",
+    "kstTime": "2026-10-05 21:00:12",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "success",
+    "requestedCount": 237,
+    "fetchedCount": 237,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 90,
+    "note": "2026-10 스냅샷 수집 (237/237명)"
+  },
+  {
     "id": "run-1791200629567",
     "timestamp": "2026-10-05T11:43:49.567Z",
     "kstTime": "2026-10-05 20:43:49",
