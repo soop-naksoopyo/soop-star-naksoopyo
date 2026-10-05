@@ -15,7 +15,14 @@ export interface ViewershipStreamerSnapshot {
   viewershipStatus?: string;
 }
 
-export const VIEWERSHIP_EXCLUDED_SOOP_IDS = new Set<string>(['skygkrtn', 'rlekfu6']);
+export const VIEWERSHIP_EXCLUDED_SOOP_IDS = new Set<string>([
+  'skygkrtn',   // 김학수
+  'rlekfu6',    // 박재혁
+  'wodnrdldia', // 도재욱
+  'tjdeosks',   // 김성대
+  'daegalheo',  // 허유
+  'cksgmldbs',  // 몽군
+]);
 
 export interface ViewershipMonthlySnapshot {
   yearMonth: string;
