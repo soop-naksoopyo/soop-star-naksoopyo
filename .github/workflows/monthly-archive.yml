@@ -1,0 +1,92 @@
+name: Monthly Archive Snapshot Cron
+
+on:
+  # 1. 매일 한국 시간(KST) 00:05 (= UTC 15:05) 정기 실행
+  #    스크립트 내부에서 "오늘이 KST 1일인지" 검증 후, 1일일 때 직전 월 자동 아카이빙 실행
+  schedule:
+    - cron: '5 15 * * *'
+
+  # 2. 관리자가 GitHub Actions 탭에서 언제든 즉시 수동 실행 가능
+  workflow_dispatch:
+    inputs:
+      target_month:
+        description: '아카이빙할 대상 월 (예: 2026-10). 비워두면 직전 달 자동 계산'
+        required: false
+        default: ''
+      force_run:
+        description: '날짜 검사 무시하고 강제 실행 여부 (수동 실행 시)'
+        type: boolean
+        required: true
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  archive-snapshot:
+    runs-on: ubuntu-latest
+    name: Archive Monthly Star Crew Stats
+
+    steps:
+      - name: 1. Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 2. Check if Today is 1st of Month (KST)
+        id: check_date
+        run: |
+          # KST 기준 현재 날짜 계산 (UTC + 9시간)
+          KST_DATE=$(TZ="Asia/Seoul" date +'%Y-%m-%d')
+          KST_DAY=$(TZ="Asia/Seoul" date +'%d')
+          IS_DISPATCH="${{ github.event_name == 'workflow_dispatch' }}"
+          FORCE_RUN="${{ inputs.force_run }}"
+
+          echo "Current KST Date: $KST_DATE (Day: $KST_DAY)"
+
+          if [ "$IS_DISPATCH" = "true" ] && [ "$FORCE_RUN" = "true" ]; then
+            echo "Manual trigger with force_run=true. Proceeding..."
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          elif [ "$KST_DAY" = "01" ]; then
+            echo "Today is the 1st day of the month ($KST_DATE). Executing monthly archive!"
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          else
+            echo "Today is not the 1st of the month ($KST_DATE). Skipping scheduled run."
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 3. Setup Node.js
+        if: steps.check_date.outputs.should_run == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 4. Install Dependencies
+        if: steps.check_date.outputs.should_run == 'true'
+        run: npm ci
+
+      - name: 5. Execute Monthly Archive Script
+        if: steps.check_date.outputs.should_run == 'true'
+        env:
+          TARGET_MONTH: ${{ inputs.target_month }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          node scripts/archive-monthly.mjs "$TARGET_MONTH"
+
+      - name: 6. Commit and Push Archived Snapshot
+        if: steps.check_date.outputs.should_run == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if [ -n "$(git status --porcelain src/data/archiveData.ts)" ]; then
+            git add src/data/archiveData.ts
+            git commit -m "chore(archive): auto-record monthly snapshot for ${TARGET_MONTH:-previous month} [skip ci]"
+            git push origin main
+            echo "✅ Successfully pushed updated archiveData.ts to GitHub main branch."
+          else
+            echo "ℹ️ No changes detected in src/data/archiveData.ts. Nothing to commit."
+          fi

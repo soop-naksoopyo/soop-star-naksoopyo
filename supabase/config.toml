@@ -1,0 +1,5 @@
+project_id = "soop-star-naksoopyo"
+
+[functions.poonggo-sync]
+# Legacy endpoint slug retained for existing cron-job.org URLs; it now collects SoopScope only.
+verify_jwt = false

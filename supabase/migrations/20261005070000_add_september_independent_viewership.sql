@@ -1,0 +1,67 @@
+WITH september_independents (soop_id, nickname, total_stars, broadcast_hours) AS (
+  VALUES
+    ('xodud1898', '태영♥', 629979, 180.7::NUMERIC),
+    ('yochba0402', '졈니', 614431, 185.9::NUMERIC),
+    ('yjk011599', '나무늘봉순', 375102, 152.2::NUMERIC),
+    ('zalalz', '조은', 305209, 120.6::NUMERIC),
+    ('qpqpro', '디임', 388673, 216.5::NUMERIC),
+    ('ouo20411', '히댕', 233160, 115.8::NUMERIC),
+    ('sdkels', '강덕구', 269601, 180.9::NUMERIC),
+    ('kmj05317', '우리밍_', 165824, 199.3::NUMERIC),
+    ('rhakdncjs90', '으냉이', 221491, 136.6::NUMERIC),
+    ('gks2wl', '앵지', 157030, 149.5::NUMERIC)
+  )
+INSERT INTO public.soopscope_monthly_snapshots (
+  year_month,
+  soop_id,
+  nickname,
+  profile_image_url,
+  crew_name,
+  average_viewers,
+  total_viewers,
+  peak_viewers,
+  broadcast_minutes,
+  stars_broadcast_minutes,
+  viewer_ship,
+  total_stars,
+  stars_source,
+  collection_status,
+  unavailable_reason,
+  viewership_status,
+  fetched_at
+)
+SELECT
+  '2026-09',
+  soop_id,
+  nickname,
+  NULL,
+  NULL,
+  0,
+  0,
+  0,
+  0,
+  ROUND(broadcast_hours * 60)::INTEGER,
+  0,
+  total_stars,
+  'poonggo_fallback',
+  'available',
+  NULL,
+  'unavailable',
+  now()
+FROM september_independents
+ON CONFLICT (year_month, soop_id) DO UPDATE SET
+  nickname = EXCLUDED.nickname,
+  profile_image_url = EXCLUDED.profile_image_url,
+  crew_name = NULL,
+  average_viewers = 0,
+  total_viewers = 0,
+  peak_viewers = 0,
+  broadcast_minutes = 0,
+  stars_broadcast_minutes = EXCLUDED.stars_broadcast_minutes,
+  viewer_ship = 0,
+  total_stars = EXCLUDED.total_stars,
+  stars_source = EXCLUDED.stars_source,
+  collection_status = 'available',
+  unavailable_reason = NULL,
+  viewership_status = 'unavailable',
+  fetched_at = EXCLUDED.fetched_at;

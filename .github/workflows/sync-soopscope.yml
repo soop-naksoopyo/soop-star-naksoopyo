@@ -1,0 +1,108 @@
+name: Periodic SoopScope Snapshot
+
+on:
+  schedule:
+    # 한국시간 20:00~02:00 (UTC 11:00~17:00) 10분마다 피크타임 수집
+    - cron: '*/10 11-17 * * *'
+    # 한국시간 02:00~19:00 (UTC 17:00~10:00) 1시간마다 평소 수집
+    - cron: '0 18-23,0-10 * * *'
+
+  workflow_dispatch:
+    inputs:
+      target_month:
+        description: '대상 월 (예: 2026-09 또는 2026-10). 비워두면 2026-09'
+        required: false
+        default: '2026-09'
+
+permissions:
+  contents: write
+
+jobs:
+  collect-shards:
+    runs-on: ubuntu-latest
+    name: Collect Shard ${{ matrix.shard }}/8
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Fetch Viewership Shard
+        run: |
+          TARGET_MONTH="${{ inputs.target_month }}"
+          if [ -z "$TARGET_MONTH" ]; then
+            TARGET_MONTH="2026-09"
+          fi
+          node scripts/sync-viewership.mjs "$TARGET_MONTH" --shard=${{ matrix.shard }}/8 --output="shards/shard-${{ matrix.shard }}.json"
+
+      - name: Upload Shard Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shard-${{ matrix.shard }}
+          path: shards/shard-${{ matrix.shard }}.json
+          retention-days: 1
+
+  merge-and-commit:
+    needs: collect-shards
+    runs-on: ubuntu-latest
+    name: Merge Shards and Commit
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Download All Shard Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: shards-downloaded/
+          pattern: shard-*
+          merge-multiple: true
+
+      - name: Merge Shards into Snapshots
+        run: |
+          TARGET_MONTH="${{ inputs.target_month }}"
+          if [ -z "$TARGET_MONTH" ]; then
+            TARGET_MONTH="2026-09"
+          fi
+          node scripts/sync-viewership.mjs "$TARGET_MONTH" --merge=shards-downloaded
+
+      - name: Commit and Push Changes If Updated
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if ! git diff --quiet src/data/; then
+            git add src/data/
+            TIMESTAMP=$(TZ="Asia/Seoul" date +'%Y-%m-%d %H:%M:%S')
+            TARGET_STR="${{ inputs.target_month }}"
+            if [ -z "$TARGET_STR" ]; then
+              TARGET_STR="2026-09"
+            fi
+            git commit -m "chore(sync): archive 100% complete $TARGET_STR snapshot [$TIMESTAMP KST]"
+            git push origin main
+            echo "✅ Successfully synced and pushed the merged snapshot."
+          else
+            echo "ℹ️ No changes detected. Skipping commit."
+          fi
