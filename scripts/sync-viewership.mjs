@@ -235,6 +235,77 @@ async function main() {
     fs.writeFileSync(archivePath, updatedContent, 'utf8');
     console.log(`[SoopScope Merge] Saved ${streamers.length} streamers to ${archivePath}`);
 
+    // Sync Log 기록 (src/data/syncLogs.ts)
+    try {
+      const logPath = path.join(root, 'src/data/syncLogs.ts');
+      let existingLogs = [];
+      if (fs.existsSync(logPath)) {
+        const logContent = fs.readFileSync(logPath, 'utf8');
+        const match = logContent.match(/export const SYNC_LOG_HISTORY:\s*SyncLogEntry\[\]\s*=\s*(\[[\s\S]*?\]);\s*$/m);
+        if (match) existingLogs = JSON.parse(match[1]);
+      }
+
+      const missingStreamers = [];
+      for (const r of roster) {
+        if (!mergedMap.has(r.soopId.toLowerCase())) {
+          missingStreamers.push({
+            soopId: r.soopId,
+            nickname: r.nickname,
+            crewName: r.crewName || '무소속',
+          });
+        }
+      }
+
+      const kstDate = new Date(Date.now() + 9 * 60 * 60 * 1000);
+      const kstTime = kstDate.toISOString().replace('T', ' ').slice(0, 19);
+      const isManual = Boolean(process.argv[2] && process.env.GITHUB_EVENT_NAME === 'workflow_dispatch');
+
+      const newLogEntry = {
+        id: `run-${Date.now()}`,
+        timestamp: new Date().toISOString(),
+        kstTime,
+        yearMonth,
+        trigger: isManual ? 'manual' : 'schedule',
+        status: streamers.length >= roster.length ? 'success' : streamers.length > 0 ? 'partial' : 'failed',
+        requestedCount: roster.length,
+        fetchedCount: streamers.length,
+        failedCount: Math.max(0, roster.length - streamers.length),
+        failedStreamers: missingStreamers,
+        durationSeconds: 90,
+        note: `${yearMonth} 스냅샷 수집 (${streamers.length}/${roster.length}명)`,
+      };
+
+      const updatedLogs = [newLogEntry, ...existingLogs.filter((l) => l.id !== newLogEntry.id)].slice(0, 150);
+      const logFileContent = `export interface FailedStreamerInfo {
+  soopId: string;
+  nickname: string;
+  crewName?: string;
+  reason?: string;
+}
+
+export interface SyncLogEntry {
+  id: string;
+  timestamp: string;
+  kstTime: string;
+  yearMonth: string;
+  trigger: 'schedule' | 'manual';
+  status: 'success' | 'partial' | 'failed';
+  requestedCount: number;
+  fetchedCount: number;
+  failedCount: number;
+  failedStreamers: FailedStreamerInfo[];
+  durationSeconds?: number;
+  note?: string;
+}
+
+export const SYNC_LOG_HISTORY: SyncLogEntry[] = ${JSON.stringify(updatedLogs, null, 2)};
+`;
+      fs.writeFileSync(logPath, logFileContent, 'utf8');
+      console.log(`[SoopScope Merge] Logged sync record to ${logPath} (${streamers.length}/${roster.length})`);
+    } catch (logErr) {
+      console.warn('[SoopScope Merge] Failed updating sync log file:', logErr.message);
+    }
+
     // 9월일 경우: 풍고 데이터를 숲스코프 공식 확정 수치로 덮어쓰기!
     if (yearMonth === '2026-09') {
       const septCrewsPath = path.join(root, 'src/data/septemberStarCrews.ts');
