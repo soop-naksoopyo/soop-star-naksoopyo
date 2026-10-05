@@ -104,7 +104,7 @@ async function fetchViewership(streamer, yearMonth, retryCount = 0) {
 
     if ((statsRes.status === 403 || statsRes.status === 429) && retryCount < 2) {
       clearTimeout(timeout);
-      await new Promise((resolve) => setTimeout(resolve, 3000 * (retryCount + 1)));
+      await new Promise((resolve) => setTimeout(resolve, 8000 * (retryCount + 1)));
       return fetchViewership(streamer, yearMonth, retryCount + 1);
     }
 
@@ -365,7 +365,7 @@ async function main() {
   }
 
   const batchSize = 1;
-  const delayMs = 1000;
+  const delayMs = 1200;
   const collectedRows = [];
   const failures = new Map();
 

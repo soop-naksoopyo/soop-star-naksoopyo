@@ -20,11 +20,11 @@ permissions:
 jobs:
   collect-shards:
     runs-on: ubuntu-latest
-    name: Collect Shard ${{ matrix.shard }}/8
+    name: Collect Shard ${{ matrix.shard }}/10
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     steps:
       - name: Checkout Repository
@@ -45,7 +45,7 @@ jobs:
           if [ -z "$TARGET_MONTH" ]; then
             TARGET_MONTH=$(TZ="Asia/Seoul" date +'%Y-%m')
           fi
-          node scripts/sync-viewership.mjs "$TARGET_MONTH" --shard=${{ matrix.shard }}/8 --output="shards/shard-${{ matrix.shard }}.json"
+          node scripts/sync-viewership.mjs "$TARGET_MONTH" --shard=${{ matrix.shard }}/10 --output="shards/shard-${{ matrix.shard }}.json"
 
       - name: Upload Shard Artifact
         uses: actions/upload-artifact@v4
