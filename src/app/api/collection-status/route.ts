@@ -63,8 +63,8 @@ export async function GET() {
         completedShards: isSnapNewer ? 8 : Number(row?.completed_shards ?? 8),
         expectedShards: isSnapNewer ? 8 : Number(row?.expected_shards ?? 8),
         hasFailedShard: isSnapNewer ? false : Boolean(row?.has_failed_shard),
-        requestedCount: isSnapNewer ? 237 : Number(row?.requested_count ?? 237),
-        fetchedCount: isSnapNewer ? 237 : Number(row?.fetched_count ?? 237),
+        requestedCount: isSnapNewer ? 238 : Number(row?.requested_count ?? 238),
+        fetchedCount: isSnapNewer ? 238 : Number(row?.fetched_count ?? 238),
         failedCount: isSnapNewer ? 0 : Number(row?.failed_count ?? 0),
       },
     });

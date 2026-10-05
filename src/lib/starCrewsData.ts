@@ -1559,6 +1559,13 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/a6/a6r8zfymkc6/a6r8zfymkc6.jpg",
         "totalStars": 4018,
         "broadcastHours": 11.1
+      },
+      {
+        "soopId": "zlzl1514",
+        "nickname": "최성원입니다",
+        "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/zl/zlzl1514/zlzl1514.jpg",
+        "totalStars": 0,
+        "broadcastHours": 0
       }
     ]
   },

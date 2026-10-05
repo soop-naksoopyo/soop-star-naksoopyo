@@ -80,7 +80,7 @@ it('uses a complete SoopScope snapshot for the current month', async () => {
   expect(url.searchParams.get('select')).toContain('total_stars');
   expect(url.searchParams.get('select')).toContain('broadcast_minutes');
   expect(data.source).toBe('supabase_soopscope');
-  expect(data.matchedCount).toBe(237);
+  expect(data.matchedCount).toBe(238);
   expect(data.starCrews[0].members[0].totalStars).toBe(123456);
   expect(data.starCrews[0].members[0].broadcastHours).toBe(8.5);
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '캄몬').members)
@@ -126,7 +126,7 @@ it('serves Supabase stats even when inactive streamers have stars_source stats i
   const data = await response.json();
 
   expect(data.source).toBe('supabase_soopscope');
-  expect(data.matchedCount).toBe(237);
+  expect(data.matchedCount).toBe(238);
 });
 
 it('keeps the full checked-in snapshot until the first SoopScope shard cycle completes', async () => {
