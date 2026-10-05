@@ -105,6 +105,7 @@ jobs:
               TARGET_STR=$(TZ="Asia/Seoul" date +'%Y-%m')
             fi
             git commit -m "chore(sync): archive 100% complete $TARGET_STR snapshot [$TIMESTAMP KST]"
+            git pull --rebase origin main
             git push origin main
             echo "✅ Successfully synced and pushed the merged snapshot."
           else
