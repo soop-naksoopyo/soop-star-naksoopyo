@@ -279,11 +279,11 @@ async function main() {
         trigger: isManual ? 'manual' : 'schedule',
         status: streamers.length >= roster.length ? 'success' : streamers.length > 0 ? 'partial' : 'failed',
         requestedCount: roster.length,
-        fetchedCount: streamers.length,
+        fetchedCount: Math.min(streamers.length, roster.length),
         failedCount: Math.max(0, roster.length - streamers.length),
         failedStreamers: missingStreamers,
         durationSeconds: 90,
-        note: `${yearMonth} 스냅샷 수집 (${streamers.length}/${roster.length}명)`,
+        note: `${yearMonth} 스냅샷 수집 (${Math.min(streamers.length, roster.length)}/${roster.length}명)`,
       };
 
       const updatedLogs = [newLogEntry, ...existingLogs.filter((l) => l.id !== newLogEntry.id)].slice(0, 150);
@@ -464,7 +464,7 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = ${JSON.stringify(updatedLogs, nu
               expected_shards: 8,
               has_failed_shard: false,
               requested_count: roster.length,
-              fetched_count: streamers.length,
+              fetched_count: Math.min(streamers.length, roster.length),
               failed_count: Math.max(0, roster.length - streamers.length),
               fallback_count: 0,
             }]),

@@ -191,7 +191,7 @@ export default function SyncLogSecretPage() {
               )}
             </div>
             <div className="mt-2 text-sm sm:text-base font-bold text-emerald-400 tabular-nums">
-              {latestRun ? `${latestRun.fetchedCount} / ${latestRun.requestedCount}명` : '-'}
+              {latestRun ? `${Math.min(latestRun.fetchedCount, latestRun.requestedCount)} / ${latestRun.requestedCount}명` : '-'}
             </div>
             <div className="text-[11px] text-slate-500 mt-1">
               {latestRun
@@ -300,8 +300,9 @@ export default function SyncLogSecretPage() {
                 ) : (
                   filteredLogs.map((log) => {
                     const isExpanded = expandedRow === log.id;
+                    const effectiveFetched = Math.min(log.fetchedCount, log.requestedCount);
                     const successRate = log.requestedCount > 0
-                      ? Math.round((log.fetchedCount / log.requestedCount) * 1000) / 10
+                      ? Math.min(100, Math.round((effectiveFetched / log.requestedCount) * 1000) / 10)
                       : 100;
 
                     return (
@@ -328,7 +329,7 @@ export default function SyncLogSecretPage() {
                             {log.requestedCount}명
                           </td>
                           <td className="py-3 px-3 text-right font-mono tabular-nums text-emerald-400 font-bold whitespace-nowrap">
-                            {log.fetchedCount}명
+                            {effectiveFetched}명
                           </td>
                           <td className="py-3 px-3 text-right font-mono tabular-nums whitespace-nowrap">
                             {log.failedCount === 0 ? (

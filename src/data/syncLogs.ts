@@ -29,11 +29,11 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "trigger": "schedule",
     "status": "success",
     "requestedCount": 237,
-    "fetchedCount": 239,
+    "fetchedCount": 237,
     "failedCount": 0,
     "failedStreamers": [],
     "durationSeconds": 90,
-    "note": "2026-10 스냅샷 수집 (239/237명)"
+    "note": "2026-10 스냅샷 수집 (237/237명)"
   },
   {
     "id": "run-1791198484762",
@@ -43,11 +43,11 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "trigger": "schedule",
     "status": "success",
     "requestedCount": 237,
-    "fetchedCount": 239,
+    "fetchedCount": 237,
     "failedCount": 0,
     "failedStreamers": [],
     "durationSeconds": 90,
-    "note": "2026-10 스냅샷 수집 (239/237명)"
+    "note": "2026-10 스냅샷 수집 (237/237명)"
   },
   {
     "id": "run-1791197595908",
@@ -57,11 +57,11 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "trigger": "schedule",
     "status": "success",
     "requestedCount": 237,
-    "fetchedCount": 239,
+    "fetchedCount": 237,
     "failedCount": 0,
     "failedStreamers": [],
     "durationSeconds": 90,
-    "note": "2026-10 스냅샷 수집 (239/237명)"
+    "note": "2026-10 스냅샷 수집 (237/237명)"
   },
   {
     "id": "run-1791197220748",
@@ -71,11 +71,11 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "trigger": "schedule",
     "status": "success",
     "requestedCount": 237,
-    "fetchedCount": 239,
+    "fetchedCount": 237,
     "failedCount": 0,
     "failedStreamers": [],
     "durationSeconds": 90,
-    "note": "2026-10 스냅샷 수집 (239/237명)"
+    "note": "2026-10 스냅샷 수집 (237/237명)"
   },
   {
     "id": "run-1791196474023",
@@ -85,11 +85,11 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "trigger": "manual",
     "status": "success",
     "requestedCount": 237,
-    "fetchedCount": 239,
+    "fetchedCount": 237,
     "failedCount": 0,
     "failedStreamers": [],
     "durationSeconds": 90,
-    "note": "2026-10 스냅샷 수집 (239/237명)"
+    "note": "2026-10 스냅샷 수집 (237/237명)"
   },
   {
     "id": "run-1791195498040",
