@@ -278,6 +278,50 @@ async function main() {
         fs.writeFileSync(indepPath, updatedIndepContent, 'utf8');
         console.log(`[SoopScope Merge] Replaced Poonggo stats in ${indepPath} with SoopScope official data!`);
       }
+    } else if (yearMonth === currentMonth) {
+      const starCrewsPath = path.join(root, 'src/lib/starCrewsData.ts');
+      const soopMap = new Map(streamers.map((s) => [s.soopId.toLowerCase(), s]));
+      const { content: starCrewsContent, pattern: starPattern, data: starCrews } = readArrayExport(
+        starCrewsPath,
+        'OFFICIAL_STAR_CREWS',
+      );
+      for (const crew of starCrews) {
+        for (const member of crew.members) {
+          const official = soopMap.get(member.soopId.toLowerCase());
+          if (official) {
+            member.totalStars = official.totalStars || 0;
+            member.broadcastHours = official.broadcastMinutes > 0 ? Math.round((official.broadcastMinutes / 60) * 10) / 10 : 0;
+          }
+        }
+      }
+      const updatedCrewContent = starCrewsContent.replace(
+        starPattern,
+        `export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = ${JSON.stringify(starCrews, null, 2)};\n`,
+      );
+      fs.writeFileSync(starCrewsPath, updatedCrewContent, 'utf8');
+      console.log(`[SoopScope Merge] Synchronized ${starCrewsPath} with latest ${yearMonth} data!`);
+
+      const indepPath = path.join(root, 'src/data/independentStreamers.ts');
+      const { content: indepContent, pattern: indepPattern, data: indepMap } = readObjectExport(
+        indepPath,
+        'INDEPENDENT_STREAMERS_BY_MONTH',
+        'Record<string,\\s*StreamerRowData\\[\\]>',
+      );
+      if (Array.isArray(indepMap[yearMonth])) {
+        for (const member of indepMap[yearMonth]) {
+          const official = soopMap.get(member.soopId.toLowerCase());
+          if (official) {
+            member.totalStars = official.totalStars || 0;
+            member.broadcastHours = official.broadcastMinutes > 0 ? Math.round((official.broadcastMinutes / 60) * 10) / 10 : 0;
+          }
+        }
+        const updatedIndepContent = indepContent.replace(
+          indepPattern,
+          `export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> = ${JSON.stringify(indepMap, null, 2)};\n`,
+        );
+        fs.writeFileSync(indepPath, updatedIndepContent, 'utf8');
+        console.log(`[SoopScope Merge] Synchronized ${indepPath} with latest ${yearMonth} data!`);
+      }
     }
 
     // 3. Supabase 원격 DB 동기화 (PostgREST REST API)

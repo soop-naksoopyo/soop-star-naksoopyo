@@ -95,6 +95,37 @@ it('uses a complete SoopScope snapshot for the current month', async () => {
   expect(fetchMock).toHaveBeenCalledOnce();
 });
 
+it('serves Supabase stats even when inactive streamers have stars_source stats instead of canonical', async () => {
+  vi.stubEnv('SUPABASE_URL', 'https://example.supabase.co');
+  vi.stubEnv('SUPABASE_ANON_KEY', 'test-anon-key');
+  vi.stubEnv('SUPABASE_PUBLISHABLE_KEY', '');
+  const byId = new Map([
+    ...OFFICIAL_STAR_CREWS.flatMap((crew) => crew.members),
+    ...INDEPENDENT_STREAMERS_BY_MONTH['2026-10'],
+  ].map((streamer) => [streamer.soopId.toLowerCase(), streamer]));
+  let index = 0;
+  const fetchMock = vi.fn().mockResolvedValue({
+    ok: true,
+    json: async () => Array.from(byId.values(), (streamer) => ({
+      soop_id: streamer.soopId,
+      nickname: streamer.nickname,
+      profile_image_url: streamer.profileImageUrl,
+      crew_name: streamer.crewName ?? null,
+      collection_status: 'available',
+      stars_source: (index++ % 5 === 0) ? 'stats' : 'canonical',
+      total_stars: 1000,
+      broadcast_minutes: 300,
+    })),
+  });
+  vi.stubGlobal('fetch', fetchMock);
+
+  const response = await GET(new Request('https://app.test/api/stats'));
+  const data = await response.json();
+
+  expect(data.source).toBe('supabase_soopscope');
+  expect(data.matchedCount).toBe(237);
+});
+
 it('keeps the full checked-in snapshot until the first SoopScope shard cycle completes', async () => {
   vi.stubEnv('SUPABASE_URL', 'https://example.supabase.co');
   vi.stubEnv('SUPABASE_ANON_KEY', 'test-anon-key');

@@ -6,6 +6,7 @@ import { SEPTEMBER_2026_STAR_CREWS } from '@/data/septemberStarCrews';
 import { INDEPENDENT_STREAMERS_BY_MONTH } from '@/data/independentStreamers';
 import { SEPTEMBER_CURRENT_NICKNAMES } from '@/data/septemberCurrentNicknames';
 import { getCurrentMonthDate } from '@/lib/month';
+import { VIEWERSHIP_EXCLUDED_SOOP_IDS } from '@/lib/viewership';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
@@ -141,20 +142,17 @@ export async function GET(request: Request) {
       return fileSnapshot('soopscope_file_empty_database', yearMonth);
     }
 
+    const targetIds = new Set([
+      ...OFFICIAL_STAR_CREWS.flatMap((crew) => crew.members.map((member) => member.soopId.toLowerCase())),
+      ...(INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? []).map((member) => member.soopId.toLowerCase()),
+    ]);
     const expectedCount = ARCHIVE_MONTHS[yearMonth]?.summary.totalMembers
-      ?? new Set([
-        ...OFFICIAL_STAR_CREWS.flatMap((crew) => crew.members.map((member) => member.soopId.toLowerCase())),
-        ...(INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? []).map((member) => member.soopId.toLowerCase()),
-      ]).size;
+      ?? Array.from(targetIds).filter((soopId) => !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(soopId)).length;
     if (isHistoricalMonth && rows.length < expectedCount) {
       return historicalSnapshotError(yearMonth, 409, 'Monthly snapshot is incomplete', rows.length);
     }
     if (!isHistoricalMonth && rows.length < expectedCount) {
       return fileSnapshot('soopscope_initial_sync_pending', yearMonth);
-    }
-    const canonicalCount = rows.filter((row) => row.stars_source === 'canonical').length;
-    if (!isHistoricalMonth && canonicalCount < expectedCount) {
-      return fileSnapshot('soopscope_canonical_sync_pending', yearMonth);
     }
 
     const byId = new Map(rows.map((row) => [row.soop_id.toLowerCase(), row]));
