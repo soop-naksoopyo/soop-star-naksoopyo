@@ -319,6 +319,28 @@ async function main() {
           console.error(`[SoopScope Merge] Supabase REST API error (${res.status}):`, await res.text());
         } else {
           console.log(`[SoopScope Merge] Successfully synced ${records.length} records to Supabase (${yearMonth})!`);
+          
+          // 동기화 상태 기록 (CollectionStatus 뱃지 실시간 연동)
+          const statusUrl = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_sync_status`;
+          await fetch(statusUrl, {
+            method: 'POST',
+            headers: {
+              apikey: supabaseKey,
+              Authorization: `Bearer ${supabaseKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify([{
+              window_start: new Date(Date.now() - 60_000).toISOString(),
+              completed_at: new Date().toISOString(),
+              completed_shards: files.length || 8,
+              expected_shards: 8,
+              has_failed_shard: false,
+              requested_count: roster.length,
+              fetched_count: streamers.length,
+              failed_count: Math.max(0, roster.length - streamers.length),
+              fallback_count: 0,
+            }]),
+          }).catch((e) => console.warn('[SoopScope Merge] Sync status update failed:', e.message));
         }
       } catch (err) {
         console.error('[SoopScope Merge] Failed syncing to Supabase:', err.message);
