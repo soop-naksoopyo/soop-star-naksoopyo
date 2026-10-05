@@ -16,8 +16,6 @@ it('returns a saved archived viewership snapshot', async () => {
   expect(response.status).toBe(200);
   expect(data.success).toBe(true);
   expect(data.yearMonth).toBe('2026-09');
-  expect(data.streamers.map((streamer: { soopId: string }) => streamer.soopId)).not.toContain('rlekfu6');
-  expect(data.streamers.map((streamer: { soopId: string }) => streamer.soopId)).not.toContain('skygkrtn');
 });
 
 it('uses the live SoopScope snapshot when Supabase is configured', async () => {
@@ -75,10 +73,14 @@ it('uses the live SoopScope snapshot when Supabase is configured', async () => {
     averageViewers: 2758,
     crewName: '캄몬',
   });
-  expect(data.requestedCount).toBe(235);
-  expect(data.fetchedCount).toBe(1);
+  expect(data.requestedCount).toBe(237);
+  expect(data.fetchedCount).toBe(3);
   expect(data.failedCount).toBe(234);
-  expect(data.streamers.map((streamer: { soopId: string }) => streamer.soopId)).toEqual(['freshtomato']);
+  expect(data.streamers.map((streamer: { soopId: string }) => streamer.soopId)).toEqual([
+    'freshtomato',
+    'skygkrtn',
+    'rlekfu6',
+  ]);
 });
 
 it('rejects malformed months', async () => {

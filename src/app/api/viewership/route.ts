@@ -48,7 +48,6 @@ function savedSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySna
     : snapshot.streamers;
   const visibleStreamers = streamers.filter((streamer) =>
     !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(streamer.soopId.toLowerCase())
-    && streamer.collectionStatus !== 'excluded'
   );
   const globallyExcludedCount = streamers.filter((streamer) =>
     VIEWERSHIP_EXCLUDED_SOOP_IDS.has(streamer.soopId.toLowerCase())
@@ -113,14 +112,13 @@ export async function GET(request: Request) {
             ]);
         const visibleRows = rows.filter((row) =>
           !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(row.soop_id.toLowerCase())
-          && row.viewership_status !== 'excluded'
         );
             const requestedCount = yearMonth === currentMonth
               ? Array.from(targetIds).filter((soopId) => !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(soopId)).length
               : savedSnapshot
                 ? Math.max(0, savedSnapshot.requestedCount - (savedSnapshot.streamers.length - savedSnapshot.streamers.filter((streamer) => !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(streamer.soopId.toLowerCase())).length))
                 : visibleRows.length;
-            const fetchedCount = visibleRows.filter((row) => row.viewership_status === 'available').length;
+            const fetchedCount = visibleRows.filter((row) => row.viewership_status !== 'unavailable').length;
             return NextResponse.json({
               success: true,
               yearMonth,
@@ -139,7 +137,7 @@ export async function GET(request: Request) {
                 broadcastMinutes: Number(row.broadcast_minutes),
                 viewerShip: Number(row.viewer_ship),
                 fetchedAt: row.fetched_at,
-                collectionStatus: row.viewership_status === 'available' ? 'available' : 'unavailable',
+                collectionStatus: row.viewership_status === 'unavailable' ? 'unavailable' : 'available',
               }, yearMonth)),
             });
           }

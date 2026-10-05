@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const monthPattern = /^\d{4}-(0[1-9]|1[0-2])$/;
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
-const excludedSoopIds = new Set(['skygkrtn', 'rlekfu6']);
+const excludedSoopIds = new Set();
 
 function getTargetMonth() {
   const argument = process.argv[2]?.slice(0, 7);
