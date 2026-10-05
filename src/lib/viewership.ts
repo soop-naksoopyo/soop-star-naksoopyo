@@ -15,7 +15,7 @@ export interface ViewershipStreamerSnapshot {
   viewershipStatus?: string;
 }
 
-export const VIEWERSHIP_EXCLUDED_SOOP_IDS = new Set<string>();
+export const VIEWERSHIP_EXCLUDED_SOOP_IDS = new Set<string>(['skygkrtn', 'rlekfu6']);
 
 export interface ViewershipMonthlySnapshot {
   yearMonth: string;
