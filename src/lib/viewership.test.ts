@@ -23,7 +23,7 @@ describe('viewership calculations', () => {
     expect(calculateViewerShip(100, 0)).toBe(0);
   });
 
-  it('ranks crews by mean viewers among members who broadcast', () => {
+  it('ranks crews by mean viewership among members who broadcast', () => {
     const crews = summarizeViewershipCrews([
       streamer({ soopId: 'a', nickname: 'A', crewName: '크루A', averageViewers: 100, broadcastMinutes: 60, viewerShip: 100 }),
       streamer({ soopId: 'b', nickname: 'B', crewName: '크루A', averageViewers: 300, broadcastMinutes: 30, viewerShip: 150 }),
@@ -32,8 +32,8 @@ describe('viewership calculations', () => {
       streamer({ soopId: 'solo', nickname: '무소속', averageViewers: 500, broadcastMinutes: 60, viewerShip: 500 }),
     ]);
 
-    expect(crews[0]).toMatchObject({ crewName: '크루B', activeMemberCount: 1, averageViewers: 250 });
-    expect(crews[1]).toMatchObject({ crewName: '크루A', activeMemberCount: 2, averageViewers: 200, totalViewerShip: 250 });
+    expect(crews[0]).toMatchObject({ crewName: '크루B', activeMemberCount: 1, averageViewers: 250, averageViewerShip: 250, totalViewerShip: 250 });
+    expect(crews[1]).toMatchObject({ crewName: '크루A', activeMemberCount: 2, averageViewers: 200, averageViewerShip: 125, totalViewerShip: 250 });
     expect(crews).toHaveLength(2);
   });
 });

@@ -70,11 +70,15 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
 
   const streamers = snapshot?.streamers ?? [];
   const crews = React.useMemo(() => summarizeViewershipCrews(streamers), [streamers]);
+  const topTotalCrew = React.useMemo(() => {
+    if (crews.length === 0) return undefined;
+    return [...crews].sort((a, b) => b.totalViewerShip - a.totalViewerShip)[0];
+  }, [crews]);
   const crewRanks: CrewRankStat[] = crews.map((crew, index) => ({
     crewName: crew.crewName,
     memberCount: crew.members.length,
     totalStars: crew.totalViewerShip,
-    avgStars: crew.averageViewers,
+    avgStars: crew.averageViewerShip,
     rank: index + 1,
   }));
   const totalViewerShip = streamers.reduce((sum, streamer) => sum + streamer.viewerShip, 0);
@@ -95,7 +99,7 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
     <section className="w-full max-w-7xl 2xl:max-w-[1600px] flex flex-col gap-4">
       <RankingSectionHeader
         title="월간 뷰어십 순위"
-        description="뷰어십은 평균 시청자 수와 방송시간을 반영하며, 크루 평균은 방송한 스트리머 기준입니다."
+        description="뷰어십은 평균 시청자 수와 방송시간을 반영하며, 크루 순위는 활동 멤버 1인당 평균 뷰어십 기준입니다."
         icon={<Eye className="h-5 w-5 text-emerald-600" />}
         selectedMonth={yearMonth}
         availableMonths={availableMonths}
@@ -116,7 +120,7 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
       ) : (
         <>
           {mode === 'crew' ? (
-            <ViewershipHeroStats topCrew={crews[0]} totalViewerShip={totalViewerShip} />
+            <ViewershipHeroStats topCrew={crews[0]} topTotalCrew={topTotalCrew} totalViewerShip={totalViewerShip} />
           ) : null}
 
           {snapshot.failedCount > 0 && (
@@ -130,12 +134,12 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
               <CrewRankSummary
                 customRanks={crewRanks}
                 title="스타크루 뷰어십 랭킹"
-                rankDescription="평균 시청자 기준 순위"
+                rankDescription="인당 평균 뷰어십 기준 순위"
                 totalColumnLabel="총 뷰어십"
-                averageColumnLabel="평균 시청자"
+                averageColumnLabel="인당 뷰어십"
                 totalSummaryLabel="뷰어십"
-                averageSummaryLabel="평균 시청자"
-                valueUnit="명"
+                averageSummaryLabel="인당 뷰어십"
+                valueUnit=""
                 formatValue={formatNumber}
               />
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-1 pt-2">
@@ -146,7 +150,7 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
                     <span className="text-xs font-semibold text-slate-500 sm:text-sm">대학별 리스트</span>
                   </h2>
                 </div>
-                <span className="hidden text-xs font-medium text-slate-500 sm:block">평균 시청자 기준 순위</span>
+                <span className="hidden text-xs font-medium text-slate-500 sm:block">인당 평균 뷰어십 기준 순위</span>
               </div>
               <CrewView crews={crews} />
             </>
@@ -191,12 +195,12 @@ const CrewView: React.FC<{ crews: ViewershipCrewSummary[] }> = ({ crews }) => (
                 </div>
               </div>
               <div className="shrink-0 text-right">
-                <div className="mb-0.5 text-[10px] font-semibold text-slate-500 sm:text-xs">평균 시청자</div>
+                <div className="mb-0.5 text-[10px] font-semibold text-slate-500 sm:text-xs">인당 뷰어십</div>
                 <div className="text-lg font-black tabular-nums text-emerald-800 sm:text-xl">
-                  {formatNumber(crew.averageViewers)}<span className="ml-1 text-xs font-bold text-slate-600">명</span>
+                  {formatNumber(crew.averageViewerShip)}
                 </div>
                 <div className="mt-0.5 text-[10px] font-medium tabular-nums text-slate-600 sm:text-xs">
-                  뷰어십 {formatNumber(crew.totalViewerShip)}
+                  총 {formatNumber(crew.totalViewerShip)} · 평시 {formatNumber(crew.averageViewers)}명
                 </div>
               </div>
             </div>

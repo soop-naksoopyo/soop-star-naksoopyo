@@ -32,6 +32,7 @@ export interface ViewershipCrewSummary {
   activeMemberCount: number;
   averageViewers: number;
   totalViewerShip: number;
+  averageViewerShip: number;
 }
 
 export function calculateViewerShip(averageViewers: number, broadcastMinutes: number): number {
@@ -53,12 +54,17 @@ export function summarizeViewershipCrews(streamers: ViewershipStreamerSnapshot[]
     const averageViewers = activeMembers.length > 0
       ? Math.round(activeMembers.reduce((sum, member) => sum + member.averageViewers, 0) / activeMembers.length)
       : 0;
+    const totalViewerShip = members.reduce((sum, member) => sum + member.viewerShip, 0);
+    const averageViewerShip = activeMembers.length > 0
+      ? Math.round(totalViewerShip / activeMembers.length)
+      : 0;
     return {
       crewName,
       members: [...members].sort((a, b) => b.viewerShip - a.viewerShip || b.averageViewers - a.averageViewers),
       activeMemberCount: activeMembers.length,
       averageViewers,
-      totalViewerShip: members.reduce((sum, member) => sum + member.viewerShip, 0),
+      totalViewerShip,
+      averageViewerShip,
     };
-  }).sort((a, b) => b.averageViewers - a.averageViewers || b.totalViewerShip - a.totalViewerShip);
+  }).sort((a, b) => b.averageViewerShip - a.averageViewerShip || b.totalViewerShip - a.totalViewerShip);
 }
