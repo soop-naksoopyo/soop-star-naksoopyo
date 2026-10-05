@@ -123,12 +123,6 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
       "nickname": "앵지",
       "totalStars": 38878,
       "broadcastHours": 30.5
-    },
-    {
-      "soopId": "parkbano",
-      "nickname": "시라소니aa",
-      "totalStars": 420,
-      "broadcastHours": 9.6
     }
   ]
 };

@@ -33,13 +33,13 @@ it('returns the checked-in fallback without fetching or overwriting it', async (
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '캄몬').members)
     .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'freshtomato', nickname: 'Fresh토마토' })]));
   expect(data.independentStreamers).toEqual(INDEPENDENT_STREAMERS_BY_MONTH['2026-10']);
-  expect(data.independentStreamers).toHaveLength(11);
+  expect(data.independentStreamers).toHaveLength(10);
   expect(data.independentStreamers).not.toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'forweourus' })]));
   expect(data.independentStreamers.every((streamer: { crewName?: string }) => !streamer.crewName)).toBe(true);
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '신세계').members)
     .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'a6r8zfymkc6', nickname: '카나에_' })]));
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '소병대').members)
-    .not.toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'parkbano' })]));
+    .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'parkbano' })]));
   expect(data.source).toBe('soopscope_file_missing_db_config');
   expect(data.success).toBe(true);
   expect(fetchMock).not.toHaveBeenCalled();
@@ -50,8 +50,9 @@ it('uses a complete SoopScope snapshot for the current month', async () => {
   vi.stubEnv('SUPABASE_ANON_KEY', 'test-anon-key');
   vi.stubEnv('SUPABASE_PUBLISHABLE_KEY', '');
   const member = OFFICIAL_STAR_CREWS[0].members[0];
-  const independent = INDEPENDENT_STREAMERS_BY_MONTH['2026-10'].find((streamer) => streamer.soopId === 'parkbano')!;
+  const independent = INDEPENDENT_STREAMERS_BY_MONTH['2026-10'].find((streamer) => streamer.soopId === 'gks2wl')!;
   const kanae = OFFICIAL_STAR_CREWS.find((crew) => crew.crewName === '신세계')!.members.find((streamer) => streamer.soopId === 'a6r8zfymkc6')!;
+  const parkbano = OFFICIAL_STAR_CREWS.find((crew) => crew.crewName === '소병대')!.members.find((streamer) => streamer.soopId === 'parkbano')!;
   const byId = new Map([
     ...OFFICIAL_STAR_CREWS.flatMap((crew) => crew.members),
     ...INDEPENDENT_STREAMERS_BY_MONTH['2026-10'],
@@ -65,8 +66,8 @@ it('uses a complete SoopScope snapshot for the current month', async () => {
       crew_name: streamer.crewName ?? null,
       collection_status: 'available',
       stars_source: 'canonical',
-      total_stars: streamer.soopId === member.soopId ? 123456 : streamer.soopId === kanae.soopId ? 500 : streamer.soopId === independent.soopId ? 450 : 0,
-      broadcast_minutes: streamer.soopId === member.soopId ? 510 : streamer.soopId === kanae.soopId ? 120 : streamer.soopId === independent.soopId ? 486 : 0,
+      total_stars: streamer.soopId === member.soopId ? 123456 : streamer.soopId === kanae.soopId ? 500 : streamer.soopId === independent.soopId ? 450 : streamer.soopId === parkbano.soopId ? 420 : 0,
+      broadcast_minutes: streamer.soopId === member.soopId ? 510 : streamer.soopId === kanae.soopId ? 120 : streamer.soopId === independent.soopId ? 486 : streamer.soopId === parkbano.soopId ? 576 : 0,
     })),
   });
   vi.stubGlobal('fetch', fetchMock);
@@ -89,8 +90,10 @@ it('uses a complete SoopScope snapshot for the current month', async () => {
     ]));
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '신세계').members)
     .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'a6r8zfymkc6', nickname: '카나에_', totalStars: 500 })]));
+  expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '소병대').members)
+    .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'parkbano', nickname: '시라소니aa', totalStars: 420, broadcastHours: 9.6 })]));
   expect(data.independentStreamers)
-    .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'parkbano', nickname: '시라소니aa', totalStars: 450, broadcastHours: 8.1 })]));
+    .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'gks2wl', nickname: '앵지', totalStars: 450, broadcastHours: 8.1 })]));
   expect(data.independentStreamers).not.toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'forweourus' })]));
   expect(fetchMock).toHaveBeenCalledOnce();
 });
