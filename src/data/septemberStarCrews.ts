@@ -155,7 +155,7 @@ export const SEPTEMBER_2026_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "박재혁",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/rl/rlekfu6/rlekfu6.jpg",
         "totalStars": 213570,
-        "broadcastHours": 155
+        "broadcastHours": 160
       },
       {
         "soopId": "palko1",
@@ -705,7 +705,7 @@ export const SEPTEMBER_2026_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "김학수",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/sk/skygkrtn/skygkrtn.jpg",
         "totalStars": 98436,
-        "broadcastHours": 58
+        "broadcastHours": 59
       },
       {
         "soopId": "jooyoung0040",
