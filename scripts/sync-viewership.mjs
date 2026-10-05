@@ -81,13 +81,9 @@ function getRoster(yearMonth) {
 }
 
 async function fetchViewership(streamer, yearMonth, retryCount = 0) {
-  const isSeptember = yearMonth === '2026-09';
-  const statsMonth = isSeptember ? '2026-10' : yearMonth;
-  const statsKey = isSeptember ? 'previous' : 'current';
-  const [statsYear, statsMonthNum] = statsMonth.split('-');
   const [targetYear, targetMonthNum] = yearMonth.split('-');
 
-  const statsUrl = `https://soopscope.com/api/streamer/${encodeURIComponent(streamer.soopId)}/stats?year=${statsYear}&month=${Number(statsMonthNum)}`;
+  const statsUrl = `https://soopscope.com/api/streamer/${encodeURIComponent(streamer.soopId)}/stats?year=${targetYear}&month=${Number(targetMonthNum)}`;
   const monthlyTotalUrl = `https://soopscope.com/api/streamer/${encodeURIComponent(streamer.soopId)}/monthly-total?year=${targetYear}&month=${Number(targetMonthNum)}`;
 
   const controller = new AbortController();
@@ -115,8 +111,8 @@ async function fetchViewership(streamer, yearMonth, retryCount = 0) {
     if (!statsRes.ok) return { error: `http_${statsRes.status}` };
 
     const payload = await statsRes.json();
-    if (!payload || typeof payload !== 'object' || !(statsKey in payload)) return { error: `missing_${statsKey}` };
-    const current = payload[statsKey] && typeof payload[statsKey] === 'object' ? payload[statsKey] : {};
+    if (!payload || typeof payload !== 'object' || !('current' in payload)) return { error: 'missing_current' };
+    const current = payload.current && typeof payload.current === 'object' ? payload.current : {};
 
     const numberOrZero = (value) => {
       const number = Number(value);
