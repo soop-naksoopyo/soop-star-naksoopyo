@@ -159,6 +159,8 @@ async function fetchViewership(streamer, yearMonth, retryCount = 0) {
 }
 
 async function main() {
+  const kst = new Date(Date.now() + 9 * 60 * 60 * 1000);
+  const currentMonth = `${kst.getUTCFullYear()}-${String(kst.getUTCMonth() + 1).padStart(2, '0')}`;
   const yearMonth = getTargetMonth();
   const roster = getRoster(yearMonth);
   if (roster.length === 0) throw new Error(`No viewership roster for ${yearMonth}`);
