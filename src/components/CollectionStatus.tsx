@@ -59,8 +59,8 @@ export const CollectionStatus: React.FC<CollectionStatusProps> = ({ variant = 'l
 
   const ageMs = latest ? Date.now() - new Date(latest.completedAt).getTime() : 0;
   const kstHour = (new Date().getUTCHours() + 9) % 24;
-  const isPeakHour = kstHour >= 20 || kstHour < 2;
-  const staleThresholdMs = isPeakHour ? 15 * 60_000 : 75 * 60_000;
+  const isPeakHour = kstHour >= 17 || kstHour < 2;
+  const staleThresholdMs = isPeakHour ? 15 * 60_000 : 45 * 60_000;
   const isStale = Boolean(latest && ageMs > staleThresholdMs);
   const isIncomplete = Boolean(latest && latest.completedShards < latest.expectedShards);
   const hasFailures = Boolean(latest && (latest.hasFailedShard || latest.failedCount > 0));
