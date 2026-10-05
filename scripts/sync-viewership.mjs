@@ -242,7 +242,17 @@ async function main() {
       if (fs.existsSync(logPath)) {
         const logContent = fs.readFileSync(logPath, 'utf8');
         const match = logContent.match(/export const SYNC_LOG_HISTORY:\s*SyncLogEntry\[\]\s*=\s*(\[[\s\S]*?\]);\s*$/m);
-        if (match) existingLogs = JSON.parse(match[1]);
+        if (match) {
+          try {
+            existingLogs = JSON.parse(match[1]);
+          } catch {
+            try {
+              existingLogs = new Function(`return ${match[1]}`)();
+            } catch (err) {
+              console.warn('[Sync Log] Fallback parse failed:', err.message);
+            }
+          }
+        }
       }
 
       const missingStreamers = [];
