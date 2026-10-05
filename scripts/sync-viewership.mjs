@@ -214,7 +214,8 @@ async function main() {
       }
     }
 
-    const streamers = Array.from(mergedMap.values());
+    const rosterIds = new Set(roster.map((r) => r.soopId.toLowerCase()));
+    const streamers = Array.from(mergedMap.values()).filter((s) => rosterIds.has(s.soopId.toLowerCase()));
     console.log(`[SoopScope Merge] Merged ${streamers.length}/${roster.length} unique streamers for ${yearMonth}`);
 
     archives[yearMonth] = {
@@ -532,7 +533,9 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = ${JSON.stringify(updatedLogs, nu
   for (const row of collectedRows) {
     records.set(row.soopId.toLowerCase(), row);
   }
-  const streamers = Array.from(records.values()).filter((item) => !excludedSoopIds.has(item.soopId.toLowerCase()));
+  const rosterIds = new Set(roster.map((r) => r.soopId.toLowerCase()));
+  const streamers = Array.from(records.values()).filter((item) =>
+    rosterIds.has(item.soopId.toLowerCase()) && !excludedSoopIds.has(item.soopId.toLowerCase()));
   archives[yearMonth] = {
     yearMonth,
     updatedAt: new Date().toISOString(),

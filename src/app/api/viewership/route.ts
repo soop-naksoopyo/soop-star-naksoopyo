@@ -111,6 +111,7 @@ export async function GET(request: Request) {
               ...(INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? []).map((member) => member.soopId.toLowerCase()),
             ]);
         const visibleRows = rows.filter((row) =>
+          targetIds.has(row.soop_id.toLowerCase()) &&
           !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(row.soop_id.toLowerCase())
         );
             const requestedCount = yearMonth === currentMonth

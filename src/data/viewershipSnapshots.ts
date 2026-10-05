@@ -3406,7 +3406,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
     "yearMonth": "2026-10",
     "updatedAt": "2026-10-05T11:26:17.942Z",
     "requestedCount": 237,
-    "fetchedCount": 239,
+    "fetchedCount": 237,
     "failedCount": 0,
     "streamers": [
       {
@@ -6450,22 +6450,6 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "viewershipStatus": "available"
       },
       {
-        "soopId": "happyhee97",
-        "nickname": "예담",
-        "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/ha/happyhee97/happyhee97.jpg",
-        "crewName": "BGM",
-        "totalStars": 5871,
-        "starsSource": "canonical",
-        "averageViewers": 25,
-        "totalViewers": 93,
-        "peakViewers": 25,
-        "broadcastMinutes": 212,
-        "viewerShip": 88,
-        "fetchedAt": "2026-10-05T10:17:07.345Z",
-        "collectionStatus": "available",
-        "viewershipStatus": "available"
-      },
-      {
         "soopId": "nada11200",
         "nickname": "이윤열",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/na/nada11200/nada11200.jpg",
@@ -6494,22 +6478,6 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "broadcastMinutes": 2628,
         "viewerShip": 1796,
         "fetchedAt": "2026-10-05T11:25:14.636Z",
-        "collectionStatus": "available",
-        "viewershipStatus": "available"
-      },
-      {
-        "soopId": "psi050217",
-        "nickname": "태이22",
-        "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/ps/psi050217/psi050217.jpg",
-        "crewName": "BGM",
-        "totalStars": 261,
-        "starsSource": "canonical",
-        "averageViewers": 37,
-        "totalViewers": 117,
-        "peakViewers": 37,
-        "broadcastMinutes": 239,
-        "viewerShip": 147,
-        "fetchedAt": "2026-10-05T10:17:23.815Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
