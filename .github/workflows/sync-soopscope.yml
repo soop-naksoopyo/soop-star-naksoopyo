@@ -56,6 +56,7 @@ jobs:
 
   merge-and-commit:
     needs: collect-shards
+    if: always()
     runs-on: ubuntu-latest
     name: Merge Shards and Commit
     steps:

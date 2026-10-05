@@ -187,7 +187,23 @@ async function main() {
         if (Array.isArray(rows)) {
           for (const row of rows) {
             if (row && row.soopId && !excludedSoopIds.has(row.soopId.toLowerCase())) {
-              mergedMap.set(row.soopId.toLowerCase(), row);
+              const soopId = row.soopId.toLowerCase();
+              const existing = mergedMap.get(soopId);
+              if (existing) {
+                // 누적 지표(별풍선, 방송시간) 보호: 일시 장애로 0이 반환될 경우 기존 최대치 보존
+                if ((row.totalStars || 0) < (existing.totalStars || 0) && (existing.totalStars || 0) > 0) {
+                  row.totalStars = existing.totalStars;
+                  row.starsSource = existing.starsSource;
+                }
+                if ((row.broadcastMinutes || 0) < (existing.broadcastMinutes || 0) && (existing.broadcastMinutes || 0) > 0) {
+                  row.broadcastMinutes = existing.broadcastMinutes;
+                }
+                if ((row.averageViewers || 0) === 0 && (existing.averageViewers || 0) > 0) {
+                  row.averageViewers = existing.averageViewers;
+                }
+                row.viewerShip = Math.round(((row.averageViewers || 0) * (row.broadcastMinutes || 0)) / 60);
+              }
+              mergedMap.set(soopId, row);
             }
           }
         }
@@ -264,13 +280,11 @@ async function main() {
       }
     }
 
-    // 3. Supabase 원격 DB 동기화 (환경변수 존재 시)
+    // 3. Supabase 원격 DB 동기화 (PostgREST REST API)
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
     if (supabaseUrl && supabaseKey) {
       try {
-        const { createClient } = await import('@supabase/supabase-js');
-        const supabase = createClient(supabaseUrl, supabaseKey);
         const records = streamers.map((s) => ({
           year_month: yearMonth,
           soop_id: s.soopId,
@@ -289,12 +303,20 @@ async function main() {
           collection_status: 'available',
         }));
 
-        const { error: upsertError } = await supabase
-          .from('soopscope_monthly_snapshots')
-          .upsert(records, { onConflict: 'year_month,soop_id' });
+        const url = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_monthly_snapshots?on_conflict=year_month,soop_id`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            apikey: supabaseKey,
+            Authorization: `Bearer ${supabaseKey}`,
+            'Content-Type': 'application/json',
+            Prefer: 'resolution=merge-duplicates',
+          },
+          body: JSON.stringify(records),
+        });
 
-        if (upsertError) {
-          console.error('[SoopScope Merge] Supabase upsert error:', upsertError.message);
+        if (!res.ok) {
+          console.error(`[SoopScope Merge] Supabase REST API error (${res.status}):`, await res.text());
         } else {
           console.log(`[SoopScope Merge] Successfully synced ${records.length} records to Supabase (${yearMonth})!`);
         }
