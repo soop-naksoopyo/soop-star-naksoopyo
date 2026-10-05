@@ -202,6 +202,8 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
                 <img
                   src={streamer.profileImageUrl || defaultAvatar}
                   alt={streamer.nickname}
+                  loading="lazy"
+                  decoding="async"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =
                       'https://res.sooplive.co.kr/images/user/thumb_user.gif';

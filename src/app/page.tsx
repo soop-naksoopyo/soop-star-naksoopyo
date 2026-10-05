@@ -100,9 +100,19 @@ export default function HomePage() {
     }
   }, [currentMonth, selectedStarMonth]);
 
+  const historicalCacheRef = React.useRef<Map<string, typeof OFFICIAL_STAR_CREWS>>(new Map());
+
   React.useEffect(() => {
     if (selectedStarMonth === currentMonth) {
       setHistoricalStarCrews(null);
+      setHistoricalMonthError(null);
+      setIsHistoricalLoading(false);
+      return;
+    }
+
+    const cached = historicalCacheRef.current.get(selectedStarMonth);
+    if (cached) {
+      setHistoricalStarCrews(cached);
       setHistoricalMonthError(null);
       setIsHistoricalLoading(false);
       return;
@@ -121,7 +131,10 @@ export default function HomePage() {
         return data.starCrews as typeof OFFICIAL_STAR_CREWS;
       })
       .then((crews) => {
-        if (!cancelled) setHistoricalStarCrews(crews);
+        if (!cancelled) {
+          historicalCacheRef.current.set(selectedStarMonth, crews);
+          setHistoricalStarCrews(crews);
+        }
       })
       .catch((error: Error) => {
         if (!cancelled) setHistoricalMonthError(error.message === 'incomplete' ? 'incomplete' : 'missing');

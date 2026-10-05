@@ -67,6 +67,10 @@ export async function GET() {
         fetchedCount: isSnapNewer ? 238 : Number(row?.fetched_count ?? 238),
         failedCount: isSnapNewer ? 0 : Number(row?.failed_count ?? 0),
       },
+    }, {
+      headers: {
+        'Cache-Control': 'public, max-age=15, s-maxage=30, stale-while-revalidate=60',
+      },
     });
   } catch {
     return NextResponse.json({ success: false }, { status: 502 });

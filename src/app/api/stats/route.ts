@@ -26,6 +26,12 @@ function withMonthNickname<T extends { soopId: string; nickname: string }>(item:
   };
 }
 
+function getCacheHeaders(isClosed: boolean): HeadersInit {
+  return isClosed
+    ? { 'Cache-Control': 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400, immutable' }
+    : { 'Cache-Control': 'public, max-age=30, s-maxage=60, stale-while-revalidate=300' };
+}
+
 function localSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySnapshot) {
   const byId = new Map(snapshot.streamers.map((s) => [s.soopId.toLowerCase(), s]));
   const starCrews = OFFICIAL_STAR_CREWS.map((crew) => ({
@@ -67,6 +73,8 @@ function localSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySna
     independentStreamers,
     source: 'local_viewership_snapshot',
     matchedCount: snapshot.streamers.length,
+  }, {
+    headers: getCacheHeaders(true),
   });
 }
 
@@ -93,6 +101,8 @@ function fileSnapshot(source: string, yearMonth: string, error?: string) {
       })),
     source,
     ...(error ? { error } : {}),
+  }, {
+    headers: getCacheHeaders(yearMonth < getCurrentMonthDate().slice(0, 7)),
   });
 }
 
@@ -132,6 +142,8 @@ export async function GET(request: Request) {
         (sum, crew) => sum + crew.members.filter((member) => member.totalStars > 0).length,
         0,
       ) + independentStreamers.filter((member) => member.totalStars > 0).length,
+    }, {
+      headers: getCacheHeaders(true),
     });
   }
 
@@ -258,6 +270,8 @@ export async function GET(request: Request) {
       source: 'supabase_soopscope',
       matchedCount: rows.length,
       unavailableCount: rows.filter((row) => row.collection_status === 'unavailable').length,
+    }, {
+      headers: getCacheHeaders(isHistoricalMonth),
     });
   } catch (error) {
     if (isHistoricalMonth) {

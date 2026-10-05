@@ -45,6 +45,8 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
         <img
           src={profileImageUrl || defaultAvatar}
           alt={nickname}
+          loading="lazy"
+          decoding="async"
           onError={(e) => {
             (e.target as HTMLImageElement).src =
               'https://res.sooplive.co.kr/images/user/thumb_user.gif';

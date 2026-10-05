@@ -66,5 +66,9 @@ export async function GET() {
     totalLogs: logs.length,
     latestRun: logs[0] || null,
     logs,
+  }, {
+    headers: {
+      'Cache-Control': 'public, max-age=30, s-maxage=60, stale-while-revalidate=120',
+    },
   });
 }

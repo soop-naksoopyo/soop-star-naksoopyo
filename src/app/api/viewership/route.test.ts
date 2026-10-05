@@ -14,6 +14,7 @@ it('returns a saved archived viewership snapshot', async () => {
   const data = await response.json();
 
   expect(response.status).toBe(200);
+  expect(response.headers.get('Cache-Control')).toContain('immutable');
   expect(data.success).toBe(true);
   expect(data.yearMonth).toBe('2026-09');
 });
@@ -67,6 +68,7 @@ it('uses the live SoopScope snapshot when Supabase is configured', async () => {
   const data = await response.json();
 
   expect(response.status).toBe(200);
+  expect(response.headers.get('Cache-Control')).toContain('max-age=30');
   expect(data.streamers[0]).toMatchObject({
     soopId: 'freshtomato',
     nickname: 'Fresh토마토',

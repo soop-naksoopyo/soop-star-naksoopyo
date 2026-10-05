@@ -41,6 +41,12 @@ function getSupabaseConfig() {
   return supabaseUrl && anonKey ? { supabaseUrl, anonKey } : null;
 }
 
+function getCacheHeaders(isClosed: boolean): HeadersInit {
+  return isClosed
+    ? { 'Cache-Control': 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400, immutable' }
+    : { 'Cache-Control': 'public, max-age=30, s-maxage=60, stale-while-revalidate=300' };
+}
+
 function savedSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySnapshot) {
   const savedIds = new Set(snapshot.streamers.map((streamer) => streamer.soopId.toLowerCase()));
   const streamers = yearMonth === '2026-09'
@@ -63,6 +69,8 @@ function savedSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySna
     fetchedCount,
     failedCount: Math.max(0, requestedCount - fetchedCount),
     streamers: visibleStreamers.map((streamer) => withMonthNickname(streamer, yearMonth)),
+  }, {
+    headers: getCacheHeaders(yearMonth < getCurrentMonthDate().slice(0, 7)),
   });
 }
 
@@ -140,6 +148,8 @@ export async function GET(request: Request) {
                 fetchedAt: row.fetched_at,
                 collectionStatus: row.viewership_status === 'unavailable' ? 'unavailable' : 'available',
               }, yearMonth)),
+            }, {
+              headers: getCacheHeaders(yearMonth < currentMonth),
             });
           }
       } catch {
@@ -181,6 +191,8 @@ export async function GET(request: Request) {
         fetchedCount: 0,
         failedCount: 0,
         streamers: visibleStreamers,
+      }, {
+        headers: getCacheHeaders(false),
       });
     }
 

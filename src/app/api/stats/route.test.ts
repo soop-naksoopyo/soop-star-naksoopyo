@@ -42,6 +42,7 @@ it('returns the checked-in fallback without fetching or overwriting it', async (
     .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'parkbano' })]));
   expect(data.source).toBe('soopscope_file_missing_db_config');
   expect(data.success).toBe(true);
+  expect(response.headers.get('Cache-Control')).toContain('max-age=30');
   expect(fetchMock).not.toHaveBeenCalled();
 });
 
@@ -185,6 +186,7 @@ it('returns the September archive with its September crew membership and stats',
   const data = await response.json();
 
   expect(response.status).toBe(200);
+  expect(response.headers.get('Cache-Control')).toContain('immutable');
   expect(data.yearMonth).toBe('2026-09');
   expect(data.source).toBe('september_archive');
   expect(data.starCrews).toHaveLength(13);

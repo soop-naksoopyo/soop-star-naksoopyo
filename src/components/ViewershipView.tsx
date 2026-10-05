@@ -39,13 +39,25 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
   const [search, setSearch] = React.useState('');
   const [currentPage, setCurrentPage] = React.useState(1);
 
+  const viewershipCacheRef = React.useRef<Map<string, ViewershipMonthlySnapshot>>(new Map());
+
   React.useEffect(() => {
     let cancelled = false;
-    setSnapshot(null);
-    setIsLoading(true);
     setHasError(false);
     setSearch('');
     setCurrentPage(1);
+
+    const cached = viewershipCacheRef.current.get(yearMonth);
+    if (cached) {
+      setSnapshot(cached);
+      setIsLoading(false);
+      if (yearMonth < currentMonth) {
+        return;
+      }
+    } else {
+      setSnapshot(null);
+      setIsLoading(true);
+    }
 
     fetch(`/api/viewership?month=${encodeURIComponent(yearMonth)}`)
       .then(async (response) => {
@@ -54,10 +66,13 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
         return data as ViewershipMonthlySnapshot;
       })
       .then((data) => {
-        if (!cancelled) setSnapshot(data);
+        if (!cancelled) {
+          viewershipCacheRef.current.set(yearMonth, data);
+          setSnapshot(data);
+        }
       })
       .catch(() => {
-        if (!cancelled) setHasError(true);
+        if (!cancelled && !cached) setHasError(true);
       })
       .finally(() => {
         if (!cancelled) setIsLoading(false);
@@ -66,7 +81,7 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
     return () => {
       cancelled = true;
     };
-  }, [yearMonth]);
+  }, [yearMonth, currentMonth]);
 
   const streamers = snapshot?.streamers ?? [];
   const crews = React.useMemo(() => summarizeViewershipCrews(streamers), [streamers]);
@@ -330,6 +345,8 @@ const StreamerAvatar: React.FC<{ streamer: ViewershipStreamerSnapshot; size?: 's
   <img
     src={streamer.profileImageUrl || `https://profile.img.sooplive.co.kr/LOGO/${streamer.soopId.slice(0, 2)}/${streamer.soopId}/${streamer.soopId}.jpg`}
     alt={streamer.nickname}
+    loading="lazy"
+    decoding="async"
     onError={(event) => { (event.target as HTMLImageElement).src = 'https://res.sooplive.co.kr/images/user/thumb_user.gif'; }}
     className={`${size === 'small' ? 'h-7 w-7' : 'h-8 w-8'} shrink-0 rounded-full border border-slate-200 object-cover`}
   />
