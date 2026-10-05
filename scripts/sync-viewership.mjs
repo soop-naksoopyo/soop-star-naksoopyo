@@ -263,6 +263,46 @@ async function main() {
         console.log(`[SoopScope Merge] Replaced Poonggo stats in ${indepPath} with SoopScope official data!`);
       }
     }
+
+    // 3. Supabase 원격 DB 동기화 (환경변수 존재 시)
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+    if (supabaseUrl && supabaseKey) {
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        const records = streamers.map((s) => ({
+          year_month: yearMonth,
+          soop_id: s.soopId,
+          nickname: s.nickname,
+          profile_image_url: s.profileImageUrl || null,
+          crew_name: s.crewName || null,
+          average_viewers: s.averageViewers || 0,
+          total_viewers: s.totalViewers || 0,
+          peak_viewers: s.peakViewers || 0,
+          broadcast_minutes: s.broadcastMinutes || 0,
+          viewer_ship: s.viewerShip || 0,
+          total_stars: s.totalStars || 0,
+          stars_source: s.starsSource || 'canonical',
+          fetched_at: s.fetchedAt || new Date().toISOString(),
+          viewership_status: 'available',
+          collection_status: 'available',
+        }));
+
+        const { error: upsertError } = await supabase
+          .from('soopscope_monthly_snapshots')
+          .upsert(records, { onConflict: 'year_month,soop_id' });
+
+        if (upsertError) {
+          console.error('[SoopScope Merge] Supabase upsert error:', upsertError.message);
+        } else {
+          console.log(`[SoopScope Merge] Successfully synced ${records.length} records to Supabase (${yearMonth})!`);
+        }
+      } catch (err) {
+        console.error('[SoopScope Merge] Failed syncing to Supabase:', err.message);
+      }
+    }
+
     return;
   }
 

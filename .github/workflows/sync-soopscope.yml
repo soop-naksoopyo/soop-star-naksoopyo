@@ -81,6 +81,9 @@ jobs:
           merge-multiple: true
 
       - name: Merge Shards into Snapshots
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           TARGET_MONTH="${{ inputs.target_month }}"
           if [ -z "$TARGET_MONTH" ]; then
