@@ -30,6 +30,7 @@ export interface ViewershipMonthlySnapshot {
   requestedCount: number;
   fetchedCount: number;
   failedCount: number;
+  isClosed?: boolean;
   streamers: ViewershipStreamerSnapshot[];
 }
 

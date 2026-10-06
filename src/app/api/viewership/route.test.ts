@@ -17,6 +17,8 @@ it('returns a saved archived viewership snapshot', async () => {
   expect(response.headers.get('Cache-Control')).toContain('immutable');
   expect(data.success).toBe(true);
   expect(data.yearMonth).toBe('2026-09');
+  expect(data.isClosed).toBe(true);
+  expect(data.failedCount).toBe(0);
 });
 
 it('uses the live SoopScope snapshot when Supabase is configured', async () => {
@@ -109,3 +111,42 @@ it('returns graceful initial roster for a new live month before first snapshot i
   expect(data.streamers[0].viewerShip).toBe(0);
   expect(data.streamers[0].averageViewers).toBe(0);
 });
+
+it('marks past months as closed with zero failedCount even when some rows are unavailable in Supabase', async () => {
+  vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', 'https://supabase.example');
+  vi.stubEnv('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY', 'sb_publishable_test');
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify([{
+    soop_id: 'freshtomato',
+    nickname: '토마토',
+    profile_image_url: null,
+    crew_name: '캄몬',
+    average_viewers: 2758,
+    total_viewers: 66358,
+    peak_viewers: 5953,
+    broadcast_minutes: 7419,
+    viewer_ship: 340967,
+    fetched_at: '2026-09-30T12:00:00.000Z',
+    viewership_status: 'available',
+  }, {
+    soop_id: 'dmswls4565',
+    nickname: '공다츠',
+    profile_image_url: null,
+    crew_name: '극락회',
+    average_viewers: 0,
+    total_viewers: 0,
+    peak_viewers: 0,
+    broadcast_minutes: 0,
+    viewer_ship: 0,
+    fetched_at: '2026-09-30T12:00:00.000Z',
+    viewership_status: 'unavailable',
+  }]), { status: 200 })));
+
+  const response = await GET(new Request('https://app.test/api/viewership?month=2026-09'));
+  const data = await response.json();
+
+  expect(response.status).toBe(200);
+  expect(data.isClosed).toBe(true);
+  expect(data.failedCount).toBe(0);
+  expect(data.requestedCount).toBe(data.fetchedCount);
+});
+

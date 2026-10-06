@@ -138,7 +138,7 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
             <ViewershipHeroStats topCrew={crews[0]} topTotalCrew={topTotalCrew} totalViewerShip={totalViewerShip} />
           ) : null}
 
-          {snapshot.failedCount > 0 && (
+          {!snapshot.isClosed && yearMonth === currentMonth && snapshot.failedCount > 0 && (
             <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
               일부 스트리머의 최신 뷰어십 자료를 받지 못했습니다. ({snapshot.fetchedCount}/{snapshot.requestedCount}명 수집)
             </p>

@@ -48,6 +48,7 @@ function getCacheHeaders(isClosed: boolean): HeadersInit {
 }
 
 function savedSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySnapshot) {
+  const isClosed = yearMonth < getCurrentMonthDate().slice(0, 7);
   const savedIds = new Set(snapshot.streamers.map((streamer) => streamer.soopId.toLowerCase()));
   const streamers = yearMonth === '2026-09'
     ? [...snapshot.streamers, ...SEPTEMBER_VIEWERSHIP_PLACEHOLDERS.filter((streamer) => !savedIds.has(streamer.soopId.toLowerCase()))]
@@ -65,12 +66,13 @@ function savedSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySna
     success: true,
     ...snapshot,
     yearMonth,
-    requestedCount,
+    isClosed,
+    requestedCount: isClosed ? fetchedCount : requestedCount,
     fetchedCount,
-    failedCount: Math.max(0, requestedCount - fetchedCount),
+    failedCount: isClosed ? 0 : Math.max(0, requestedCount - fetchedCount),
     streamers: visibleStreamers.map((streamer) => withMonthNickname(streamer, yearMonth)),
   }, {
-    headers: getCacheHeaders(yearMonth < getCurrentMonthDate().slice(0, 7)),
+    headers: getCacheHeaders(isClosed),
   });
 }
 
@@ -122,6 +124,7 @@ export async function GET(request: Request) {
           targetIds.has(row.soop_id.toLowerCase()) &&
           !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(row.soop_id.toLowerCase())
         );
+            const isClosed = yearMonth < currentMonth;
             const requestedCount = yearMonth === currentMonth
               ? Array.from(targetIds).filter((soopId) => !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(soopId)).length
               : savedSnapshot
@@ -132,9 +135,10 @@ export async function GET(request: Request) {
               success: true,
               yearMonth,
               updatedAt: visibleRows.reduce((latest, row) => row.fetched_at > latest ? row.fetched_at : latest, visibleRows[0]?.fetched_at ?? rows[0].fetched_at),
-              requestedCount,
+              isClosed,
+              requestedCount: isClosed ? fetchedCount : requestedCount,
               fetchedCount,
-              failedCount: Math.max(0, requestedCount - fetchedCount),
+              failedCount: isClosed ? 0 : Math.max(0, requestedCount - fetchedCount),
               streamers: visibleRows.map((row) => withMonthNickname({
                 soopId: row.soop_id,
                 nickname: row.nickname,
@@ -149,7 +153,7 @@ export async function GET(request: Request) {
                 collectionStatus: row.viewership_status === 'unavailable' ? 'unavailable' : 'available',
               }, yearMonth)),
             }, {
-              headers: getCacheHeaders(yearMonth < currentMonth),
+              headers: getCacheHeaders(isClosed),
             });
           }
       } catch {
@@ -187,6 +191,7 @@ export async function GET(request: Request) {
         success: true,
         yearMonth,
         updatedAt: new Date().toISOString(),
+        isClosed: false,
         requestedCount: visibleStreamers.length,
         fetchedCount: 0,
         failedCount: 0,
