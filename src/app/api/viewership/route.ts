@@ -116,10 +116,17 @@ export async function GET(request: Request) {
         const rows = await queryRows('soopscope_monthly_snapshots');
 
         if (rows.length > 0) {
-            const targetIds = new Set([
-              ...OFFICIAL_STAR_CREWS.flatMap((crew) => crew.members.map((member) => member.soopId.toLowerCase())),
-              ...(INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? []).map((member) => member.soopId.toLowerCase()),
-            ]);
+            const targetIds = yearMonth === currentMonth
+              ? new Set([
+                  ...OFFICIAL_STAR_CREWS.flatMap((crew) => crew.members.map((member) => member.soopId.toLowerCase())),
+                  ...(INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? []).map((member) => member.soopId.toLowerCase()),
+                ])
+              : savedSnapshot
+                ? new Set(savedSnapshot.streamers.map((s) => s.soopId.toLowerCase()))
+                : new Set([
+                    ...OFFICIAL_STAR_CREWS.flatMap((crew) => crew.members.map((member) => member.soopId.toLowerCase())),
+                    ...(INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? []).map((member) => member.soopId.toLowerCase()),
+                  ]);
         const visibleRows = rows.filter((row) =>
           targetIds.has(row.soop_id.toLowerCase()) &&
           !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(row.soop_id.toLowerCase())

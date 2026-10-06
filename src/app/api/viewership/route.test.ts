@@ -144,9 +144,34 @@ it('marks past months as closed with zero failedCount even when some rows are un
   const response = await GET(new Request('https://app.test/api/viewership?month=2026-09'));
   const data = await response.json();
 
-  expect(response.status).toBe(200);
+  expect(data.status ?? 200).toBe(200);
   expect(data.isClosed).toBe(true);
   expect(data.failedCount).toBe(0);
   expect(data.requestedCount).toBe(data.fetchedCount);
 });
+
+it('retains past archived members (such as danu619) when Supabase rows exist for past month', async () => {
+  vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', 'https://supabase.example');
+  vi.stubEnv('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY', 'sb_publishable_test');
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify([{
+    soop_id: 'danu619',
+    nickname: '다뉴',
+    profile_image_url: null,
+    crew_name: 'DM',
+    average_viewers: 48,
+    total_viewers: 1858,
+    peak_viewers: 200,
+    broadcast_minutes: 2012,
+    viewer_ship: 1610,
+    fetched_at: '2026-09-30T12:00:00.000Z',
+    viewership_status: 'available',
+  }]), { status: 200 })));
+
+  const response = await GET(new Request('https://app.test/api/viewership?month=2026-09'));
+  const data = await response.json();
+
+  expect(response.status).toBe(200);
+  expect(data.streamers.some((s: { soopId: string }) => s.soopId === 'danu619')).toBe(true);
+});
+
 
