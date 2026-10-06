@@ -152,7 +152,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "김건욱",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/ki/killkg2/killkg2.jpg",
         "totalStars": 67014,
-        "broadcastHours": 103.6
+        "broadcastHours": 104.8
       },
       {
         "soopId": "queenzu",
@@ -173,7 +173,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "구라미스",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/ks/ksmo54/ksmo54.jpg",
         "totalStars": 47954,
-        "broadcastHours": 76.2
+        "broadcastHours": 77.4
       },
       {
         "soopId": "parkle1006",
@@ -863,7 +863,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "강구열",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/ku/kuyol/kuyol.jpg",
         "totalStars": 20453,
-        "broadcastHours": 19.2
+        "broadcastHours": 19.9
       },
       {
         "soopId": "djdbstn",
@@ -1069,7 +1069,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "뽀누나",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/hy/hy4985/hy4985.jpg",
         "totalStars": 10764,
-        "broadcastHours": 65.1
+        "broadcastHours": 65.7
       },
       {
         "soopId": "bumsoo552",
@@ -1576,8 +1576,8 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "soopId": "jjjjeong",
         "nickname": "태린",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/jj/jjjjeong/jjjjeong.jpg",
-        "totalStars": 12997,
-        "broadcastHours": 3.7
+        "totalStars": 15378,
+        "broadcastHours": 4.4
       },
       {
         "soopId": "chanmeyo",
@@ -1590,7 +1590,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "soopId": "rlawhdwns6",
         "nickname": "멍이",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/rl/rlawhdwns6/rlawhdwns6.jpg",
-        "totalStars": 11622,
+        "totalStars": 11662,
         "broadcastHours": 0
       },
       {
