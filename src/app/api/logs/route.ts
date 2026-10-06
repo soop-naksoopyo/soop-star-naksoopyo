@@ -35,6 +35,9 @@ export async function GET() {
         const row = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
         if (row && row.completed_at) {
           const kst = new Date(new Date(row.completed_at).getTime() + 9 * 60 * 60 * 1000);
+          const durationSeconds = row.window_start && row.completed_at
+            ? Math.max(1, Math.round((new Date(row.completed_at).getTime() - new Date(row.window_start).getTime()) / 1000))
+            : 90;
           liveStatus = {
             id: `live-${row.completed_at}`,
             timestamp: row.completed_at,
@@ -42,10 +45,11 @@ export async function GET() {
             yearMonth: `${kst.getUTCFullYear()}-${String(kst.getUTCMonth() + 1).padStart(2, '0')}`,
             trigger: 'schedule',
             status: Number(row.failed_count || 0) === 0 ? 'success' : 'partial',
-            requestedCount: Number(row.requested_count || 238),
-            fetchedCount: Number(row.fetched_count || 238),
+            requestedCount: Number(row.requested_count || 237),
+            fetchedCount: Number(row.fetched_count || 237),
             failedCount: Number(row.failed_count || 0),
             failedStreamers: [],
+            durationSeconds,
             note: 'Supabase 실시간 동기화 상태',
           };
         }

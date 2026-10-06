@@ -3405,8 +3405,8 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
   "2026-10": {
     "yearMonth": "2026-10",
     "updatedAt": "2026-10-06T07:57:11.769Z",
-    "requestedCount": 238,
-    "fetchedCount": 238,
+    "requestedCount": 237,
+    "fetchedCount": 237,
     "failedCount": 0,
     "streamers": [
       {
@@ -6453,7 +6453,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "soopId": "dmsgkdn12",
         "nickname": "엔돌핀",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/dm/dmsgkdn12/dmsgkdn12.jpg",
-        "crewName": "BGM",
+        "crewName": null,
         "totalStars": 19428,
         "starsSource": "canonical",
         "averageViewers": 305,
@@ -6542,22 +6542,6 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "broadcastMinutes": 2858,
         "viewerShip": 2763,
         "fetchedAt": "2026-10-06T01:43:54.734Z",
-        "collectionStatus": "available",
-        "viewershipStatus": "available"
-      },
-      {
-        "soopId": "danu619",
-        "nickname": "다뉴",
-        "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/da/danu619/danu619.jpg",
-        "crewName": "DM",
-        "totalStars": 0,
-        "starsSource": "stats",
-        "averageViewers": 0,
-        "totalViewers": 0,
-        "peakViewers": 0,
-        "broadcastMinutes": 0,
-        "viewerShip": 0,
-        "fetchedAt": "2026-10-06T01:43:34.762Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },

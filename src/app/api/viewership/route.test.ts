@@ -75,9 +75,9 @@ it('uses the live SoopScope snapshot when Supabase is configured', async () => {
     averageViewers: 2758,
     crewName: '캄몬',
   });
-  expect(data.requestedCount).toBe(232);
+  expect(data.requestedCount).toBe(231);
   expect(data.fetchedCount).toBe(1);
-  expect(data.failedCount).toBe(231);
+  expect(data.failedCount).toBe(230);
   expect(data.streamers.map((streamer: { soopId: string }) => streamer.soopId)).toEqual([
     'freshtomato',
   ]);
