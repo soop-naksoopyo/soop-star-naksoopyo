@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getOptionalRequestContext } from '@cloudflare/next-on-pages';
+import { SYNC_LOG_HISTORY } from '@/data/syncLogs';
+import { VIEWERSHIP_MONTHLY_SNAPSHOTS } from '@/data/viewershipSnapshots';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
@@ -21,6 +23,11 @@ export async function GET() {
     return NextResponse.json({ success: false }, { status: 503 });
   }
 
+  const gitRun = SYNC_LOG_HISTORY[0] || null;
+  const kst = new Date(Date.now() + 9 * 60 * 60 * 1000);
+  const currentMonth = `${kst.getUTCFullYear()}-${String(kst.getUTCMonth() + 1).padStart(2, '0')}`;
+  const gitSnapshot = VIEWERSHIP_MONTHLY_SNAPSHOTS[currentMonth] || null;
+
   const url = new URL(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_sync_status`);
   url.searchParams.set('select', 'window_start,completed_at,completed_shards,has_failed_shard,requested_count,fetched_count,failed_count,expected_shards');
   url.searchParams.set('order', 'completed_at.desc');
@@ -33,8 +40,6 @@ export async function GET() {
       .then((r) => r.ok ? r.json() : null)
       .catch(() => null);
 
-    const kst = new Date(Date.now() + 9 * 60 * 60 * 1000);
-    const currentMonth = `${kst.getUTCFullYear()}-${String(kst.getUTCMonth() + 1).padStart(2, '0')}`;
     const snapUrl = new URL(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_monthly_snapshots`);
     snapUrl.searchParams.set('year_month', `eq.${currentMonth}`);
     snapUrl.searchParams.set('select', 'fetched_at');
@@ -50,29 +55,66 @@ export async function GET() {
     const snapRow = Array.isArray(snapRows) ? snapRows[0] : null;
     const snapTime = snapRow?.fetched_at;
 
-    if (!row && !snapTime) return NextResponse.json({ success: true, latest: null });
-
     const isSnapNewer = Boolean(snapTime && (!row?.completed_at || new Date(snapTime).getTime() > new Date(row.completed_at).getTime()));
-    const completedAt = isSnapNewer ? snapTime : (row?.completed_at ?? snapTime);
+    const dbCompletedAt = isSnapNewer ? snapTime : (row?.completed_at ?? snapTime);
 
-    return NextResponse.json({
-      success: true,
-      latest: {
-        windowStart: isSnapNewer ? completedAt : (row?.window_start ?? completedAt),
-        completedAt,
+    let latest = null;
+
+    if (row || snapTime) {
+      latest = {
+        windowStart: isSnapNewer ? dbCompletedAt : (row?.window_start ?? dbCompletedAt),
+        completedAt: dbCompletedAt,
         completedShards: isSnapNewer ? 8 : Number(row?.completed_shards ?? 8),
         expectedShards: isSnapNewer ? 8 : Number(row?.expected_shards ?? 8),
         hasFailedShard: isSnapNewer ? false : Boolean(row?.has_failed_shard),
         requestedCount: isSnapNewer ? 237 : Number(row?.requested_count ?? 237),
         fetchedCount: isSnapNewer ? 237 : Number(row?.fetched_count ?? 237),
         failedCount: isSnapNewer ? 0 : Number(row?.failed_count ?? 0),
-      },
+      };
+    }
+
+    // If git-based sync log is newer than Supabase, prefer the newer git run
+    const gitTime = gitRun?.timestamp || gitSnapshot?.updatedAt;
+    if (gitTime && (!latest || new Date(gitTime).getTime() > new Date(latest.completedAt).getTime())) {
+      const durationSeconds = gitRun?.durationSeconds || 90;
+      latest = {
+        windowStart: new Date(new Date(gitTime).getTime() - durationSeconds * 1000).toISOString(),
+        completedAt: gitTime,
+        completedShards: 10,
+        expectedShards: 10,
+        hasFailedShard: gitRun ? gitRun.status === 'failed' : false,
+        requestedCount: gitRun?.requestedCount ?? gitSnapshot?.requestedCount ?? 237,
+        fetchedCount: gitRun?.fetchedCount ?? gitSnapshot?.fetchedCount ?? 237,
+        failedCount: gitRun?.failedCount ?? gitSnapshot?.failedCount ?? 0,
+      };
+    }
+
+    if (!latest) return NextResponse.json({ success: true, latest: null });
+
+    return NextResponse.json({
+      success: true,
+      latest,
     }, {
       headers: {
         'Cache-Control': 'public, max-age=15, s-maxage=30, stale-while-revalidate=60',
       },
     });
   } catch {
+    if (gitRun) {
+      return NextResponse.json({
+        success: true,
+        latest: {
+          windowStart: new Date(new Date(gitRun.timestamp).getTime() - (gitRun.durationSeconds || 90) * 1000).toISOString(),
+          completedAt: gitRun.timestamp,
+          completedShards: 10,
+          expectedShards: 10,
+          hasFailedShard: gitRun.status === 'failed',
+          requestedCount: gitRun.requestedCount,
+          fetchedCount: gitRun.fetchedCount,
+          failedCount: gitRun.failedCount,
+        },
+      });
+    }
     return NextResponse.json({ success: false }, { status: 502 });
   }
 }

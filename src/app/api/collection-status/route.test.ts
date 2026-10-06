@@ -59,3 +59,30 @@ it('reports unavailable when Supabase is not configured', async () => {
   expect(response.status).toBe(503);
   expect(data.success).toBe(false);
 });
+
+it('prefers git sync log when it is newer than Supabase completedAt', async () => {
+  vi.stubEnv('SUPABASE_URL', 'https://example.supabase.co');
+  vi.stubEnv('SUPABASE_ANON_KEY', 'test-anon-key');
+  const fetchMock = vi.fn().mockResolvedValue({
+    ok: true,
+    json: async () => [{
+      window_start: '2026-10-06T01:44:00Z',
+      completed_at: '2026-10-06T01:44:00Z',
+      completed_shards: 8,
+      has_failed_shard: false,
+      requested_count: 237,
+      fetched_count: 237,
+      failed_count: 0,
+      expected_shards: 8,
+    }],
+  });
+  vi.stubGlobal('fetch', fetchMock);
+
+  const response = await GET();
+  const data = await response.json();
+
+  expect(response.status).toBe(200);
+  expect(data.success).toBe(true);
+  expect(new Date(data.latest.completedAt).getTime()).toBeGreaterThan(new Date('2026-10-06T01:44:00Z').getTime());
+});
+

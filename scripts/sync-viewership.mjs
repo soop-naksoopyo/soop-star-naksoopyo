@@ -426,7 +426,7 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = ${JSON.stringify(updatedLogs, nu
           viewer_ship: s.viewerShip || 0,
           total_stars: s.totalStars || 0,
           stars_source: s.starsSource || 'canonical',
-          fetched_at: s.fetchedAt || new Date().toISOString(),
+          fetched_at: new Date().toISOString(),
           viewership_status: 'available',
           collection_status: 'available',
         }));
