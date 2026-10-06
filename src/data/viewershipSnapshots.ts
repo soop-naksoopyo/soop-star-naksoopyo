@@ -3404,7 +3404,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
   },
   "2026-10": {
     "yearMonth": "2026-10",
-    "updatedAt": "2026-10-06T04:57:24.646Z",
+    "updatedAt": "2026-10-06T05:26:21.080Z",
     "requestedCount": 238,
     "fetchedCount": 238,
     "failedCount": 0,
