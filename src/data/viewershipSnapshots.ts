@@ -3404,7 +3404,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
   },
   "2026-10": {
     "yearMonth": "2026-10",
-    "updatedAt": "2026-10-06T07:57:11.769Z",
+    "updatedAt": "2026-10-06T08:20:42.438Z",
     "requestedCount": 237,
     "fetchedCount": 237,
     "failedCount": 0,
@@ -6450,22 +6450,6 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "viewershipStatus": "available"
       },
       {
-        "soopId": "dmsgkdn12",
-        "nickname": "엔돌핀",
-        "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/dm/dmsgkdn12/dmsgkdn12.jpg",
-        "crewName": null,
-        "totalStars": 19428,
-        "starsSource": "canonical",
-        "averageViewers": 305,
-        "totalViewers": 2875,
-        "peakViewers": 610,
-        "broadcastMinutes": 1581,
-        "viewerShip": 8037,
-        "fetchedAt": "2026-10-06T01:43:56.293Z",
-        "collectionStatus": "available",
-        "viewershipStatus": "available"
-      },
-      {
         "soopId": "nada11200",
         "nickname": "이윤열",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/na/nada11200/nada11200.jpg",
@@ -7102,6 +7086,22 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "broadcastMinutes": 1828,
         "viewerShip": 23307,
         "fetchedAt": "2026-10-06T01:43:54.560Z",
+        "collectionStatus": "available",
+        "viewershipStatus": "available"
+      },
+      {
+        "soopId": "dmsgkdn12",
+        "nickname": "엔돌핀",
+        "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/dm/dmsgkdn12/dmsgkdn12.jpg",
+        "crewName": null,
+        "totalStars": 19428,
+        "starsSource": "canonical",
+        "averageViewers": 305,
+        "totalViewers": 2875,
+        "peakViewers": 610,
+        "broadcastMinutes": 1581,
+        "viewerShip": 8037,
+        "fetchedAt": "2026-10-06T01:43:56.293Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
