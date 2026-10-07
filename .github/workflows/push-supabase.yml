@@ -1,0 +1,32 @@
+name: Push Local Snapshots to Supabase
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_month:
+        description: '대상 월 (예: 2026-10). 비워두면 현재 월'
+        required: false
+        default: ''
+
+jobs:
+  push-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Push Snapshots to Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          node scripts/push-supabase.mjs "${{ inputs.target_month }}"

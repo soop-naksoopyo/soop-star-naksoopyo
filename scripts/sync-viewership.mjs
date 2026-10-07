@@ -102,7 +102,7 @@ async function fetchViewership(streamer, yearMonth, retryCount = 0) {
       fetch(monthlyTotalUrl, { headers, signal: controller.signal }).catch(() => null),
     ]);
 
-    if ((statsRes.status === 403 || statsRes.status === 429) && retryCount < 2) {
+    if (statsRes.status === 429 && retryCount < 2) {
       clearTimeout(timeout);
       await new Promise((resolve) => setTimeout(resolve, 8000 * (retryCount + 1)));
       return fetchViewership(streamer, yearMonth, retryCount + 1);
