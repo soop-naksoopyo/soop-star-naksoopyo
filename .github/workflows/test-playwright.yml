@@ -24,7 +24,6 @@ jobs:
         run: |
           node -e "
           import('playwright').then(async ({ chromium }) => {
-            console.log('Launching browser...');
             const browser = await chromium.launch({
               headless: true,
               args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-blink-features=AutomationControlled']
@@ -33,9 +32,34 @@ jobs:
               userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'
             });
             const page = await context.newPage();
-            const res = await page.goto('https://soopscope.com/streamer/minchul', { timeout: 20000 });
-            console.log('Result Status:', res.status());
-            console.log('Result Title:', await page.title());
+            // 1. 메인 또는 랭킹 페이지 방문 (정상 세션 확립)
+            const res = await page.goto('https://soopscope.com/rank', { timeout: 20000 });
+            console.log('Page goto status:', res.status());
+
+            // 2. 브라우저 컨텍스트 내에서 API 호출 테스트 (김민철 stats API 및 랭킹 API)
+            const apiResult = await page.evaluate(async () => {
+              try {
+                const r = await fetch('/api/streamer/minchul/stats?year=2026&month=10');
+                const text = await r.text();
+                return { status: r.status, ok: r.ok, sample: text.slice(0, 200) };
+              } catch (e) {
+                return { error: e.message };
+              }
+            });
+            console.log('In-browser API Result:', JSON.stringify(apiResult));
+
+            // 3. 브라우저 컨텍스트 내에서 monthly-total API 호출 테스트
+            const monthlyResult = await page.evaluate(async () => {
+              try {
+                const r = await fetch('/api/streamer/minchul/monthly-total?year=2026&month=10');
+                const text = await r.text();
+                return { status: r.status, ok: r.ok, sample: text.slice(0, 200) };
+              } catch (e) {
+                return { error: e.message };
+              }
+            });
+            console.log('In-browser Monthly Result:', JSON.stringify(monthlyResult));
+
             await browser.close();
           }).catch(err => {
             console.error('Fatal error:', err.message);
