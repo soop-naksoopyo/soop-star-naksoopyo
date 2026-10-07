@@ -3,6 +3,20 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791372956009",
+    "timestamp": "2026-10-07T11:35:56.009Z",
+    "kstTime": "2026-10-07 20:35:56",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "success",
+    "requestedCount": 237,
+    "fetchedCount": 237,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 1,
+    "note": "2026-10 전원 정상 수집 완료 (237명)"
+  },
+  {
     "id": "run-1791371719164",
     "timestamp": "2026-10-07T11:15:19.164Z",
     "kstTime": "2026-10-07 20:15:19",
