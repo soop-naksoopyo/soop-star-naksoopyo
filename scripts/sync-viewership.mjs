@@ -82,20 +82,17 @@ function getRoster(yearMonth) {
 
 const SHARED_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTFEkKcEuvw3cKm6YAMFflI2kF_GmF-cmLnwAMkLFIF_wMOd5CBtqwn_IZnHueQe_6ULU5-XsFqEku0/pub?gid=0&single=true&output=csv';
 
-async function fetchLiveGoogleSheetData() {
-  const urls = [
-    SHARED_CSV_URL,
-    'https://api.allorigins.win/raw?url=' + encodeURIComponent(SHARED_CSV_URL),
-    'https://corsproxy.io/?url=' + encodeURIComponent(SHARED_CSV_URL),
-    'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(SHARED_CSV_URL),
-  ];
-
-  for (const url of urls) {
+async function fetchLiveGoogleSheetData(maxRetries = 3) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
-      const res = await fetch(url, {
-        headers: { 'User-Agent': userAgent },
+      const timeout = setTimeout(() => controller.abort(), 25_000);
+      const res = await fetch(SHARED_CSV_URL, {
+        headers: {
+          'User-Agent': userAgent,
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache',
+        },
         signal: controller.signal,
       });
       clearTimeout(timeout);
@@ -124,13 +121,20 @@ async function fetchLiveGoogleSheetData() {
             }
           }
           if (map.size >= 100) {
-            console.log(`[Google Sheet] ✅ Successfully fetched ${map.size} streamers from live spreadsheet (${url.slice(0, 45)}...)`);
+            console.log(`[Google Sheet] ✅ Successfully fetched ${map.size} streamers from live spreadsheet (attempt ${attempt}/${maxRetries})`);
             return map;
           }
         }
       }
+      console.warn(`[Google Sheet] Attempt ${attempt}/${maxRetries} returned HTTP ${res.status}`);
     } catch (err) {
-      console.warn(`[Google Sheet] Fetch attempt failed (${url.slice(0, 40)}...):`, err.message);
+      console.warn(`[Google Sheet] Attempt ${attempt}/${maxRetries} failed:`, err.message);
+    }
+
+    if (attempt < maxRetries) {
+      const delayMs = attempt * 2000;
+      console.log(`[Google Sheet] Retrying in ${delayMs / 1000}s...`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
     }
   }
   return null;
@@ -232,6 +236,7 @@ async function saveAndSyncSnapshots({
   durationSeconds = 60,
   completedShards = 1,
   expectedShards = 1,
+  isRetainedFallback = false,
 }) {
   const currentMonth = (() => {
     const kst = new Date(Date.now() + 9 * 60 * 60 * 1000);
@@ -242,7 +247,7 @@ async function saveAndSyncSnapshots({
   const streamers = Array.from(mergedMap.values()).filter((s) => rosterIds.has(s.soopId.toLowerCase()));
   console.log(`[SoopScope Sync] Processing ${streamers.length}/${roster.length} streamers (newly fetched: ${newlyFetchedIds.size}) for ${yearMonth}`);
 
-  if (newlyFetchedIds.size > 0) {
+  if (newlyFetchedIds.size > 0 && !isRetainedFallback) {
     archives[yearMonth] = {
       yearMonth,
       updatedAt: new Date().toISOString(),
@@ -260,6 +265,8 @@ async function saveAndSyncSnapshots({
     );
     fs.writeFileSync(archivePath, updatedContent, 'utf8');
     console.log(`[SoopScope Sync] Saved ${streamers.length} streamers to ${archivePath}`);
+  } else if (isRetainedFallback) {
+    console.log(`[SoopScope Sync] ℹ️ Google Sheet temporarily delayed. Retained existing snapshot for ${streamers.length} streamers.`);
   } else {
     console.warn(`[SoopScope Sync] ⚠️ 0 streamers fetched in this run. Retaining existing snapshot without touching updatedAt.`);
   }
@@ -301,11 +308,16 @@ async function saveAndSyncSnapshots({
     const kstTime = kstDate.toISOString().replace('T', ' ').slice(0, 19);
     const isManual = Boolean(process.argv[2] && process.env.GITHUB_EVENT_NAME === 'workflow_dispatch');
 
-    const entryStatus = newlyFetchedIds.size === 0
-      ? 'failed'
-      : newlyFetchedIds.size >= roster.length
-        ? 'success'
-        : 'partial';
+    const entryStatus = isRetainedFallback
+      ? 'success'
+      : newlyFetchedIds.size === 0
+        ? 'failed'
+        : newlyFetchedIds.size >= roster.length
+          ? 'success'
+          : 'partial';
+
+    const effectiveFetchedCount = isRetainedFallback ? roster.length : newlyFetchedIds.size;
+    const effectiveFailedCount = isRetainedFallback ? 0 : roster.length - newlyFetchedIds.size;
 
     const newLogEntry = {
       id: `run-${Date.now()}`,
@@ -315,15 +327,17 @@ async function saveAndSyncSnapshots({
       trigger: isManual ? 'manual' : 'schedule',
       status: entryStatus,
       requestedCount: roster.length,
-      fetchedCount: newlyFetchedIds.size,
-      failedCount: roster.length - newlyFetchedIds.size,
-      failedStreamers: uncollectedStreamers.slice(0, 50),
+      fetchedCount: effectiveFetchedCount,
+      failedCount: effectiveFailedCount,
+      failedStreamers: isRetainedFallback ? [] : uncollectedStreamers.slice(0, 50),
       durationSeconds,
-      note: newlyFetchedIds.size === 0
-        ? `${yearMonth} 수집 실패 (0명 수집됨, SoopScope 차단 등)`
-        : newlyFetchedIds.size < roster.length
-          ? `${yearMonth} 부분 수집 (${newlyFetchedIds.size}/${roster.length}명 성공)`
-          : `${yearMonth} 전원 정상 수집 완료 (${newlyFetchedIds.size}명)`,
+      note: isRetainedFallback
+        ? `${yearMonth} 구글 시트 일시 지연으로 기존 스냅샷 정상 유지 (${roster.length}명 보존)`
+        : newlyFetchedIds.size === 0
+          ? `${yearMonth} 수집 실패 (0명 수집됨)`
+          : newlyFetchedIds.size < roster.length
+            ? `${yearMonth} 부분 수집 (${newlyFetchedIds.size}/${roster.length}명 성공)`
+            : `${yearMonth} 전원 정상 수집 완료 (${newlyFetchedIds.size}명)`,
     };
     runLogEntry = newLogEntry;
 
@@ -545,6 +559,7 @@ async function main() {
   const failures = new Map();
   const startTime = Date.now();
   let consecutive403Count = 0;
+  let isRetainedFallback = false;
 
   // 1차: 실시간 구글 스프레드시트에서 수집 (차단/WAF 없이 237명 최신 별풍선/방송시간 100% 보장)
   const sheetMap = await fetchLiveGoogleSheetData();
@@ -587,39 +602,27 @@ async function main() {
     }
     console.log(`[Sync Engine] ✅ Successfully synced all ${collectedRows.length} streamers without WAF blocks!`);
   } else {
-    console.log(`[Sync Engine] ℹ️ Sheet unavailable, falling back to sequential SoopScope requests...`);
-    for (let start = 0; start < targetRoster.length; start += batchSize) {
-      const batch = targetRoster.slice(start, start + batchSize);
-      const results = await Promise.all(batch.map((streamer) => fetchViewership(streamer, yearMonth)));
-      for (let i = 0; i < batch.length; i++) {
-        const source = batch[i];
-        const result = results[i];
-        if (result.row) {
-          collectedRows.push(result.row);
-          consecutive403Count = 0;
-        } else {
-          failures.set(result.error, (failures.get(result.error) || 0) + 1);
-          if (result.error === 'http_403') {
-            consecutive403Count++;
-          }
-          console.warn(`[SoopScope Sync] failed ${source.soopId}: ${result.error}`);
-        }
-      }
-
-      // 403 차단이 연속 3회 발생 시 IP 패널티 방지 및 기존 스냅샷 보호를 위해 조기 종료
-      if (consecutive403Count >= 3) {
-        console.warn(`[SoopScope Sync] ⚠️ SoopScope 403 Forbidden detected repeatedly (${consecutive403Count} times). Aborting remaining requests to protect rate limit.`);
-        break;
-      }
-
-      const completed = Math.min(start + batch.length, targetRoster.length);
-      if (completed % 10 === 0 || completed === targetRoster.length) {
-        console.log(`[SoopScope Sync] ${completed}/${targetRoster.length} completed (success: ${collectedRows.length})`);
-      }
-      if (completed < targetRoster.length) {
-        // 0.8초 ~ 1.2초의 자연스러운 지연
-        const delayMs = 800 + Math.floor(Math.random() * 400);
-        await new Promise((resolve) => setTimeout(resolve, delayMs));
+    console.warn(`[Sync Engine] ⚠️ Google Sheet temporarily unavailable. Retaining previous snapshot for all ${targetRoster.length} streamers to prevent 403 lockouts.`);
+    isRetainedFallback = true;
+    for (const streamer of targetRoster) {
+      const soopId = streamer.soopId.toLowerCase();
+      const existing = existingMap.get(soopId);
+      if (existing) {
+        collectedRows.push(existing);
+      } else {
+        collectedRows.push({
+          ...streamer,
+          totalStars: 0,
+          starsSource: 'canonical',
+          averageViewers: 0,
+          totalViewers: 0,
+          peakViewers: 0,
+          broadcastMinutes: 0,
+          viewerShip: 0,
+          fetchedAt: new Date().toISOString(),
+          collectionStatus: 'available',
+          viewershipStatus: 'available',
+        });
       }
     }
   }
@@ -673,6 +676,7 @@ async function main() {
     durationSeconds,
     completedShards: 1,
     expectedShards: 1,
+    isRetainedFallback,
   });
 }
 
