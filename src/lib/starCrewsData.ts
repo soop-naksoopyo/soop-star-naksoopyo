@@ -373,8 +373,8 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "soopId": "minchul",
         "nickname": "김민철",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/mi/minchul/minchul.jpg",
-        "totalStars": 13100,
-        "broadcastHours": 2.5
+        "totalStars": 53200,
+        "broadcastHours": 6.8
       },
       {
         "soopId": "goodzerg",

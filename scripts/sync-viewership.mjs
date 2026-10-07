@@ -183,6 +183,7 @@ async function main() {
     console.log(`[SoopScope Merge] Found ${files.length} shard files in ${mergeDir}`);
     const previous = archives[yearMonth];
     const mergedMap = new Map((previous?.streamers || []).map((s) => [s.soopId.toLowerCase(), s]));
+    const newlyFetchedIds = new Set();
     for (const file of files) {
       try {
         const rows = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -190,6 +191,7 @@ async function main() {
           for (const row of rows) {
             if (row && row.soopId && !excludedSoopIds.has(row.soopId.toLowerCase())) {
               const soopId = row.soopId.toLowerCase();
+              newlyFetchedIds.add(soopId);
               const existing = mergedMap.get(soopId);
               if (existing) {
                 // 누적 지표(별풍선, 방송시간) 보호: 일시 장애로 0이 반환될 경우 기존 최대치 보존
@@ -216,25 +218,29 @@ async function main() {
 
     const rosterIds = new Set(roster.map((r) => r.soopId.toLowerCase()));
     const streamers = Array.from(mergedMap.values()).filter((s) => rosterIds.has(s.soopId.toLowerCase()));
-    console.log(`[SoopScope Merge] Merged ${streamers.length}/${roster.length} unique streamers for ${yearMonth}`);
+    console.log(`[SoopScope Merge] Merged ${streamers.length}/${roster.length} unique streamers (newly fetched: ${newlyFetchedIds.size}) for ${yearMonth}`);
 
-    archives[yearMonth] = {
-      yearMonth,
-      updatedAt: new Date().toISOString(),
-      requestedCount: roster.length,
-      fetchedCount: streamers.length,
-      failedCount: Math.max(0, roster.length - streamers.length),
-      streamers: streamers.sort((a, b) =>
-        (a.crewName || '\uffff').localeCompare(b.crewName || '\uffff', 'ko')
-        || a.nickname.localeCompare(b.nickname, 'ko')),
-    };
+    if (newlyFetchedIds.size > 0) {
+      archives[yearMonth] = {
+        yearMonth,
+        updatedAt: new Date().toISOString(),
+        requestedCount: roster.length,
+        fetchedCount: streamers.length,
+        failedCount: Math.max(0, roster.length - streamers.length),
+        streamers: streamers.sort((a, b) =>
+          (a.crewName || '\uffff').localeCompare(b.crewName || '\uffff', 'ko')
+          || a.nickname.localeCompare(b.nickname, 'ko')),
+      };
 
-    const updatedContent = content.replace(
-      pattern,
-      `export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnapshot> = ${JSON.stringify(archives, null, 2)};\n`,
-    );
-    fs.writeFileSync(archivePath, updatedContent, 'utf8');
-    console.log(`[SoopScope Merge] Saved ${streamers.length} streamers to ${archivePath}`);
+      const updatedContent = content.replace(
+        pattern,
+        `export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnapshot> = ${JSON.stringify(archives, null, 2)};\n`,
+      );
+      fs.writeFileSync(archivePath, updatedContent, 'utf8');
+      console.log(`[SoopScope Merge] Saved ${streamers.length} streamers to ${archivePath}`);
+    } else {
+      console.warn(`[SoopScope Merge] ⚠️ 0 streamers fetched in this run. Retaining existing snapshot without touching updatedAt.`);
+    }
 
     // Sync Log 기록 (src/data/syncLogs.ts)
     try {
@@ -256,13 +262,14 @@ async function main() {
         }
       }
 
-      const missingStreamers = [];
+      const uncollectedStreamers = [];
       for (const r of roster) {
-        if (!mergedMap.has(r.soopId.toLowerCase())) {
-          missingStreamers.push({
+        if (!newlyFetchedIds.has(r.soopId.toLowerCase())) {
+          uncollectedStreamers.push({
             soopId: r.soopId,
             nickname: r.nickname,
             crewName: r.crewName || '무소속',
+            reason: newlyFetchedIds.size === 0 ? 'SoopScope 403 Forbidden 차단' : '샤드 수집 실패',
           });
         }
       }
@@ -271,19 +278,29 @@ async function main() {
       const kstTime = kstDate.toISOString().replace('T', ' ').slice(0, 19);
       const isManual = Boolean(process.argv[2] && process.env.GITHUB_EVENT_NAME === 'workflow_dispatch');
 
+      const entryStatus = newlyFetchedIds.size === 0
+        ? 'failed'
+        : newlyFetchedIds.size >= roster.length
+          ? 'success'
+          : 'partial';
+
       const newLogEntry = {
         id: `run-${Date.now()}`,
         timestamp: new Date().toISOString(),
         kstTime,
         yearMonth,
         trigger: isManual ? 'manual' : 'schedule',
-        status: streamers.length >= roster.length ? 'success' : streamers.length > 0 ? 'partial' : 'failed',
+        status: entryStatus,
         requestedCount: roster.length,
-        fetchedCount: Math.min(streamers.length, roster.length),
-        failedCount: Math.max(0, roster.length - streamers.length),
-        failedStreamers: missingStreamers,
+        fetchedCount: newlyFetchedIds.size,
+        failedCount: roster.length - newlyFetchedIds.size,
+        failedStreamers: uncollectedStreamers.slice(0, 50),
         durationSeconds: 90,
-        note: `${yearMonth} 스냅샷 수집 (${Math.min(streamers.length, roster.length)}/${roster.length}명)`,
+        note: newlyFetchedIds.size === 0
+          ? `${yearMonth} 수집 실패 (0명 수집됨, SoopScope 차단 등)`
+          : newlyFetchedIds.size >= roster.length
+            ? `${yearMonth} 스냅샷 수집 (${newlyFetchedIds.size}/${roster.length}명)`
+            : `${yearMonth} 부분 수집 (${newlyFetchedIds.size}/${roster.length}명 갱신)`,
       };
 
       const updatedLogs = [newLogEntry, ...existingLogs.filter((l) => l.id !== newLogEntry.id)].slice(0, 150);
@@ -363,48 +380,52 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = ${JSON.stringify(updatedLogs, nu
         console.log(`[SoopScope Merge] Replaced Poonggo stats in ${indepPath} with SoopScope official data!`);
       }
     } else if (yearMonth === currentMonth) {
-      const starCrewsPath = path.join(root, 'src/lib/starCrewsData.ts');
-      const soopMap = new Map(streamers.map((s) => [s.soopId.toLowerCase(), s]));
-      const { content: starCrewsContent, pattern: starPattern, data: starCrews } = readArrayExport(
-        starCrewsPath,
-        'OFFICIAL_STAR_CREWS',
-      );
-      for (const crew of starCrews) {
-        for (const member of crew.members) {
-          const official = soopMap.get(member.soopId.toLowerCase());
-          if (official) {
-            member.totalStars = official.totalStars || 0;
-            member.broadcastHours = official.broadcastMinutes > 0 ? Math.round((official.broadcastMinutes / 60) * 10) / 10 : 0;
-          }
-        }
-      }
-      const updatedCrewContent = starCrewsContent.replace(
-        starPattern,
-        `export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = ${JSON.stringify(starCrews, null, 2)};\n`,
-      );
-      fs.writeFileSync(starCrewsPath, updatedCrewContent, 'utf8');
-      console.log(`[SoopScope Merge] Synchronized ${starCrewsPath} with latest ${yearMonth} data!`);
-
-      const indepPath = path.join(root, 'src/data/independentStreamers.ts');
-      const { content: indepContent, pattern: indepPattern, data: indepMap } = readObjectExport(
-        indepPath,
-        'INDEPENDENT_STREAMERS_BY_MONTH',
-        'Record<string,\\s*StreamerRowData\\[\\]>',
-      );
-      if (Array.isArray(indepMap[yearMonth])) {
-        for (const member of indepMap[yearMonth]) {
-          const official = soopMap.get(member.soopId.toLowerCase());
-          if (official) {
-            member.totalStars = official.totalStars || 0;
-            member.broadcastHours = official.broadcastMinutes > 0 ? Math.round((official.broadcastMinutes / 60) * 10) / 10 : 0;
-          }
-        }
-        const updatedIndepContent = indepContent.replace(
-          indepPattern,
-          `export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> = ${JSON.stringify(indepMap, null, 2)};\n`,
+      if (newlyFetchedIds.size > 0) {
+        const starCrewsPath = path.join(root, 'src/lib/starCrewsData.ts');
+        const soopMap = new Map(streamers.map((s) => [s.soopId.toLowerCase(), s]));
+        const { content: starCrewsContent, pattern: starPattern, data: starCrews } = readArrayExport(
+          starCrewsPath,
+          'OFFICIAL_STAR_CREWS',
         );
-        fs.writeFileSync(indepPath, updatedIndepContent, 'utf8');
-        console.log(`[SoopScope Merge] Synchronized ${indepPath} with latest ${yearMonth} data!`);
+        for (const crew of starCrews) {
+          for (const member of crew.members) {
+            const official = soopMap.get(member.soopId.toLowerCase());
+            if (official) {
+              member.totalStars = official.totalStars || 0;
+              member.broadcastHours = official.broadcastMinutes > 0 ? Math.round((official.broadcastMinutes / 60) * 10) / 10 : 0;
+            }
+          }
+        }
+        const updatedCrewContent = starCrewsContent.replace(
+          starPattern,
+          `export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = ${JSON.stringify(starCrews, null, 2)};\n`,
+        );
+        fs.writeFileSync(starCrewsPath, updatedCrewContent, 'utf8');
+        console.log(`[SoopScope Merge] Synchronized ${starCrewsPath} with latest ${yearMonth} data!`);
+
+        const indepPath = path.join(root, 'src/data/independentStreamers.ts');
+        const { content: indepContent, pattern: indepPattern, data: indepMap } = readObjectExport(
+          indepPath,
+          'INDEPENDENT_STREAMERS_BY_MONTH',
+          'Record<string,\\s*StreamerRowData\\[\\]>',
+        );
+        if (Array.isArray(indepMap[yearMonth])) {
+          for (const member of indepMap[yearMonth]) {
+            const official = soopMap.get(member.soopId.toLowerCase());
+            if (official) {
+              member.totalStars = official.totalStars || 0;
+              member.broadcastHours = official.broadcastMinutes > 0 ? Math.round((official.broadcastMinutes / 60) * 10) / 10 : 0;
+            }
+          }
+          const updatedIndepContent = indepContent.replace(
+            indepPattern,
+            `export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> = ${JSON.stringify(indepMap, null, 2)};\n`,
+          );
+          fs.writeFileSync(indepPath, updatedIndepContent, 'utf8');
+          console.log(`[SoopScope Merge] Synchronized ${indepPath} with latest ${yearMonth} data!`);
+        }
+      } else {
+        console.warn(`[SoopScope Merge] ⚠️ Skipping starCrewsData update because 0 streamers were freshly collected.`);
       }
     }
 
@@ -426,7 +447,7 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = ${JSON.stringify(updatedLogs, nu
           viewer_ship: s.viewerShip || 0,
           total_stars: s.totalStars || 0,
           stars_source: s.starsSource || 'canonical',
-          fetched_at: new Date().toISOString(),
+          fetched_at: s.fetchedAt || new Date().toISOString(),
           viewership_status: 'available',
           collection_status: 'available',
         }));
@@ -447,29 +468,29 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = ${JSON.stringify(updatedLogs, nu
           console.error(`[SoopScope Merge] Supabase REST API error (${res.status}):`, await res.text());
         } else {
           console.log(`[SoopScope Merge] Successfully synced ${records.length} records to Supabase (${yearMonth})!`);
-          
-          // 동기화 상태 기록 (CollectionStatus 뱃지 실시간 연동)
-          const statusUrl = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_sync_status`;
-          await fetch(statusUrl, {
-            method: 'POST',
-            headers: {
-              apikey: supabaseKey,
-              Authorization: `Bearer ${supabaseKey}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify([{
-              window_start: new Date(Date.now() - 60_000).toISOString(),
-              completed_at: new Date().toISOString(),
-              completed_shards: files.length || 8,
-              expected_shards: 8,
-              has_failed_shard: false,
-              requested_count: roster.length,
-              fetched_count: Math.min(streamers.length, roster.length),
-              failed_count: Math.max(0, roster.length - streamers.length),
-              fallback_count: 0,
-            }]),
-          }).catch((e) => console.warn('[SoopScope Merge] Sync status update failed:', e.message));
         }
+
+        // 동기화 상태 기록 (CollectionStatus 뱃지 실시간 연동)
+        const statusUrl = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_sync_status`;
+        await fetch(statusUrl, {
+          method: 'POST',
+          headers: {
+            apikey: supabaseKey,
+            Authorization: `Bearer ${supabaseKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify([{
+            window_start: new Date(Date.now() - 60_000).toISOString(),
+            completed_at: new Date().toISOString(),
+            completed_shards: files.length || 10,
+            expected_shards: 10,
+            has_failed_shard: newlyFetchedIds.size < roster.length,
+            requested_count: roster.length,
+            fetched_count: newlyFetchedIds.size,
+            failed_count: roster.length - newlyFetchedIds.size,
+            fallback_count: newlyFetchedIds.size === 0 ? roster.length : 0,
+          }]),
+        }).catch((e) => console.warn('[SoopScope Merge] Sync status update failed:', e.message));
       } catch (err) {
         console.error('[SoopScope Merge] Failed syncing to Supabase:', err.message);
       }

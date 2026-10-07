@@ -22,6 +22,20 @@ export interface SyncLogEntry {
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-manual-calibration-minchul",
+    "timestamp": "2026-10-07T00:30:00.000Z",
+    "kstTime": "2026-10-07 09:30:00",
+    "yearMonth": "2026-10",
+    "trigger": "manual",
+    "status": "partial",
+    "requestedCount": 237,
+    "fetchedCount": 1,
+    "failedCount": 236,
+    "failedStreamers": [],
+    "durationSeconds": 5,
+    "note": "철벽김민철 10월 별풍선(53,200) 및 방송시간(6.8h) 긴급 수치 보정 반영 (SoopScope 403 차단 이슈 대응)"
+  },
+  {
     "id": "run-1791333272082",
     "timestamp": "2026-10-07T00:34:32.082Z",
     "kstTime": "2026-10-07 09:34:32",

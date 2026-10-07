@@ -97,17 +97,24 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          if ! git diff --quiet src/data/ src/lib/starCrewsData.ts; then
+          if ! git diff --quiet src/data/viewershipSnapshots.ts src/lib/starCrewsData.ts; then
             git add src/data/ src/lib/starCrewsData.ts
             TIMESTAMP=$(TZ="Asia/Seoul" date +'%Y-%m-%d %H:%M:%S')
             TARGET_STR="${{ inputs.target_month }}"
             if [ -z "$TARGET_STR" ]; then
               TARGET_STR=$(TZ="Asia/Seoul" date +'%Y-%m')
             fi
-            git commit -m "chore(sync): archive 100% complete $TARGET_STR snapshot [$TIMESTAMP KST]"
+            git commit -m "chore(sync): update $TARGET_STR snapshot [$TIMESTAMP KST]"
             git pull --rebase origin main
             git push origin main
             echo "✅ Successfully synced and pushed the merged snapshot."
+          elif ! git diff --quiet src/data/syncLogs.ts; then
+            git add src/data/syncLogs.ts
+            TIMESTAMP=$(TZ="Asia/Seoul" date +'%Y-%m-%d %H:%M:%S')
+            git commit -m "chore(sync): record sync run log [$TIMESTAMP KST]"
+            git pull --rebase origin main
+            git push origin main
+            echo "ℹ️ Recorded sync status log."
           else
             echo "ℹ️ No changes detected. Skipping commit."
           fi
