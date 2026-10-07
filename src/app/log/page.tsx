@@ -29,13 +29,14 @@ import {
   SlidersHorizontal,
   Terminal,
 } from 'lucide-react';
-import { type SyncLogEntry, type FailedStreamerInfo } from '@/data/syncLogs';
+import { type SyncLogEntry, type FailedStreamerInfo } from '@/types/sync';
 
 export default function SyncLogSecretPage() {
   const [logs, setLogs] = useState<SyncLogEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [lastChecked, setLastChecked] = useState<string>('');
+  const [loadWarning, setLoadWarning] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<'all' | 'success' | 'failed'>('all');
   const [monthFilter, setMonthFilter] = useState<string>('all');
   const [search, setSearch] = useState('');
@@ -48,19 +49,18 @@ export default function SyncLogSecretPage() {
   const fetchLogs = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/logs');
-      if (res.ok) {
-        const data = await res.json();
-        if (data.logs) {
-          setLogs(data.logs);
-        }
-      }
+      const res = await fetch('/api/logs', { cache: 'no-store' });
+      if (!res.ok) throw new Error('Log request failed');
+      const data = await res.json();
+      if (!data.success || !Array.isArray(data.logs)) throw new Error('Invalid log response');
+      setLogs(data.logs);
+      setLoadWarning(data.warning ?? null);
+      setLastChecked(new Intl.DateTimeFormat('ko-KR', { timeZone: 'Asia/Seoul', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(new Date()));
     } catch (err) {
       console.error('Failed to load logs:', err);
+      setLoadWarning('최신 로그를 불러오지 못했습니다. 마지막으로 확인한 기록을 표시합니다.');
     } finally {
       setIsLoading(false);
-      const kst = new Date(Date.now() + 9 * 60 * 60 * 1000);
-      setLastChecked(kst.toISOString().replace('T', ' ').slice(11, 19));
     }
   };
 
@@ -82,17 +82,11 @@ export default function SyncLogSecretPage() {
     setCurrentPage(1);
   }, [statusFilter, monthFilter, search, pageSize]);
 
-  // 한국 시간 기준 현재 스케줄 상태 (피크타임 vs 평소)
+  // GitHub Actions에 설정된 수집 예약 간격.
   const currentScheduleInfo = useMemo(() => {
-    const kst = new Date(Date.now() + 9 * 60 * 60 * 1000);
-    const hour = kst.getUTCHours();
-    const isPeak = hour >= 17 || hour < 2;
     return {
-      isPeak,
-      label: isPeak ? '피크타임 (10분 주기)' : '평소 (30분 주기)',
-      detail: isPeak
-        ? '한국시간 17:00 ~ 02:00 진행 중 (10분마다 10개 샤드 병렬 수집)'
-        : '한국시간 02:00 ~ 17:00 진행 중 (30분마다 10개 샤드 병렬 수집)',
+      label: '10분 간격 예약',
+      detail: 'GitHub Actions 자동 수집. 예약 시각보다 실제 시작이 지연될 수 있습니다.',
     };
   }, []);
 
@@ -254,9 +248,11 @@ export default function SyncLogSecretPage() {
             </h1>
           </div>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            시간대별 수집 대상 전체 238명 스트리머의 별풍선/뷰어십 지표 수집 성공 여부, 소요 시간, 10개 샤드 병렬 처리 파이프라인을 실시간 모니터링합니다.
+            스트리머별 별풍선/뷰어십 지표 수집 성공 여부와 소요 시간을 확인합니다. 로그는 15초마다 다시 조회합니다.
           </p>
         </div>
+
+        {loadWarning && <p role="alert" className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-300">{loadWarning}</p>}
 
         {/* 핵심 상태 요약 카드 4종 */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -267,7 +263,7 @@ export default function SyncLogSecretPage() {
               <Activity className="w-4 h-4 text-emerald-400" />
             </div>
             <div className="mt-2 text-sm sm:text-base font-bold text-white flex items-center gap-2">
-              <span className={`w-2 h-2 rounded-full ${currentScheduleInfo.isPeak ? 'bg-amber-400' : 'bg-emerald-400'} animate-ping`} />
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
               {currentScheduleInfo.label}
             </div>
             <div className="text-[11px] text-slate-500 mt-1 truncate">

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { SYNC_LOG_HISTORY, type SyncLogEntry } from '@/data/syncLogs';
+import { SYNC_LOG_HISTORY } from '@/data/syncLogs';
+import type { SyncLogEntry } from '@/types/sync';
 import { getOptionalRequestContext } from '@cloudflare/next-on-pages';
 
 export const dynamic = 'force-dynamic';
@@ -18,40 +19,25 @@ export async function GET() {
     || process.env.SUPABASE_PUBLISHABLE_KEY
     || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-  let liveStatus: SyncLogEntry | null = null;
+  let logs: SyncLogEntry[] = [...SYNC_LOG_HISTORY];
+  let source: 'supabase' | 'file_fallback' = 'file_fallback';
 
   if (supabaseUrl && anonKey) {
     try {
       const headers: Record<string, string> = { apikey: anonKey };
       if (!anonKey.startsWith('sb_publishable_')) headers.Authorization = `Bearer ${anonKey}`;
-      const url = new URL(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_sync_status`);
-      url.searchParams.set('select', 'window_start,completed_at,completed_shards,has_failed_shard,requested_count,fetched_count,failed_count');
-      url.searchParams.set('order', 'completed_at.desc');
-      url.searchParams.set('limit', '1');
+      const url = new URL(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_sync_logs`);
+      url.searchParams.set('select', 'payload');
+      url.searchParams.set('order', 'timestamp.desc');
+      url.searchParams.set('limit', '200');
 
-      const res = await fetch(url, { headers });
+      const res = await fetch(url, { headers, cache: 'no-store' });
       if (res.ok) {
-        const rows = await res.json();
-        const row = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
-        if (row && row.completed_at) {
-          const kst = new Date(new Date(row.completed_at).getTime() + 9 * 60 * 60 * 1000);
-          const durationSeconds = row.window_start && row.completed_at
-            ? Math.max(1, Math.round((new Date(row.completed_at).getTime() - new Date(row.window_start).getTime()) / 1000))
-            : 90;
-          liveStatus = {
-            id: `live-${row.completed_at}`,
-            timestamp: row.completed_at,
-            kstTime: kst.toISOString().replace('T', ' ').slice(0, 19),
-            yearMonth: `${kst.getUTCFullYear()}-${String(kst.getUTCMonth() + 1).padStart(2, '0')}`,
-            trigger: 'schedule',
-            status: Number(row.failed_count || 0) === 0 ? 'success' : 'partial',
-            requestedCount: Number(row.requested_count || 237),
-            fetchedCount: Number(row.fetched_count || 237),
-            failedCount: Number(row.failed_count || 0),
-            failedStreamers: [],
-            durationSeconds,
-            note: 'Supabase 실시간 동기화 상태',
-          };
+        const rows = await res.json() as Array<{ payload: SyncLogEntry }>;
+        if (Array.isArray(rows) && rows.length > 0) {
+          logs = rows.map((row) => row.payload)
+            .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp));
+          source = 'supabase';
         }
       }
     } catch {
@@ -59,20 +45,16 @@ export async function GET() {
     }
   }
 
-  // liveStatus가 정적 로그보다 최신이면 병합
-  const logs = [...SYNC_LOG_HISTORY];
-  if (liveStatus && (!logs[0] || new Date(liveStatus.timestamp).getTime() > new Date(logs[0].timestamp).getTime() + 60_000)) {
-    logs.unshift(liveStatus);
-  }
-
   return NextResponse.json({
     success: true,
+    source,
+    ...(source === 'file_fallback' ? { warning: '실시간 로그를 불러오지 못해 마지막 배포 시점의 기록을 표시합니다.' } : {}),
     totalLogs: logs.length,
     latestRun: logs[0] || null,
     logs,
   }, {
     headers: {
-      'Cache-Control': 'public, max-age=30, s-maxage=60, stale-while-revalidate=120',
+      'Cache-Control': 'no-store',
     },
   });
 }

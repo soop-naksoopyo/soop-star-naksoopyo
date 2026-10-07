@@ -264,6 +264,7 @@ async function saveAndSyncSnapshots({
     console.warn(`[SoopScope Sync] ⚠️ 0 streamers fetched in this run. Retaining existing snapshot without touching updatedAt.`);
   }
 
+  let runLogEntry = null;
   // 1. Sync Log 기록 (src/data/syncLogs.ts)
   try {
     const logPath = path.join(root, 'src/data/syncLogs.ts');
@@ -324,9 +325,10 @@ async function saveAndSyncSnapshots({
           ? `${yearMonth} 부분 수집 (${newlyFetchedIds.size}/${roster.length}명 성공)`
           : `${yearMonth} 전원 정상 수집 완료 (${newlyFetchedIds.size}명)`,
     };
+    runLogEntry = newLogEntry;
 
     const updatedLogs = [newLogEntry, ...existingLogs.filter((l) => l.id !== newLogEntry.id)].slice(0, 200);
-    const newLogContent = `import type { SyncLogEntry } from '@/types/sync';\n\nexport const SYNC_LOG_HISTORY: SyncLogEntry[] = ${JSON.stringify(updatedLogs, null, 2)};\n`;
+    const newLogContent = `import type { SyncLogEntry } from '@/types/sync';\nexport type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';\n\nexport const SYNC_LOG_HISTORY: SyncLogEntry[] = ${JSON.stringify(updatedLogs, null, 2)};\n`;
     fs.writeFileSync(logPath, newLogContent, 'utf8');
     console.log(`[Sync Log] Recorded run log: ${entryStatus} (${newlyFetchedIds.size}/${roster.length}) to ${logPath}`);
   } catch (logErr) {
@@ -424,30 +426,26 @@ async function saveAndSyncSnapshots({
         }
       }
 
-      // 동기화 상태 기록
-      const statusUrl = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_sync_status`;
-      await fetch(statusUrl, {
-        method: 'POST',
-        headers: {
-          apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify([{
-          window_start: new Date(Date.now() - 60_000).toISOString(),
-          completed_at: new Date().toISOString(),
-          completed_shards: completedShards,
-          expected_shards: expectedShards,
-          has_failed_shard: newlyFetchedIds.size < roster.length,
-          requested_count: roster.length,
-          fetched_count: newlyFetchedIds.size,
-          failed_count: roster.length - newlyFetchedIds.size,
-          fallback_count: newlyFetchedIds.size === 0 ? roster.length : 0,
-        }]),
-      }).catch((e) => console.warn('[SoopScope Sync] Sync status update failed:', e.message));
     } catch (err) {
       console.error('[SoopScope Sync] Failed syncing to Supabase:', err.message);
     }
+  }
+
+  if (supabaseUrl && supabaseKey && runLogEntry) {
+    const logResponse = await fetch(`${supabaseUrl.replace(/\/$/, '')}/rest/v1/soopscope_sync_logs?on_conflict=id`, {
+      method: 'POST',
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+        Prefer: 'resolution=merge-duplicates,return=minimal',
+      },
+      body: JSON.stringify([{ id: runLogEntry.id, timestamp: runLogEntry.timestamp, payload: runLogEntry }]),
+    });
+    if (!logResponse.ok) throw new Error(`[Sync Log] Database write failed (HTTP ${logResponse.status})`);
+    console.log(`[Sync Log] Persisted ${runLogEntry.id} to Supabase.`);
+  } else if (process.env.GITHUB_ACTIONS === 'true') {
+    throw new Error('[Sync Log] Supabase credentials or run log are unavailable.');
   }
 }
 
