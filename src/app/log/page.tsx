@@ -820,8 +820,8 @@ export default function SyncLogSecretPage() {
         {/* 하단 안내 설명 */}
         <div className="rounded-xl border border-slate-800/70 bg-slate-900/40 p-4 text-xs text-slate-400 space-y-1">
           <div className="font-bold text-slate-300">💡 숲스코프 자동 수집 파이프라인 안내</div>
-          <div>• **피크타임 (17:00 ~ 02:00 KST):** 10분마다 10개 샤드로 병렬 수집되어 자동 갱신됩니다.</div>
-          <div>• **평소 시간 (02:00 ~ 17:00 KST):** 30분마다 10개 샤드로 병렬 수집되어 자동 갱신됩니다.</div>
+          <div>• 자동 수집은 10분 간격으로 예약돼 있으며, GitHub Actions 사정에 따라 실제 시작은 지연될 수 있습니다.</div>
+          <div>• 완료된 수집 로그는 DB에 저장되고, 이 화면은 15초마다 새 기록을 조회합니다.</div>
           <div>• **비밀 페이지:** 본 페이지는 URL(`/log`)을 직접 입력해야만 진입할 수 있으며 메인 화면 메뉴에는 표시되지 않습니다.</div>
         </div>
       </div>
