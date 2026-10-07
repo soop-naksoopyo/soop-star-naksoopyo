@@ -42,6 +42,7 @@ const records = monthSnapshot.streamers.map((s) => ({
   total_viewers: s.totalViewers || 0,
   peak_viewers: s.peakViewers || 0,
   broadcast_minutes: s.broadcastMinutes || 0,
+  stars_broadcast_minutes: s.broadcastMinutes || 0,
   viewer_ship: s.viewerShip || 0,
   total_stars: s.totalStars || 0,
   stars_source: s.starsSource || 'canonical',
