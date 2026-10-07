@@ -3404,7 +3404,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
   },
   "2026-10": {
     "yearMonth": "2026-10",
-    "updatedAt": "2026-10-07T02:45:51.460Z",
+    "updatedAt": "2026-10-07T03:00:43.962Z",
     "requestedCount": 237,
     "fetchedCount": 237,
     "failedCount": 0,
@@ -3421,7 +3421,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 245,
         "broadcastMinutes": 1783,
         "viewerShip": 4428,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3437,7 +3437,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 106,
         "broadcastMinutes": 3060,
         "viewerShip": 3621,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3453,7 +3453,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 0,
         "broadcastMinutes": 0,
         "viewerShip": 0,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3469,7 +3469,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 126,
         "broadcastMinutes": 1440,
         "viewerShip": 2256,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3485,7 +3485,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 404,
         "broadcastMinutes": 2580,
         "viewerShip": 6450,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3501,7 +3501,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 131,
         "broadcastMinutes": 2040,
         "viewerShip": 3502,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3517,7 +3517,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 211,
         "broadcastMinutes": 2134,
         "viewerShip": 5762,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3533,7 +3533,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 274,
         "broadcastMinutes": 1800,
         "viewerShip": 4500,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3549,7 +3549,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 179,
         "broadcastMinutes": 2340,
         "viewerShip": 6981,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3565,7 +3565,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 88,
         "broadcastMinutes": 4860,
         "viewerShip": 4455,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3581,7 +3581,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 82,
         "broadcastMinutes": 6366,
         "viewerShip": 5729,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3597,7 +3597,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 639,
         "broadcastMinutes": 3600,
         "viewerShip": 16500,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3613,7 +3613,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 94,
         "broadcastMinutes": 2853,
         "viewerShip": 3756,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3629,7 +3629,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1104,
         "broadcastMinutes": 2340,
         "viewerShip": 29016,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3645,7 +3645,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 114,
         "broadcastMinutes": 2658,
         "viewerShip": 4563,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3661,7 +3661,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 60,
         "broadcastMinutes": 1620,
         "viewerShip": 1620,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3677,7 +3677,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 136,
         "broadcastMinutes": 2520,
         "viewerShip": 4116,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3693,7 +3693,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1366,
         "broadcastMinutes": 3000,
         "viewerShip": 18600,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3709,7 +3709,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 47,
         "broadcastMinutes": 1074,
         "viewerShip": 609,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3725,7 +3725,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 371,
         "broadcastMinutes": 4140,
         "viewerShip": 15249,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3741,7 +3741,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 27,
         "broadcastMinutes": 2160,
         "viewerShip": 612,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3757,7 +3757,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 58,
         "broadcastMinutes": 2880,
         "viewerShip": 2352,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3773,7 +3773,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 69,
         "broadcastMinutes": 2118,
         "viewerShip": 1624,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3789,7 +3789,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 231,
         "broadcastMinutes": 3960,
         "viewerShip": 8382,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3805,7 +3805,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 297,
         "broadcastMinutes": 1800,
         "viewerShip": 5520,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3821,7 +3821,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 65,
         "broadcastMinutes": 979,
         "viewerShip": 718,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3837,7 +3837,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 420,
         "broadcastMinutes": 2760,
         "viewerShip": 8096,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3853,7 +3853,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 209,
         "broadcastMinutes": 2617,
         "viewerShip": 5714,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3869,7 +3869,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 138,
         "broadcastMinutes": 2460,
         "viewerShip": 3731,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3885,7 +3885,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 31,
         "broadcastMinutes": 2700,
         "viewerShip": 1305,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3901,7 +3901,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 128,
         "broadcastMinutes": 1320,
         "viewerShip": 2442,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3917,7 +3917,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 578,
         "broadcastMinutes": 2160,
         "viewerShip": 12744,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.957Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3933,7 +3933,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 476,
         "broadcastMinutes": 2400,
         "viewerShip": 11680,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.957Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3949,7 +3949,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 139,
         "broadcastMinutes": 1435,
         "viewerShip": 2583,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3965,7 +3965,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 388,
         "broadcastMinutes": 1885,
         "viewerShip": 5969,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3981,7 +3981,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1851,
         "broadcastMinutes": 4020,
         "viewerShip": 61506,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.957Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -3997,7 +3997,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 421,
         "broadcastMinutes": 2400,
         "viewerShip": 8960,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.957Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4013,7 +4013,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1274,
         "broadcastMinutes": 2199,
         "viewerShip": 17482,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.957Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4029,7 +4029,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 373,
         "broadcastMinutes": 2940,
         "viewerShip": 8281,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4045,7 +4045,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 79,
         "broadcastMinutes": 1161,
         "viewerShip": 1471,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4061,7 +4061,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 489,
         "broadcastMinutes": 1200,
         "viewerShip": 5340,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.957Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4077,7 +4077,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 95,
         "broadcastMinutes": 1320,
         "viewerShip": 1408,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4093,7 +4093,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 404,
         "broadcastMinutes": 1680,
         "viewerShip": 5068,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.957Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4109,7 +4109,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 112,
         "broadcastMinutes": 1592,
         "viewerShip": 1061,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4125,7 +4125,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 643,
         "broadcastMinutes": 1180,
         "viewerShip": 6864,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4141,7 +4141,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1101,
         "broadcastMinutes": 1740,
         "viewerShip": 12702,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4157,7 +4157,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 46,
         "broadcastMinutes": 1860,
         "viewerShip": 930,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4173,7 +4173,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 344,
         "broadcastMinutes": 3240,
         "viewerShip": 10152,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4189,7 +4189,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 0,
         "broadcastMinutes": 0,
         "viewerShip": 0,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4205,7 +4205,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 437,
         "broadcastMinutes": 1740,
         "viewerShip": 6235,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4221,7 +4221,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 222,
         "broadcastMinutes": 1236,
         "viewerShip": 2390,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4237,7 +4237,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 194,
         "broadcastMinutes": 1440,
         "viewerShip": 3816,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4253,7 +4253,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1058,
         "broadcastMinutes": 1945,
         "viewerShip": 10309,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4269,7 +4269,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 240,
         "broadcastMinutes": 872,
         "viewerShip": 3096,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4285,7 +4285,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 58,
         "broadcastMinutes": 900,
         "viewerShip": 630,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4301,7 +4301,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 97,
         "broadcastMinutes": 1320,
         "viewerShip": 1826,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4317,7 +4317,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 123,
         "broadcastMinutes": 2040,
         "viewerShip": 3774,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4333,7 +4333,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 447,
         "broadcastMinutes": 1680,
         "viewerShip": 7560,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4349,7 +4349,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 42,
         "broadcastMinutes": 1111,
         "viewerShip": 593,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4365,7 +4365,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 258,
         "broadcastMinutes": 1320,
         "viewerShip": 4752,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4381,7 +4381,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 171,
         "broadcastMinutes": 1080,
         "viewerShip": 2556,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4397,7 +4397,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 147,
         "broadcastMinutes": 1020,
         "viewerShip": 2499,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4413,7 +4413,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 113,
         "broadcastMinutes": 1380,
         "viewerShip": 2599,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4429,7 +4429,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 62,
         "broadcastMinutes": 2640,
         "viewerShip": 2112,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4445,7 +4445,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 354,
         "broadcastMinutes": 2280,
         "viewerShip": 5016,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4461,7 +4461,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 85,
         "broadcastMinutes": 2340,
         "viewerShip": 2223,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4477,7 +4477,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 29,
         "broadcastMinutes": 1740,
         "viewerShip": 725,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4493,7 +4493,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 179,
         "broadcastMinutes": 2580,
         "viewerShip": 4730,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4509,7 +4509,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 63,
         "broadcastMinutes": 540,
         "viewerShip": 567,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4525,7 +4525,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 33,
         "broadcastMinutes": 494,
         "viewerShip": 272,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4541,7 +4541,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 149,
         "broadcastMinutes": 2940,
         "viewerShip": 5292,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4557,7 +4557,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 44,
         "broadcastMinutes": 1320,
         "viewerShip": 704,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4573,7 +4573,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 93,
         "broadcastMinutes": 2340,
         "viewerShip": 1677,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4589,7 +4589,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 196,
         "broadcastMinutes": 2820,
         "viewerShip": 2585,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4605,7 +4605,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 107,
         "broadcastMinutes": 3120,
         "viewerShip": 5096,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4621,7 +4621,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 0,
         "broadcastMinutes": 0,
         "viewerShip": 0,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4637,7 +4637,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 89,
         "broadcastMinutes": 2700,
         "viewerShip": 2475,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4653,7 +4653,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 124,
         "broadcastMinutes": 2220,
         "viewerShip": 2590,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4669,7 +4669,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 313,
         "broadcastMinutes": 3180,
         "viewerShip": 5247,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4685,7 +4685,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 38,
         "broadcastMinutes": 780,
         "viewerShip": 429,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4701,7 +4701,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 64,
         "broadcastMinutes": 2160,
         "viewerShip": 1584,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4717,7 +4717,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 0,
         "broadcastMinutes": 8340,
         "viewerShip": 0,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4733,7 +4733,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 121,
         "broadcastMinutes": 92,
         "viewerShip": 184,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4749,7 +4749,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 36,
         "broadcastMinutes": 840,
         "viewerShip": 434,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4765,7 +4765,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 347,
         "broadcastMinutes": 3600,
         "viewerShip": 10620,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4781,7 +4781,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 49,
         "broadcastMinutes": 1001,
         "viewerShip": 701,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4797,7 +4797,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 81,
         "broadcastMinutes": 900,
         "viewerShip": 465,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4813,7 +4813,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 16,
         "broadcastMinutes": 1283,
         "viewerShip": 257,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4829,7 +4829,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 302,
         "broadcastMinutes": 1920,
         "viewerShip": 2400,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4845,7 +4845,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 267,
         "broadcastMinutes": 396,
         "viewerShip": 1030,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4861,7 +4861,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 240,
         "broadcastMinutes": 493,
         "viewerShip": 937,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4877,7 +4877,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 690,
         "broadcastMinutes": 720,
         "viewerShip": 5172,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4893,7 +4893,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 96,
         "broadcastMinutes": 3540,
         "viewerShip": 2419,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4909,7 +4909,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 53,
         "broadcastMinutes": 2065,
         "viewerShip": 1273,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4925,7 +4925,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 423,
         "broadcastMinutes": 2144,
         "viewerShip": 7861,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4941,7 +4941,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 130,
         "broadcastMinutes": 1580,
         "viewerShip": 2976,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4957,7 +4957,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 68,
         "broadcastMinutes": 2580,
         "viewerShip": 1505,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4973,7 +4973,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 39,
         "broadcastMinutes": 2640,
         "viewerShip": 1144,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -4989,7 +4989,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 66,
         "broadcastMinutes": 1200,
         "viewerShip": 620,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5005,7 +5005,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 42,
         "broadcastMinutes": 1800,
         "viewerShip": 990,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5021,7 +5021,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 414,
         "broadcastMinutes": 2280,
         "viewerShip": 14098,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5037,7 +5037,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 47,
         "broadcastMinutes": 3120,
         "viewerShip": 2340,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5053,7 +5053,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 48,
         "broadcastMinutes": 3540,
         "viewerShip": 2537,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5069,7 +5069,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 186,
         "broadcastMinutes": 665,
         "viewerShip": 1408,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5085,7 +5085,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1116,
         "broadcastMinutes": 2460,
         "viewerShip": 12956,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5101,7 +5101,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 64,
         "broadcastMinutes": 1380,
         "viewerShip": 989,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5117,7 +5117,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 21,
         "broadcastMinutes": 1980,
         "viewerShip": 495,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5133,7 +5133,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 109,
         "broadcastMinutes": 5083,
         "viewerShip": 6100,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5149,7 +5149,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 209,
         "broadcastMinutes": 2400,
         "viewerShip": 5560,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5165,7 +5165,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 49,
         "broadcastMinutes": 2057,
         "viewerShip": 1303,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5181,7 +5181,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 196,
         "broadcastMinutes": 2206,
         "viewerShip": 2978,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5197,7 +5197,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 46,
         "broadcastMinutes": 1560,
         "viewerShip": 676,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5213,7 +5213,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 73,
         "broadcastMinutes": 1800,
         "viewerShip": 1440,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5229,7 +5229,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 135,
         "broadcastMinutes": 938,
         "viewerShip": 969,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5245,7 +5245,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 108,
         "broadcastMinutes": 2276,
         "viewerShip": 2466,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5261,7 +5261,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 28,
         "broadcastMinutes": 2280,
         "viewerShip": 722,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5277,7 +5277,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 86,
         "broadcastMinutes": 1440,
         "viewerShip": 1464,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5293,7 +5293,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 29,
         "broadcastMinutes": 2283,
         "viewerShip": 951,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5309,7 +5309,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 104,
         "broadcastMinutes": 3480,
         "viewerShip": 3596,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5325,7 +5325,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 293,
         "broadcastMinutes": 780,
         "viewerShip": 3809,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5341,7 +5341,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 289,
         "broadcastMinutes": 3480,
         "viewerShip": 9976,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5357,7 +5357,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 2870,
         "broadcastMinutes": 1509,
         "viewerShip": 33299,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5373,7 +5373,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 626,
         "broadcastMinutes": 3184,
         "viewerShip": 24411,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5389,7 +5389,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 230,
         "broadcastMinutes": 3120,
         "viewerShip": 6604,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5405,7 +5405,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 127,
         "broadcastMinutes": 1500,
         "viewerShip": 2150,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5421,7 +5421,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 886,
         "broadcastMinutes": 3900,
         "viewerShip": 29835,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5437,7 +5437,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 154,
         "broadcastMinutes": 2700,
         "viewerShip": 2250,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5453,7 +5453,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 168,
         "broadcastMinutes": 2446,
         "viewerShip": 5381,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5469,7 +5469,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 93,
         "broadcastMinutes": 2580,
         "viewerShip": 3440,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5485,7 +5485,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 398,
         "broadcastMinutes": 2340,
         "viewerShip": 5772,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5501,7 +5501,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 883,
         "broadcastMinutes": 2520,
         "viewerShip": 22050,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5517,7 +5517,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 675,
         "broadcastMinutes": 2640,
         "viewerShip": 18392,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5533,7 +5533,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1761,
         "broadcastMinutes": 3600,
         "viewerShip": 56100,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5549,7 +5549,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 3378,
         "broadcastMinutes": 3063,
         "viewerShip": 102815,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5565,7 +5565,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 106,
         "broadcastMinutes": 2640,
         "viewerShip": 3828,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5581,7 +5581,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 446,
         "broadcastMinutes": 2343,
         "viewerShip": 10270,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5597,7 +5597,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 42,
         "broadcastMinutes": 355,
         "viewerShip": 249,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5613,7 +5613,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 118,
         "broadcastMinutes": 2160,
         "viewerShip": 3744,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5629,7 +5629,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 5053,
         "broadcastMinutes": 2220,
         "viewerShip": 86950,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5645,7 +5645,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 915,
         "broadcastMinutes": 2040,
         "viewerShip": 18802,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5661,7 +5661,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 347,
         "broadcastMinutes": 3000,
         "viewerShip": 14250,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5677,7 +5677,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 268,
         "broadcastMinutes": 1080,
         "viewerShip": 4824,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5693,7 +5693,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 475,
         "broadcastMinutes": 2940,
         "viewerShip": 18081,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5709,7 +5709,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 0,
         "broadcastMinutes": 0,
         "viewerShip": 0,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5725,7 +5725,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 309,
         "broadcastMinutes": 2580,
         "viewerShip": 8041,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5741,7 +5741,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 243,
         "broadcastMinutes": 2400,
         "viewerShip": 3640,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5757,7 +5757,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 553,
         "broadcastMinutes": 2698,
         "viewerShip": 19021,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5773,7 +5773,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1173,
         "broadcastMinutes": 2400,
         "viewerShip": 27960,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5789,7 +5789,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 306,
         "broadcastMinutes": 3000,
         "viewerShip": 6950,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5805,7 +5805,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 574,
         "broadcastMinutes": 1424,
         "viewerShip": 7500,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5821,7 +5821,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1020,
         "broadcastMinutes": 2580,
         "viewerShip": 28724,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5837,7 +5837,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 204,
         "broadcastMinutes": 3060,
         "viewerShip": 7191,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5853,7 +5853,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 49,
         "broadcastMinutes": 2640,
         "viewerShip": 1056,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5869,7 +5869,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 284,
         "broadcastMinutes": 2220,
         "viewerShip": 6512,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5885,7 +5885,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 42,
         "broadcastMinutes": 1800,
         "viewerShip": 1020,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5901,7 +5901,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 213,
         "broadcastMinutes": 2880,
         "viewerShip": 5280,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5917,7 +5917,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 141,
         "broadcastMinutes": 2797,
         "viewerShip": 1958,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5933,7 +5933,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 93,
         "broadcastMinutes": 1105,
         "viewerShip": 1031,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5949,7 +5949,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 465,
         "broadcastMinutes": 2959,
         "viewerShip": 13858,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5965,7 +5965,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 29,
         "broadcastMinutes": 1471,
         "viewerShip": 490,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5981,7 +5981,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 579,
         "broadcastMinutes": 2538,
         "viewerShip": 17893,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -5997,7 +5997,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 96,
         "broadcastMinutes": 3144,
         "viewerShip": 3720,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6013,7 +6013,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 323,
         "broadcastMinutes": 3715,
         "viewerShip": 7554,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6029,7 +6029,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 72,
         "broadcastMinutes": 1920,
         "viewerShip": 1600,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6045,7 +6045,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 41,
         "broadcastMinutes": 2820,
         "viewerShip": 1645,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6061,7 +6061,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 909,
         "broadcastMinutes": 1715,
         "viewerShip": 7517,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6077,7 +6077,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 0,
         "broadcastMinutes": 0,
         "viewerShip": 0,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6093,7 +6093,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 66,
         "broadcastMinutes": 2520,
         "viewerShip": 1890,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6109,7 +6109,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 0,
         "broadcastMinutes": 60,
         "viewerShip": 0,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6125,7 +6125,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 15,
         "broadcastMinutes": 2049,
         "viewerShip": 410,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6141,7 +6141,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 71,
         "broadcastMinutes": 2604,
         "viewerShip": 2387,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6157,7 +6157,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 74,
         "broadcastMinutes": 2820,
         "viewerShip": 2115,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6173,7 +6173,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 251,
         "broadcastMinutes": 1920,
         "viewerShip": 3232,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6189,7 +6189,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 37,
         "broadcastMinutes": 2280,
         "viewerShip": 1254,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6205,7 +6205,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 74,
         "broadcastMinutes": 1260,
         "viewerShip": 1554,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6221,7 +6221,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 99,
         "broadcastMinutes": 996,
         "viewerShip": 1195,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6237,7 +6237,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 149,
         "broadcastMinutes": 3780,
         "viewerShip": 5544,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6253,7 +6253,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 12,
         "broadcastMinutes": 1675,
         "viewerShip": 307,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6269,7 +6269,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 111,
         "broadcastMinutes": 4440,
         "viewerShip": 5624,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6285,7 +6285,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 19,
         "broadcastMinutes": 2280,
         "viewerShip": 532,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6301,7 +6301,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 25,
         "broadcastMinutes": 1644,
         "viewerShip": 658,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6317,7 +6317,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 89,
         "broadcastMinutes": 1560,
         "viewerShip": 1482,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6333,7 +6333,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 0,
         "broadcastMinutes": 0,
         "viewerShip": 0,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6349,7 +6349,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 21,
         "broadcastMinutes": 2340,
         "viewerShip": 663,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6365,7 +6365,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 19,
         "broadcastMinutes": 1980,
         "viewerShip": 561,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6381,7 +6381,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 19,
         "broadcastMinutes": 1020,
         "viewerShip": 323,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6397,7 +6397,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 14,
         "broadcastMinutes": 5040,
         "viewerShip": 1092,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6413,7 +6413,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 32,
         "broadcastMinutes": 1800,
         "viewerShip": 690,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6429,7 +6429,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 29,
         "broadcastMinutes": 3480,
         "viewerShip": 1392,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6445,7 +6445,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 26,
         "broadcastMinutes": 2620,
         "viewerShip": 917,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6461,7 +6461,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 189,
         "broadcastMinutes": 1920,
         "viewerShip": 3584,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6477,7 +6477,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 70,
         "broadcastMinutes": 2880,
         "viewerShip": 1968,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6493,7 +6493,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 17,
         "broadcastMinutes": 1800,
         "viewerShip": 420,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6509,7 +6509,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 141,
         "broadcastMinutes": 2400,
         "viewerShip": 2120,
-        "fetchedAt": "2026-10-07T02:45:51.457Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6525,7 +6525,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 137,
         "broadcastMinutes": 3420,
         "viewerShip": 3306,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6541,7 +6541,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 34,
         "broadcastMinutes": 2154,
         "viewerShip": 898,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6557,7 +6557,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 55,
         "broadcastMinutes": 2640,
         "viewerShip": 2288,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6573,7 +6573,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 74,
         "broadcastMinutes": 3960,
         "viewerShip": 3432,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6589,7 +6589,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 32,
         "broadcastMinutes": 2220,
         "viewerShip": 962,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6605,7 +6605,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 36,
         "broadcastMinutes": 1680,
         "viewerShip": 784,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6621,7 +6621,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 28,
         "broadcastMinutes": 2280,
         "viewerShip": 684,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6637,7 +6637,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 38,
         "broadcastMinutes": 3540,
         "viewerShip": 1711,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6653,7 +6653,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 36,
         "broadcastMinutes": 900,
         "viewerShip": 540,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6669,7 +6669,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 26,
         "broadcastMinutes": 2880,
         "viewerShip": 864,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6685,7 +6685,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 39,
         "broadcastMinutes": 2760,
         "viewerShip": 1472,
-        "fetchedAt": "2026-10-07T02:45:51.458Z",
+        "fetchedAt": "2026-10-07T03:00:43.959Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6701,7 +6701,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 317,
         "broadcastMinutes": 1320,
         "viewerShip": 5896,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6717,7 +6717,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 63,
         "broadcastMinutes": 1020,
         "viewerShip": 918,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6733,7 +6733,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 22,
         "broadcastMinutes": 600,
         "viewerShip": 220,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6749,7 +6749,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 254,
         "broadcastMinutes": 1064,
         "viewerShip": 2376,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6765,7 +6765,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 172,
         "broadcastMinutes": 1048,
         "viewerShip": 1589,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6781,7 +6781,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 856,
         "broadcastMinutes": 1380,
         "viewerShip": 12351,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6797,7 +6797,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 33,
         "broadcastMinutes": 900,
         "viewerShip": 480,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6813,7 +6813,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 96,
         "broadcastMinutes": 1117,
         "viewerShip": 1731,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6829,7 +6829,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 121,
         "broadcastMinutes": 142,
         "viewerShip": 286,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6845,7 +6845,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 158,
         "broadcastMinutes": 1260,
         "viewerShip": 2394,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6861,7 +6861,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 960,
         "broadcastMinutes": 1440,
         "viewerShip": 8976,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6877,7 +6877,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 235,
         "broadcastMinutes": 960,
         "viewerShip": 3328,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6893,7 +6893,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 78,
         "broadcastMinutes": 471,
         "viewerShip": 612,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6909,7 +6909,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 241,
         "broadcastMinutes": 1320,
         "viewerShip": 2794,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6925,7 +6925,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 205,
         "broadcastMinutes": 1440,
         "viewerShip": 2808,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6941,7 +6941,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 177,
         "broadcastMinutes": 900,
         "viewerShip": 2655,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6957,7 +6957,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 68,
         "broadcastMinutes": 1260,
         "viewerShip": 840,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6973,7 +6973,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 399,
         "broadcastMinutes": 1822,
         "viewerShip": 8169,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -6989,7 +6989,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 226,
         "broadcastMinutes": 2400,
         "viewerShip": 6000,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7005,7 +7005,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 907,
         "broadcastMinutes": 2700,
         "viewerShip": 32265,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7021,7 +7021,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 262,
         "broadcastMinutes": 1560,
         "viewerShip": 3276,
-        "fetchedAt": "2026-10-07T02:45:51.456Z",
+        "fetchedAt": "2026-10-07T03:00:43.958Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7037,7 +7037,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 1346,
         "broadcastMinutes": 724,
         "viewerShip": 15228,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7053,7 +7053,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 326,
         "broadcastMinutes": 3175,
         "viewerShip": 16669,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7069,7 +7069,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 480,
         "broadcastMinutes": 3897,
         "viewerShip": 23187,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7085,7 +7085,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 988,
         "broadcastMinutes": 1828,
         "viewerShip": 23307,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7101,7 +7101,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 610,
         "broadcastMinutes": 1581,
         "viewerShip": 8037,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7117,7 +7117,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 299,
         "broadcastMinutes": 2568,
         "viewerShip": 8945,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7133,7 +7133,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 390,
         "broadcastMinutes": 2073,
         "viewerShip": 11402,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7149,7 +7149,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 266,
         "broadcastMinutes": 1379,
         "viewerShip": 3815,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7165,7 +7165,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 228,
         "broadcastMinutes": 952,
         "viewerShip": 3110,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7181,7 +7181,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 359,
         "broadcastMinutes": 2381,
         "viewerShip": 13334,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       },
@@ -7197,7 +7197,7 @@ export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnaps
         "peakViewers": 74,
         "broadcastMinutes": 513,
         "viewerShip": 616,
-        "fetchedAt": "2026-10-07T02:45:51.459Z",
+        "fetchedAt": "2026-10-07T03:00:43.960Z",
         "collectionStatus": "available",
         "viewershipStatus": "available"
       }
