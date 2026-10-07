@@ -33,28 +33,29 @@ jobs:
             });
             const page = await context.newPage();
 
-            // 네트워크 응답 인터셉트
-            const capturedResponses = [];
+            // 모든 네트워크 요청/응답 기록
+            const captured = [];
             page.on('response', async (response) => {
               const url = response.url();
-              if (url.includes('/api/')) {
-                capturedResponses.push({
-                  url: url.slice(0, 100),
-                  status: response.status(),
+              if (url.includes('api') || url.includes('json') || url.includes('supabase') || url.includes('stats')) {
+                captured.push({
+                  url: url.slice(0, 120),
+                  status: response.status()
                 });
               }
             });
 
-            console.log('Navigating to streamer page...');
-            const res = await page.goto('https://soopscope.com/streamer/minchul', { waitUntil: 'networkidle', timeout: 30000 });
-            console.log('Page status:', res.status());
+            console.log('Navigating to rank page with domcontentloaded...');
+            await page.goto('https://soopscope.com/rank', { waitUntil: 'domcontentloaded', timeout: 30000 });
+            await page.waitForTimeout(5000);
 
-            // 페이지 내부 텍스트 중 별풍선 관련 텍스트 추출
-            const bodyText = await page.innerText('body');
-            const has53200 = bodyText.includes('53,200') || bodyText.includes('53200');
-            console.log('Has 53200 in page text:', has53200);
+            // 페이지 타이틀 및 테이블 내 텍스트 확인
+            const title = await page.title();
+            const textSample = (await page.innerText('body')).slice(0, 500);
+            console.log('Page Title:', title);
+            console.log('Body Sample:', textSample.replace(/\n+/g, ' '));
+            console.log('Captured APIs:', JSON.stringify(captured, null, 2));
 
-            console.log('Captured API responses:', JSON.stringify(capturedResponses));
             await browser.close();
           }).catch(err => {
             console.error('Fatal error:', err.message);
