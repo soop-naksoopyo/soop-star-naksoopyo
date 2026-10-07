@@ -1,26 +1,20 @@
-export interface FailedStreamerInfo {
-  soopId: string;
-  nickname: string;
-  crewName?: string;
-  reason?: string;
-}
-
-export interface SyncLogEntry {
-  id: string;
-  timestamp: string;
-  kstTime: string;
-  yearMonth: string;
-  trigger: 'schedule' | 'manual';
-  status: 'success' | 'partial' | 'failed';
-  requestedCount: number;
-  fetchedCount: number;
-  failedCount: number;
-  failedStreamers: FailedStreamerInfo[];
-  durationSeconds?: number;
-  note?: string;
-}
+import type { SyncLogEntry } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
+  {
+    "id": "run-1791343607750",
+    "timestamp": "2026-10-07T03:26:47.750Z",
+    "kstTime": "2026-10-07 12:26:47",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "success",
+    "requestedCount": 237,
+    "fetchedCount": 237,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 1,
+    "note": "2026-10 전원 정상 수집 완료 (237명)"
+  },
   {
     "id": "run-1791342043973",
     "timestamp": "2026-10-07T03:00:43.973Z",
