@@ -2,10 +2,8 @@ name: Periodic SoopScope Snapshot
 
 on:
   schedule:
-    # 피크타임: 한국시간 17:00~02:00 (UTC 08:00~17:00) 10분마다 수집
-    - cron: '*/10 8-16 * * *'
-    # 평소: 한국시간 02:00~17:00 (UTC 17:00~08:00) 30분마다 수집
-    - cron: '*/30 17-23,0-7 * * *'
+    # 24시간 10분마다 안전한 순차 수집 실행
+    - cron: '*/10 * * * *'
 
   workflow_dispatch:
     inputs:
@@ -17,48 +15,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: sync-soopscope
+  cancel-in-progress: false
+
 jobs:
-  collect-shards:
+  sync-viewership:
     runs-on: ubuntu-latest
-    name: Collect Shard ${{ matrix.shard }}/10
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Fetch Viewership Shard
-        run: |
-          TARGET_MONTH="${{ inputs.target_month }}"
-          if [ -z "$TARGET_MONTH" ]; then
-            TARGET_MONTH=$(TZ="Asia/Seoul" date +'%Y-%m')
-          fi
-          node scripts/sync-viewership.mjs "$TARGET_MONTH" --shard=${{ matrix.shard }}/10 --output="shards/shard-${{ matrix.shard }}.json"
-
-      - name: Upload Shard Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: shard-${{ matrix.shard }}
-          path: shards/shard-${{ matrix.shard }}.json
-          retention-days: 1
-
-  merge-and-commit:
-    needs: collect-shards
-    if: always()
-    runs-on: ubuntu-latest
-    name: Merge Shards and Commit
+    name: Sync SoopScope Viewership (Smooth Sequential)
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -74,14 +38,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Download All Shard Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: shards-downloaded/
-          pattern: shard-*
-          merge-multiple: true
-
-      - name: Merge Shards into Snapshots
+      - name: Run Sequential Viewership Sync
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -90,7 +47,7 @@ jobs:
           if [ -z "$TARGET_MONTH" ]; then
             TARGET_MONTH=$(TZ="Asia/Seoul" date +'%Y-%m')
           fi
-          node scripts/sync-viewership.mjs "$TARGET_MONTH" --merge=shards-downloaded
+          node scripts/sync-viewership.mjs "$TARGET_MONTH"
 
       - name: Commit and Push Changes If Updated
         run: |
@@ -107,7 +64,7 @@ jobs:
             git commit -m "chore(sync): update $TARGET_STR snapshot [$TIMESTAMP KST]"
             git pull --rebase origin main
             git push origin main
-            echo "✅ Successfully synced and pushed the merged snapshot."
+            echo "✅ Successfully synced and pushed snapshot."
           elif ! git diff --quiet src/data/syncLogs.ts; then
             git add src/data/syncLogs.ts
             TIMESTAMP=$(TZ="Asia/Seoul" date +'%Y-%m-%d %H:%M:%S')
