@@ -28,8 +28,8 @@ describe('calmmonData', () => {
     expect(isBirthdayMonth('fpahsdltu1', '2026-11')).toBe(false);
 
     // 김윤환: 6월 13일 -> 6월에 🎂
-    expect(isBirthdayMonth('brainzerg77', '2026-06')).toBe(true);
-    expect(isBirthdayMonth('brainzerg77', '2026-10')).toBe(false);
+    expect(isBirthdayMonth('brainzerg7', '2026-06')).toBe(true);
+    expect(isBirthdayMonth('brainzerg7', '2026-10')).toBe(false);
 
     // 임조이: 11월 11일 -> 11월에 🎂
     expect(isBirthdayMonth('dlaguswl501', '2026-11')).toBe(true);
@@ -38,7 +38,7 @@ describe('calmmonData', () => {
 
   it('별풍선 탭 기준 남/여 정렬 및 합계/평균이 올바르게 계산되어야 한다', () => {
     const mockStatsMap = new Map([
-      ['brainzerg77', { totalStars: 80000, broadcastHours: 30, averageViewers: 3000 }],
+      ['brainzerg7', { totalStars: 80000, broadcastHours: 30, averageViewers: 3000 }],
       ['freshtomato', { totalStars: 150000, broadcastHours: 60, averageViewers: 1000 }],
       ['minchul', { totalStars: 60000, broadcastHours: 25, averageViewers: 2000 }],
     ]);
@@ -47,7 +47,7 @@ describe('calmmonData', () => {
     expect(result.male[0].nickname).toBe('김윤환');
     expect(result.female[0].nickname).toBe('토마토');
     expect(result.totalSum).toBeGreaterThan(0);
-    expect(result.male.find((m) => m.soopId === 'brainzerg77')?.tierBadge).toBe('boss');
+    expect(result.male.find((m) => m.soopId === 'brainzerg7')?.tierBadge).toBe('boss');
   });
 
   it('스폰 및 후원 탭은 준비 중 상태로 비워져서 반환되어야 한다', () => {

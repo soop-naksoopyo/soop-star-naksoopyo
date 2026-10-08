@@ -45,28 +45,42 @@ export default function CalmmonPage() {
 
   const fetchStats = async () => {
     try {
-      const statsRes = await fetch('/api/stats');
+      // 1. 캄몬 전용 API 우선 호출 (Trackify 실시간 수집 + 김윤환 brainzerg7 포함 17인 전원)
+      const calmRes = await fetch(`/api/calmmon?month=${selectedMonth}`);
       const newMap = new Map<string, StreamerStatInput>();
 
-      // /api/stats 별풍선 & 방송시간 파싱
-      if (statsRes.ok) {
-        const statsData = await statsRes.json();
-        if (statsData.success && Array.isArray(statsData.starCrews)) {
-          const calmCrew = statsData.starCrews.find((c: any) => c.crewName === '캄몬');
-          if (calmCrew && Array.isArray(calmCrew.members)) {
-            for (const m of calmCrew.members) {
-              const prev = newMap.get(m.soopId.toLowerCase()) || {};
-              newMap.set(m.soopId.toLowerCase(), {
-                ...prev,
-                totalStars: m.totalStars,
-                broadcastHours: m.broadcastHours,
-              });
-            }
+      if (calmRes.ok) {
+        const calmData = await calmRes.json();
+        if (calmData.success && calmData.stats) {
+          for (const [id, stat] of Object.entries(calmData.stats)) {
+            newMap.set(id.toLowerCase(), stat as StreamerStatInput);
+          }
+          if (calmData.timestamp) {
+            const d = new Date(calmData.timestamp);
+            setLastUpdatedText(`${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`);
           }
         }
-        if (statsData.timestamp) {
-          const d = new Date(statsData.timestamp);
-          setLastUpdatedText(`${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`);
+      }
+
+      // 2. 보조 폴백: /api/stats (만약 calmmon API에 누락된 항목이 있을 때 보완)
+      if (newMap.size < 17) {
+        const statsRes = await fetch('/api/stats');
+        if (statsRes.ok) {
+          const statsData = await statsRes.json();
+          if (statsData.success && Array.isArray(statsData.starCrews)) {
+            const calmCrew = statsData.starCrews.find((c: any) => c.crewName === '캄몬');
+            if (calmCrew && Array.isArray(calmCrew.members)) {
+              for (const m of calmCrew.members) {
+                const key = m.soopId.toLowerCase();
+                if (!newMap.has(key)) {
+                  newMap.set(key, {
+                    totalStars: m.totalStars,
+                    broadcastHours: m.broadcastHours,
+                  });
+                }
+              }
+            }
+          }
         }
       }
 
@@ -84,7 +98,7 @@ export default function CalmmonPage() {
     void fetchStats();
     const interval = setInterval(fetchStats, 60_000);
     return () => clearInterval(interval);
-  }, []);
+  }, [selectedMonth]);
 
   const statsResult = calculateCalmmonStats(statsMap, currentTab, selectedMonth);
 

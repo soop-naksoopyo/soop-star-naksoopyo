@@ -10,7 +10,7 @@ export interface CalmmonMemberMeta {
 
 export const CALMMON_MEMBERS: CalmmonMemberMeta[] = [
   // 남자 (6명)
-  { soopId: 'brainzerg77', nickname: '김윤환', gender: 'male', isBoss: true },
+  { soopId: 'brainzerg7', nickname: '김윤환', gender: 'male', isBoss: true },
   { soopId: 'minchul', nickname: '김민철', gender: 'male' },
   { soopId: 'h78ert', nickname: '박준오', gender: 'male' },
   { soopId: 'jmc06170', nickname: '왜냐맨', gender: 'male' },
@@ -33,7 +33,7 @@ export const CALMMON_MEMBERS: CalmmonMemberMeta[] = [
 // 캄몬스타즈 17명 전체 생일 매핑 ("MM-DD" 포맷)
 export const CALMMON_BIRTHDAYS: Record<string, string> = {
   // 남자 (6명)
-  brainzerg77: '06-13', // 김윤환 (6월 13일)
+  brainzerg7: '06-13',  // 김윤환 (6월 13일)
   minchul: '12-10',     // 김민철 (12월 10일)
   h78ert: '06-24',      // 박준오 (6월 24일)
   jmc06170: '06-17',    // 왜냐맨 (6월 17일)
@@ -92,25 +92,25 @@ export interface StreamerStatInput {
   averageViewers?: number;
 }
 
-// 스크린샷 기준 기본 통계 (API 지연이나 수장 데이터 누락 시 안전한 폴백 및 초기값)
+// 스크린샷 및 Trackify 실시간 연동 기준 기본 통계 (안전한 폴백 및 초기값)
 export const CALMMON_DEFAULT_STATS: Record<string, StreamerStatInput> = {
-  brainzerg77: { totalStars: 80976, broadcastHours: 30.7, averageViewers: 3842 },
-  minchul: { totalStars: 58996, broadcastHours: 20.9, averageViewers: 2145 },
-  h78ert: { totalStars: 46050, broadcastHours: 56.5, averageViewers: 1280 },
-  jmc06170: { totalStars: 40617, broadcastHours: 48.5, averageViewers: 820 },
-  hoonykkk: { totalStars: 29407, broadcastHours: 55.7, averageViewers: 954 },
-  goodzerg: { totalStars: 3330, broadcastHours: 34.7, averageViewers: 310 },
-  freshtomato: { totalStars: 153731, broadcastHours: 60.1, averageViewers: 1026 },
-  seemin88: { totalStars: 128378, broadcastHours: 79.0, averageViewers: 221 },
-  wjswlgns09: { totalStars: 121594, broadcastHours: 73.1, averageViewers: 424 },
+  brainzerg7: { totalStars: 94002, broadcastHours: 39.4, averageViewers: 4963 },
+  minchul: { totalStars: 63299, broadcastHours: 24.8, averageViewers: 2145 },
+  h78ert: { totalStars: 57926, broadcastHours: 65.1, averageViewers: 1280 },
+  jmc06170: { totalStars: 53290, broadcastHours: 57.9, averageViewers: 820 },
+  hoonykkk: { totalStars: 33009, broadcastHours: 63.0, averageViewers: 954 },
+  goodzerg: { totalStars: 4332, broadcastHours: 38.5, averageViewers: 310 },
+  freshtomato: { totalStars: 223750, broadcastHours: 68.5, averageViewers: 1026 },
+  seemin88: { totalStars: 141891, broadcastHours: 90.5, averageViewers: 221 },
+  wjswlgns09: { totalStars: 131273, broadcastHours: 82.6, averageViewers: 424 },
   '2meonjin': { totalStars: 94812, broadcastHours: 59.8, averageViewers: 185 },
-  fpahsdltu1: { totalStars: 78807, broadcastHours: 54.2, averageViewers: 152 },
-  sksmsskdsl10: { totalStars: 60396, broadcastHours: 31.2, averageViewers: 1045 },
-  thelddl: { totalStars: 58474, broadcastHours: 58.5, averageViewers: 141 },
+  sksmsskdsl10: { totalStars: 90585, broadcastHours: 41.0, averageViewers: 1045 },
+  fpahsdltu1: { totalStars: 88913, broadcastHours: 63.2, averageViewers: 152 },
+  thelddl: { totalStars: 80487, broadcastHours: 68.0, averageViewers: 141 },
+  dlaguswl501: { totalStars: 68647, broadcastHours: 61.3, averageViewers: 128 },
+  vldpfm2: { totalStars: 62478, broadcastHours: 61.5, averageViewers: 98 },
   rnaqpdrjf: { totalStars: 58471, broadcastHours: 67.8, averageViewers: 164 },
-  vldpfm2: { totalStars: 55369, broadcastHours: 52.4, averageViewers: 98 },
-  dlaguswl501: { totalStars: 51426, broadcastHours: 52.8, averageViewers: 128 },
-  soju2022: { totalStars: 46324, broadcastHours: 52.5, averageViewers: 115 },
+  soju2022: { totalStars: 51552, broadcastHours: 60.4, averageViewers: 115 },
 };
 
 export function calculateCalmmonStats(

@@ -62,9 +62,13 @@ Key requirements included:
    - Replaced emoji icon with the official Calmmon Stars Crew Emblem (`<CrewCrest crewName="캄몬" size="md" />`).
    - Removed the copy summary button (`📋 요약 복사`) and bottom 2-line redundant notes.
    - Reduced card width to `max-w-2xl` and tightened row/summary box padding so the entire view fits on a 900px viewport with zero vertical scroll (`scrollHeight === clientHeight`).
-   - Confirmed data pipeline collects real-time/monthly 별풍선 and 방송시간 directly from Trackify API into `/api/stats`.
+
+7. **Kim Yoon-hwan SOOP ID Correction (`brainzerg7`) & Real-time `/api/calmmon` Route**:
+   - Corrected Kim Yoon-hwan's SOOP ID from typo `brainzerg77` to official `brainzerg7` in `CALMMON_MEMBERS`, `CALMMON_BIRTHDAYS`, and default stats.
+   - Fixed avatar URL resolution to load his authentic SOOP profile photo without 404 fallback.
+   - Created dedicated Edge API route (`src/app/api/calmmon/route.ts`) that fetches live batch statistics directly from Trackify API (`https://www.trackify.kr/api/v1/p/soop/ranking/summary...`) for all 17 Calmmon members, dynamically populating real-time 별풍선 (`94,002`) and 방송시간 (`39.4h`) with graceful fallback.
 
 ## Verification
 - **Unit Tests**: `vitest run` passed all 48 test suites across 13 test files.
 - **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages.
-- **Live Visual Validation**: Verified via Playwright at 1280x900 resolution (`scrollHeight: 900 clientHeight: 900`), confirming zero vertical scrolling, official Calmmon emblem rendering, all 17 SOOP streamer avatars loaded, and responsive styling.
+- **Live Visual Validation**: Verified via Playwright at 1280x900 resolution (`scrollHeight: 900 clientHeight: 900`). Confirmed Kim Yoon-hwan's official SOOP profile avatar rendering, live Trackify 별풍선 (`94,002`) and 방송시간 (`39.4시간`) displayed accurately with zero vertical scrolling.
