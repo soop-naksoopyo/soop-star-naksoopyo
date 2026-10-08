@@ -60,8 +60,9 @@ Implemented an automated Playwright workflow in `scripts/ygosu_post.py`, capture
    - Automates login with user-agent spoofing to avoid bot detection.
    - Sequentially attaches each image waiting for `#upload_file_list` DOM length increment.
    - Applies 25s flood protection cooldown between consecutive boards.
-3. **GitHub Actions 3-Hour Automation (`.github/workflows/ygosu-ranking-post.yml`)**:
-   - Triggers on `cron: '0 */3 * * *'` (every 3 hours) and `workflow_dispatch` (manual run).
+3. **GitHub Actions 골든타임 4시간 주기 자동화 (`.github/workflows/ygosu-ranking-post.yml`)**:
+   - Triggers on `cron: '0 5,9,13,17 * * *'` (KST 기준 14:00, 18:00, 22:00, 02:00 / 일 4회) 및 `workflow_dispatch` (수동 실행).
+   - 데이터 변동이 적은 새벽/아침(04~12시)을 제외하고, 주요 방송 활동 시간대에 집중 등록.
    - Reads secrets (`YGOSU_ID`, `YGOSU_PW`) securely.
 
 ## Verification
