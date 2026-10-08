@@ -25,15 +25,15 @@ async function captureAll() {
     await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
     await page.waitForSelector('[id^="crew-card-"]', { timeout: 20000 });
 
-    // 1. 별풍선 스타크루 랭킹
+    // 1. 별풍선 스타크루 랭킹 (하단 멤버 리스트 제외, 순위 요약 카드 및 표만 캡처)
     console.log('📸 [1/4] 별풍선 스타크루 랭킹 캡처 중...');
-    const starCrewRank = page.locator('section:has-text("스타크루 랭킹")').first();
+    const starCrewRank = page.locator('h2:has-text("스타크루 랭킹")').locator('xpath=ancestor::section[1]');
     await starCrewRank.scrollIntoViewIfNeeded();
     await page.waitForTimeout(400);
     await starCrewRank.screenshot({ path: path.join(outDir, '01_star_crew_ranking.png') });
     console.log('✅ 01_star_crew_ranking.png 저장 완료');
 
-    // 2. 뷰어십 스타크루 랭킹
+    // 2. 뷰어십 스타크루 랭킹 (하단 크루 명단 대학별 리스트 제외, 순위 요약 카드 및 표만 캡처)
     console.log('📸 [2/4] 뷰어십 스타크루 랭킹 캡처 중...');
     await page.locator('button:has-text("뷰어십")').first().click();
     await page.waitForSelector('text=월간 뷰어십 순위', { timeout: 15000 });
@@ -41,7 +41,7 @@ async function captureAll() {
     if (await crewModeBtn.count() > 0) await crewModeBtn.click();
     await page.waitForTimeout(500);
 
-    const viewershipCrewRank = page.locator('section:has-text("스타크루 뷰어십 랭킹")').first();
+    const viewershipCrewRank = page.locator('h2:has-text("스타크루 뷰어십 랭킹")').locator('xpath=ancestor::section[1]');
     await viewershipCrewRank.scrollIntoViewIfNeeded();
     await page.waitForTimeout(400);
     await viewershipCrewRank.screenshot({ path: path.join(outDir, '03_viewership_crew_ranking.png') });
