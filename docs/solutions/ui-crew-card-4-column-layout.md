@@ -34,11 +34,14 @@ In the Star Crew Dashboard, the college/crew cards were previously limited to a 
 2. **Compact 1-Column Internal Streamer Layout**:
    - Streamlined `CrewCard.tsx` and `ViewershipCrewCard` to display members in a single-column top-to-bottom leaderboard order instead of alternating 2-column zig-zagging.
    - Refined padding (`p-3 sm:p-3.5`), header text truncation, and streamer row widths (`w-[58px]` stars, `w-[40px]` broadcast hours) in `StreamerRow.tsx` and `CompactStreamerRow`.
-3. **Harmonized Viewership Tab**:
-   - Synchronized `ViewershipView.tsx` with the exact same 4-card grid and 1-column compact card layout.
+3. **Equalize Card Heights & Align Bottom Borders**:
+   - Removed `items-start` from the grid in `page.tsx` and `ViewershipView.tsx` and added `h-full flex flex-col` and `flex-1` to `CrewCard.tsx` and `ViewershipCrewCard`.
+   - Now, every card in the same horizontal row stretches to match the tallest card (e.g. 케이대), ensuring uniform white card backgrounds and perfectly aligned bottom border lines without jagged empty spaces.
+4. **Harmonized Viewership Tab**:
+   - Synchronized `ViewershipView.tsx` with the exact same 4-card grid, equalized heights, and 1-column compact card layout.
 
 ## Why This Works
-By converting each card's internal layout to a single column, card width can safely drop down to ~230px~400px without clipping names or numbers. This allows 4 cards (ranks 1 to 4) to be displayed side-by-side horizontally on standard desktop displays (1024px+ and 1600px+).
+By converting each card's internal layout to a single column and stretching card containers to full height (`h-full` without `items-start`), cards safely drop down to ~230px~400px width while keeping uniform bottom borders across each row. This allows 4 cards (ranks 1 to 4) to be displayed side-by-side horizontally on standard desktop displays (1024px+ and 1600px+) with perfectly aligned rows.
 
 ## Prevention
 - Always ensure card contents have flexible min-widths (`min-w-0 flex-1 truncate`) when placing multiple cards in a responsive grid.
