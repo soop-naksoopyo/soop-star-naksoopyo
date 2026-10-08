@@ -12,25 +12,36 @@ import {
 } from '@/lib/calmmonData';
 import { getCurrentMonthDate } from '@/lib/month';
 
+// 현재 캄몬 데이터가 유효하게 존재하는 월 목록 (9월 등 과거 또는 11월 등 미래 데이터 없음 방지)
+const AVAILABLE_CALMMON_MONTHS = ['2026-10'];
+
+function getPrevMonthKey(ym: string): string {
+  const [y, m] = ym.split('-').map(Number);
+  const d = new Date(Date.UTC(y, m - 2, 1));
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+}
+
+function getNextMonthKey(ym: string): string {
+  const [y, m] = ym.split('-').map(Number);
+  const d = new Date(Date.UTC(y, m, 1));
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+}
+
 export default function CalmmonPage() {
   const currentYearMonth = getCurrentMonthDate().slice(0, 7);
-  const [selectedMonth, setSelectedMonth] = useState<string>(currentYearMonth);
+  const [selectedMonth, setSelectedMonth] = useState<string>(
+    AVAILABLE_CALMMON_MONTHS.includes(currentYearMonth) ? currentYearMonth : AVAILABLE_CALMMON_MONTHS[0]
+  );
   const [currentTab, setCurrentTab] = useState<CalmmonTabType>('star');
   const [statsMap, setStatsMap] = useState<Map<string, StreamerStatInput>>(new Map());
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdatedText, setLastUpdatedText] = useState('실시간');
 
-  const handlePrevMonth = () => {
-    const [y, m] = selectedMonth.split('-').map(Number);
-    const d = new Date(Date.UTC(y, m - 2, 1));
-    setSelectedMonth(`${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`);
-  };
+  const prevMonthKey = getPrevMonthKey(selectedMonth);
+  const nextMonthKey = getNextMonthKey(selectedMonth);
 
-  const handleNextMonth = () => {
-    const [y, m] = selectedMonth.split('-').map(Number);
-    const d = new Date(Date.UTC(y, m, 1));
-    setSelectedMonth(`${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`);
-  };
+  const canGoPrev = AVAILABLE_CALMMON_MONTHS.includes(prevMonthKey);
+  const canGoNext = AVAILABLE_CALMMON_MONTHS.includes(nextMonthKey);
 
   const fetchStats = async () => {
     try {
@@ -95,9 +106,11 @@ export default function CalmmonPage() {
           <div className="flex items-center gap-1 bg-white border border-slate-200/90 rounded-full px-2 py-1 shadow-2xs">
             <button
               type="button"
-              onClick={handlePrevMonth}
+              onClick={() => canGoPrev && setSelectedMonth(prevMonthKey)}
+              disabled={!canGoPrev}
               aria-label="이전 달"
-              className="p-1 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition cursor-pointer"
+              title={canGoPrev ? "이전 달" : "9월 데이터는 준비 중입니다"}
+              className="p-1 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-slate-400"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -109,9 +122,11 @@ export default function CalmmonPage() {
             </div>
             <button
               type="button"
-              onClick={handleNextMonth}
+              onClick={() => canGoNext && setSelectedMonth(nextMonthKey)}
+              disabled={!canGoNext}
               aria-label="다음 달"
-              className="p-1 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition cursor-pointer"
+              title={canGoNext ? "다음 달" : "11월 데이터는 아직 없습니다"}
+              className="p-1 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-slate-400"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
