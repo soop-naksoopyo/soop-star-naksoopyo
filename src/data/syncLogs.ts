@@ -3,6 +3,321 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791427910551",
+    "timestamp": "2026-10-08T02:51:50.551Z",
+    "kstTime": "2026-10-08 11:51:50",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "failed",
+    "requestedCount": 238,
+    "fetchedCount": 0,
+    "failedCount": 238,
+    "failedStreamers": [
+      {
+        "soopId": "suji84",
+        "nickname": "두디",
+        "crewName": "더블비",
+        "reason": "http_403"
+      },
+      {
+        "soopId": "rlekfu6",
+        "nickname": "박재혁",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "pokimasiso",
+        "nickname": "또해영",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "dptmfl1258",
+        "nickname": "예슬",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "jiinii000",
+        "nickname": "밥새",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "palko1",
+        "nickname": "신상문",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "mwhdgus",
+        "nickname": "윤진규",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "aram1213",
+        "nickname": "아라미",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "jungym0116",
+        "nickname": "아링",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "kysvic2",
+        "nickname": "유체리",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "jihoon002",
+        "nickname": "박수범",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "roa0216",
+        "nickname": "허로아",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "kjhanna824",
+        "nickname": "미진이",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "heksd",
+        "nickname": "파메",
+        "crewName": "더블비",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "yuzzzz",
+        "nickname": "유즈",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "diniowo",
+        "nickname": "막내현진",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "123rhaxld",
+        "nickname": "최도랑",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "2ahgo1203",
+        "nickname": "이아깽",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "tndkekdy",
+        "nickname": "하윤",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "killkg2",
+        "nickname": "김건욱",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "queenzu",
+        "nickname": "퀸주",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "corgi1102",
+        "nickname": "냥냥코기",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "ksmo54",
+        "nickname": "구라미스",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "parkle1006",
+        "nickname": "박듀듀",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "wodnrdldia",
+        "nickname": "도재욱",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "dbwjdcool1",
+        "nickname": "키링",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "jun10280",
+        "nickname": "박성준",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "1004yomi",
+        "nickname": "단솔",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "qwer1317",
+        "nickname": "으니",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "aybjc2319",
+        "nickname": "진유성",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "peros777",
+        "nickname": "박성균",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "totoo23",
+        "nickname": "밍또얌",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "zzzz809",
+        "nickname": "백갑숙",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "dbrbals",
+        "nickname": "초난강",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "ywww123",
+        "nickname": "트슈",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "dmk1212",
+        "nickname": "액션구드론",
+        "crewName": "뉴캣슬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "freshtomato",
+        "nickname": "토마토",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "seemin88",
+        "nickname": "비타밍",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "wjswlgns09",
+        "nickname": "지두두",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "sksmsskdsl10",
+        "nickname": "낭니",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "fpahsdltu1",
+        "nickname": "주하랑",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "rnaqpdrjf",
+        "nickname": "남덕선",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "dlaguswl501",
+        "nickname": "임조이",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "vldpfm2",
+        "nickname": "아리송이",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "2meonjin",
+        "nickname": "먼진",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "thelddl",
+        "nickname": "햇살",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "h78ert",
+        "nickname": "박준오",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "hoonykkk",
+        "nickname": "사테",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "soju2022",
+        "nickname": "소주양",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      },
+      {
+        "soopId": "jmc06170",
+        "nickname": "왜냐맨",
+        "crewName": "캄몬",
+        "reason": "not_requested_after_http_403"
+      }
+    ],
+    "durationSeconds": 1,
+    "note": "2026-10 SoopScope API가 HTTP 403을 반환해 수집을 중단하고 기존 스냅샷을 유지함"
+  },
+  {
     "id": "run-1791426246154",
     "timestamp": "2026-10-08T02:24:06.154Z",
     "kstTime": "2026-10-08 11:24:06",
