@@ -28,9 +28,25 @@ function withMonthNickname<T extends { soopId: string; nickname: string }>(item:
 
 function getCacheHeaders(isClosed: boolean): HeadersInit {
   return isClosed
-    ? { 'Cache-Control': 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400, immutable' }
-    : { 'Cache-Control': 'public, max-age=30, s-maxage=60, stale-while-revalidate=300' };
+    ? {
+        'Cache-Control': 'public, max-age=31536000, s-maxage=31536000, immutable',
+        'CDN-Cache-Control': 'max-age=31536000, immutable',
+        'Cloudflare-CDN-Cache-Control': 'max-age=31536000, immutable',
+      }
+    : {
+        'Cache-Control': 'public, max-age=30, s-maxage=60, stale-while-revalidate=300',
+        'CDN-Cache-Control': 'max-age=60',
+        'Cloudflare-CDN-Cache-Control': 'max-age=60',
+      };
 }
+
+interface EdgeStatsCacheEntry {
+  data: any;
+  timestamp: number;
+  isClosed: boolean;
+}
+
+const STATS_EDGE_CACHE = new Map<string, EdgeStatsCacheEntry>();
 
 function localSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySnapshot) {
   const byId = new Map(snapshot.streamers.map((s) => [s.soopId.toLowerCase(), s]));
@@ -64,7 +80,7 @@ function localSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySna
       } : member;
     });
 
-  return NextResponse.json({
+  const body = {
     success: true,
     timestamp: snapshot.updatedAt || new Date().toISOString(),
     yearMonth,
@@ -73,7 +89,11 @@ function localSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySna
     independentStreamers,
     source: 'local_viewership_snapshot',
     matchedCount: snapshot.streamers.length,
-  }, {
+  };
+  if (process.env.NODE_ENV !== 'test') {
+    STATS_EDGE_CACHE.set(yearMonth, { data: body, timestamp: Date.now(), isClosed: true });
+  }
+  return NextResponse.json(body, {
     headers: getCacheHeaders(true),
   });
 }
@@ -124,13 +144,25 @@ export async function GET(request: Request) {
   const yearMonth = requestedMonth ?? currentMonth;
   const isHistoricalMonth = yearMonth !== currentMonth;
 
+  if (process.env.NODE_ENV !== 'test') {
+    const cached = STATS_EDGE_CACHE.get(yearMonth);
+    if (cached) {
+      const ttl = isHistoricalMonth ? Infinity : 60_000;
+      if (Date.now() - cached.timestamp < ttl) {
+        return NextResponse.json(cached.data, {
+          headers: getCacheHeaders(cached.isClosed),
+        });
+      }
+    }
+  }
+
   if (yearMonth === '2026-09') {
     const independentStreamers = INDEPENDENT_STREAMERS_BY_MONTH[yearMonth] ?? [];
     const starCrews = SEPTEMBER_2026_STAR_CREWS.map((crew) => ({
       ...crew,
       members: crew.members.map((member) => withMonthNickname(member, yearMonth)),
     }));
-    return NextResponse.json({
+    const body = {
       success: true,
       timestamp: new Date().toISOString(),
       yearMonth,
@@ -142,7 +174,11 @@ export async function GET(request: Request) {
         (sum, crew) => sum + crew.members.filter((member) => member.totalStars > 0).length,
         0,
       ) + independentStreamers.filter((member) => member.totalStars > 0).length,
-    }, {
+    };
+    if (process.env.NODE_ENV !== 'test') {
+      STATS_EDGE_CACHE.set(yearMonth, { data: body, timestamp: Date.now(), isClosed: true });
+    }
+    return NextResponse.json(body, {
       headers: getCacheHeaders(true),
     });
   }
@@ -260,7 +296,7 @@ export async function GET(request: Request) {
       } : member;
     });
 
-    return NextResponse.json({
+    const body = {
       success: true,
       timestamp: new Date().toISOString(),
       yearMonth,
@@ -270,7 +306,11 @@ export async function GET(request: Request) {
       source: 'supabase_soopscope',
       matchedCount: rows.length,
       unavailableCount: rows.filter((row) => row.collection_status === 'unavailable').length,
-    }, {
+    };
+    if (process.env.NODE_ENV !== 'test') {
+      STATS_EDGE_CACHE.set(yearMonth, { data: body, timestamp: Date.now(), isClosed: isHistoricalMonth });
+    }
+    return NextResponse.json(body, {
       headers: getCacheHeaders(isHistoricalMonth),
     });
   } catch (error) {

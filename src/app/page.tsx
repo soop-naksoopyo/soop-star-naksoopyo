@@ -38,6 +38,8 @@ function getMonthRange(startMonth: string, endMonth: string) {
   return months.reverse();
 }
 
+const GLOBAL_HISTORICAL_CREWS_CACHE = new Map<string, typeof OFFICIAL_STAR_CREWS>();
+
 export default function HomePage() {
   const currentMonth = getCurrentMonthDate().slice(0, 7);
   const rankingMonths = getMonthRange(archivedKeys[0] || currentMonth, currentMonth);
@@ -47,8 +49,12 @@ export default function HomePage() {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [starCrews, setStarCrews] = useState(OFFICIAL_STAR_CREWS);
   const [independentStreamers, setIndependentStreamers] = useState<StreamerRowData[]>([]);
-  const [historicalStarCrews, setHistoricalStarCrews] = useState<typeof OFFICIAL_STAR_CREWS | null>(null);
-  const [isHistoricalLoading, setIsHistoricalLoading] = useState(false);
+  const [historicalStarCrews, setHistoricalStarCrews] = useState<typeof OFFICIAL_STAR_CREWS | null>(
+    () => selectedStarMonth !== currentMonth ? (GLOBAL_HISTORICAL_CREWS_CACHE.get(selectedStarMonth) ?? null) : null
+  );
+  const [isHistoricalLoading, setIsHistoricalLoading] = useState(
+    () => selectedStarMonth !== currentMonth && !GLOBAL_HISTORICAL_CREWS_CACHE.has(selectedStarMonth)
+  );
   const [historicalMonthError, setHistoricalMonthError] = useState<'missing' | 'incomplete' | null>(null);
 
   const fetchLiveStats = async () => {
@@ -100,8 +106,6 @@ export default function HomePage() {
     }
   }, [currentMonth, selectedStarMonth]);
 
-  const historicalCacheRef = React.useRef<Map<string, typeof OFFICIAL_STAR_CREWS>>(new Map());
-
   React.useEffect(() => {
     if (selectedStarMonth === currentMonth) {
       setHistoricalStarCrews(null);
@@ -110,7 +114,7 @@ export default function HomePage() {
       return;
     }
 
-    const cached = historicalCacheRef.current.get(selectedStarMonth);
+    const cached = GLOBAL_HISTORICAL_CREWS_CACHE.get(selectedStarMonth);
     if (cached) {
       setHistoricalStarCrews(cached);
       setHistoricalMonthError(null);
@@ -132,7 +136,7 @@ export default function HomePage() {
       })
       .then((crews) => {
         if (!cancelled) {
-          historicalCacheRef.current.set(selectedStarMonth, crews);
+          GLOBAL_HISTORICAL_CREWS_CACHE.set(selectedStarMonth, crews);
           setHistoricalStarCrews(crews);
         }
       })

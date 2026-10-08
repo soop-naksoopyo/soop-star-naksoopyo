@@ -31,16 +31,20 @@ interface ViewershipViewProps {
   onSelectMonth: (month: string) => void;
 }
 
+const GLOBAL_VIEWERSHIP_CACHE = new Map<string, ViewershipMonthlySnapshot>();
+
 export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, currentMonth, availableMonths, onSelectMonth }) => {
-  const [snapshot, setSnapshot] = React.useState<ViewershipMonthlySnapshot | null>(null);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [snapshot, setSnapshot] = React.useState<ViewershipMonthlySnapshot | null>(
+    () => GLOBAL_VIEWERSHIP_CACHE.get(yearMonth) ?? null
+  );
+  const [isLoading, setIsLoading] = React.useState(
+    () => !GLOBAL_VIEWERSHIP_CACHE.has(yearMonth)
+  );
   const [hasError, setHasError] = React.useState(false);
   const [mode, setMode] = React.useState<'crew' | 'individual'>('crew');
   const [search, setSearch] = React.useState('');
   const [crewFilter, setCrewFilter] = React.useState<string>('all');
   const [currentPage, setCurrentPage] = React.useState(1);
-
-  const viewershipCacheRef = React.useRef<Map<string, ViewershipMonthlySnapshot>>(new Map());
 
   React.useEffect(() => {
     let cancelled = false;
@@ -49,7 +53,7 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
     setCrewFilter('all');
     setCurrentPage(1);
 
-    const cached = viewershipCacheRef.current.get(yearMonth);
+    const cached = GLOBAL_VIEWERSHIP_CACHE.get(yearMonth);
     if (cached) {
       setSnapshot(cached);
       setIsLoading(false);
@@ -69,7 +73,7 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
       })
       .then((data) => {
         if (!cancelled) {
-          viewershipCacheRef.current.set(yearMonth, data);
+          GLOBAL_VIEWERSHIP_CACHE.set(yearMonth, data);
           setSnapshot(data);
         }
       })

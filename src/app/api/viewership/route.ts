@@ -43,9 +43,25 @@ function getSupabaseConfig() {
 
 function getCacheHeaders(isClosed: boolean): HeadersInit {
   return isClosed
-    ? { 'Cache-Control': 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400, immutable' }
-    : { 'Cache-Control': 'public, max-age=30, s-maxage=60, stale-while-revalidate=300' };
+    ? {
+        'Cache-Control': 'public, max-age=31536000, s-maxage=31536000, immutable',
+        'CDN-Cache-Control': 'max-age=31536000, immutable',
+        'Cloudflare-CDN-Cache-Control': 'max-age=31536000, immutable',
+      }
+    : {
+        'Cache-Control': 'public, max-age=30, s-maxage=60, stale-while-revalidate=300',
+        'CDN-Cache-Control': 'max-age=60',
+        'Cloudflare-CDN-Cache-Control': 'max-age=60',
+      };
 }
+
+interface EdgeViewershipCacheEntry {
+  data: any;
+  timestamp: number;
+  isClosed: boolean;
+}
+
+const VIEWERSHIP_EDGE_CACHE = new Map<string, EdgeViewershipCacheEntry>();
 
 function savedSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySnapshot) {
   const isClosed = yearMonth < getCurrentMonthDate().slice(0, 7);
@@ -62,7 +78,7 @@ function savedSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySna
   const requestedCount = Math.max(0, snapshot.requestedCount - globallyExcludedCount);
   const fetchedCount = Math.min(snapshot.fetchedCount, requestedCount);
 
-  return NextResponse.json({
+  const body = {
     success: true,
     ...snapshot,
     yearMonth,
@@ -71,7 +87,13 @@ function savedSnapshotResponse(yearMonth: string, snapshot: ViewershipMonthlySna
     fetchedCount,
     failedCount: isClosed ? 0 : Math.max(0, requestedCount - fetchedCount),
     streamers: visibleStreamers.map((streamer) => withMonthNickname(streamer, yearMonth)),
-  }, {
+  };
+
+  if (process.env.NODE_ENV !== 'test') {
+    VIEWERSHIP_EDGE_CACHE.set(yearMonth, { data: body, timestamp: Date.now(), isClosed });
+  }
+
+  return NextResponse.json(body, {
     headers: getCacheHeaders(isClosed),
   });
 }
@@ -84,6 +106,20 @@ export async function GET(request: Request) {
 
   const yearMonth = requestedMonth ?? getCurrentMonthDate().slice(0, 7);
   const currentMonth = getCurrentMonthDate().slice(0, 7);
+  const isClosed = yearMonth < currentMonth;
+
+  if (process.env.NODE_ENV !== 'test') {
+    const cached = VIEWERSHIP_EDGE_CACHE.get(yearMonth);
+    if (cached) {
+      const ttl = isClosed ? Infinity : 60_000;
+      if (Date.now() - cached.timestamp < ttl) {
+        return NextResponse.json(cached.data, {
+          headers: getCacheHeaders(cached.isClosed),
+        });
+      }
+    }
+  }
+
   const savedSnapshot = VIEWERSHIP_MONTHLY_SNAPSHOTS[yearMonth];
 
   const config = getSupabaseConfig();
@@ -138,7 +174,7 @@ export async function GET(request: Request) {
                 ? Math.max(0, savedSnapshot.requestedCount - (savedSnapshot.streamers.length - savedSnapshot.streamers.filter((streamer) => !VIEWERSHIP_EXCLUDED_SOOP_IDS.has(streamer.soopId.toLowerCase())).length))
                 : visibleRows.length;
             const fetchedCount = visibleRows.filter((row) => row.viewership_status !== 'unavailable').length;
-            return NextResponse.json({
+            const body = {
               success: true,
               yearMonth,
               updatedAt: visibleRows.reduce((latest, row) => row.fetched_at > latest ? row.fetched_at : latest, visibleRows[0]?.fetched_at ?? rows[0].fetched_at),
@@ -159,7 +195,11 @@ export async function GET(request: Request) {
                 fetchedAt: row.fetched_at,
                 collectionStatus: row.viewership_status === 'unavailable' ? 'unavailable' : 'available',
               }, yearMonth)),
-            }, {
+            };
+            if (process.env.NODE_ENV !== 'test') {
+              VIEWERSHIP_EDGE_CACHE.set(yearMonth, { data: body, timestamp: Date.now(), isClosed });
+            }
+            return NextResponse.json(body, {
               headers: getCacheHeaders(isClosed),
             });
           }

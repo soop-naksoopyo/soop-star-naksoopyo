@@ -14,12 +14,18 @@ interface RankViewProps {
   selectedMonth: string;
 }
 
+const GLOBAL_HISTORICAL_RANK_CACHE = new Map<string, (StreamerRowData & { crewName?: string })[]>();
+
 export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, selectedMonth }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCrew, setSelectedCrew] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const [archivedStreamers, setArchivedStreamers] = useState<(StreamerRowData & { crewName?: string })[] | null>(null);
-  const [isMonthLoading, setIsMonthLoading] = useState(false);
+  const [archivedStreamers, setArchivedStreamers] = useState<(StreamerRowData & { crewName?: string })[] | null>(
+    () => selectedMonth !== currentMonth ? (GLOBAL_HISTORICAL_RANK_CACHE.get(selectedMonth) ?? null) : null
+  );
+  const [isMonthLoading, setIsMonthLoading] = useState(
+    () => selectedMonth !== currentMonth && !GLOBAL_HISTORICAL_RANK_CACHE.has(selectedMonth)
+  );
   const [monthError, setMonthError] = useState<'missing' | 'incomplete' | null>(null);
 
   React.useEffect(() => {
@@ -31,6 +37,14 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
   React.useEffect(() => {
     if (selectedMonth === currentMonth) {
       setArchivedStreamers(null);
+      setMonthError(null);
+      setIsMonthLoading(false);
+      return;
+    }
+
+    const cached = GLOBAL_HISTORICAL_RANK_CACHE.get(selectedMonth);
+    if (cached) {
+      setArchivedStreamers(cached);
       setMonthError(null);
       setIsMonthLoading(false);
       return;
@@ -57,6 +71,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
         return [...crewStreamers, ...independentStreamers];
       })
       .then((rows) => {
+        GLOBAL_HISTORICAL_RANK_CACHE.set(selectedMonth, rows);
         if (!cancelled) setArchivedStreamers(rows);
       })
       .catch((error: Error) => {

@@ -22,6 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className="bg-[#f8fafc]">
+      <head>
+        <link rel="preconnect" href="https://profile.img.sooplive.co.kr" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://profile.img.sooplive.co.kr" />
+        <link rel="preconnect" href="https://res.sooplive.co.kr" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.sooplive.co.kr" />
+      </head>
       <body className="min-h-screen antialiased bg-[#f8fafc] text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
         {children}
       </body>
