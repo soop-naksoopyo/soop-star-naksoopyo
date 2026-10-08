@@ -183,8 +183,19 @@ def main():
                 print("⚠️ 파일 첨부 인풋을 찾지 못했습니다.")
 
         # 6. 등록 처리
-        artifact_dir = Path("/Users/ht/.gemini/antigravity/brain/834ccb19-7c92-413c-bf09-592095b382dc")
-        page.screenshot(path=str(artifact_dir / "ygosu_write_form_ready.png"))
+        artifact_dir_env = os.environ.get("ARTIFACT_DIR")
+        if artifact_dir_env and Path(artifact_dir_env).exists():
+            artifact_dir = Path(artifact_dir_env)
+        elif Path("/Users/ht/.gemini/antigravity/brain/834ccb19-7c92-413c-bf09-592095b382dc").exists():
+            artifact_dir = Path("/Users/ht/.gemini/antigravity/brain/834ccb19-7c92-413c-bf09-592095b382dc")
+        else:
+            artifact_dir = None
+
+        if artifact_dir:
+            try:
+                page.screenshot(path=str(artifact_dir / "ygosu_write_form_ready.png"))
+            except Exception:
+                pass
 
         if args.auto_submit:
             print("🚀 [완료] 등록 버튼을 클릭하여 게시글을 등록합니다...")
@@ -198,7 +209,11 @@ def main():
                     page.wait_for_timeout(6000)
                 print(f"🎉 게시글 등록 완료! 현재 URL: {page.url}")
                 page.wait_for_timeout(2000)
-                page.screenshot(path=str(artifact_dir / "ygosu_published_post.png"))
+                if artifact_dir:
+                    try:
+                        page.screenshot(path=str(artifact_dir / "ygosu_published_post.png"))
+                    except Exception:
+                        pass
             else:
                 print("⚠️ 등록 버튼을 찾지 못했습니다.")
         else:

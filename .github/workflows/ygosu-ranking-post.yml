@@ -7,6 +7,10 @@ on:
     - cron: '0 */3 * * *'
   workflow_dispatch:
     inputs:
+      board:
+        description: '게시판 코드 (기본값: pan_random, 스타방송: st2, 스타1: star, 자유: free 등)'
+        required: false
+        default: 'pan_random'
       title:
         description: '게시글 제목 (기본값 "auto": [MM-DD HH시] 스타크루 별풍선 & 뷰어십 랭킹 / 개인 TOP10 자동 생성)'
         required: false
@@ -52,7 +56,7 @@ jobs:
         env:
           YGOSU_ID: ${{ secrets.YGOSU_ID }}
           YGOSU_PW: ${{ secrets.YGOSU_PW }}
-          YGOSU_BOARD: ${{ secrets.YGOSU_BOARD || 'pan_random' }}
+          YGOSU_BOARD: ${{ inputs.board || secrets.YGOSU_BOARD || 'pan_random' }}
           POST_TITLE: ${{ inputs.title || 'auto' }}
         run: |
           python3 scripts/ygosu_post.py --auto-submit --headless
