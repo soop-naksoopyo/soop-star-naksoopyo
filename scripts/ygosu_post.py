@@ -123,6 +123,16 @@ def main():
         page.wait_for_selector("#subject", timeout=15000)
         print("✅ 글쓰기 페이지 진입 성공!")
 
+        # 임시저장 글 불러오기 모달이 뜬 경우 "취소" 클릭하여 닫기
+        try:
+            cancel_btn = page.locator(".yg-dialog-modal button:has-text('취소'), .yg-dialog-daisy button:has-text('취소')").first
+            if cancel_btn.count() > 0 and cancel_btn.is_visible():
+                print("🗑️ 임시 저장 글 불러오기 모달 감지 -> '취소' 클릭하여 닫음")
+                cancel_btn.click()
+                page.wait_for_timeout(1000)
+        except Exception:
+            pass
+
         # 3. 제목 입력
         print(f"✍️ 제목 입력: '{args.title}'")
         page.fill("#subject", args.title)
@@ -199,9 +209,23 @@ def main():
 
         if args.auto_submit:
             print("🚀 [완료] 등록 버튼을 클릭하여 게시글을 등록합니다...")
+            # 남아있는 모달이 있다면 닫기
+            try:
+                page.evaluate("""() => {
+                    document.querySelectorAll('.yg-dialog-modal button, .yg-dialog-daisy button').forEach(b => {
+                        if (b.innerText.includes('취소') || b.innerText.includes('닫기')) b.click();
+                    });
+                }""")
+                page.wait_for_timeout(500)
+            except Exception:
+                pass
+
             submit_btn = page.locator("a[onclick*='check_board_write']").first
             if submit_btn.count() > 0:
-                submit_btn.click()
+                try:
+                    submit_btn.click(force=True, timeout=5000)
+                except Exception:
+                    page.evaluate("() => { const el = document.querySelector('a[onclick*=\"check_board_write\"]'); if (el) el.click(); }")
                 print("⏳ 게시글 등록 중... 잠시 대기합니다.")
                 try:
                     page.wait_for_url(lambda u: "/?mode=write" not in u, timeout=15000)
