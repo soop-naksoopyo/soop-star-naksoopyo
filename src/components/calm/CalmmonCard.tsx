@@ -57,22 +57,34 @@ export function CalmmonCard({
     return (
       <div key={item.soopId} className={rowBg}>
         <div className="flex items-center gap-1.5 min-w-0 pr-1.5">
-          <img
-            src={defaultAvatar}
-            alt={item.nickname}
-            loading="lazy"
-            decoding="async"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src =
-                'https://res.sooplive.co.kr/images/user/thumb_user.gif';
-            }}
-            className="w-5 h-5 rounded-full object-cover border border-slate-200/90 shrink-0 bg-slate-100"
-          />
+          <div className="relative shrink-0 flex items-center justify-center">
+            <img
+              src={defaultAvatar}
+              alt={item.nickname}
+              loading="lazy"
+              decoding="async"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  'https://res.sooplive.co.kr/images/user/thumb_user.gif';
+              }}
+              className={`w-5 h-5 rounded-full object-cover shrink-0 bg-slate-100 transition ${
+                item.isLive
+                  ? 'ring-2 ring-[#00c7ff] border border-white shadow-2xs'
+                  : 'border border-slate-200/90'
+              }`}
+            />
+            {item.isLive && (
+              <span
+                title="SOOP 생방송 진행 중"
+                className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#00c7ff] ring-1.5 ring-white"
+              />
+            )}
+          </div>
           <a
             href={`https://ch.sooplive.co.kr/${item.soopId}`}
             target="_blank"
             rel="noopener noreferrer"
-            title={`${item.nickname} SOOP 방송국 바로가기`}
+            title={`${item.nickname} SOOP 방송국 바로가기${item.isLive ? ' (생방송 진행 중)' : ''}`}
             className="truncate hover:underline flex items-center"
           >
             <span className={nameColor}>{item.nickname}</span>
@@ -239,6 +251,9 @@ export function CalmmonCard({
 
       {/* Bottom Legend */}
       <div className="px-3 py-1.5 bg-white border-t border-slate-100 flex flex-wrap items-center justify-center gap-2.5 text-[10px] sm:text-[11px] text-slate-500 font-medium">
+        <div className="flex items-center gap-1 font-semibold text-sky-700">
+          <span className="w-2 h-2 rounded-full bg-[#00c7ff] ring-1 ring-sky-200" /> 방송 중 (ON)
+        </div>
         <div className="flex items-center gap-1">
           <span className="w-2 h-2 rounded-xs bg-blue-600" /> 상위 1%
         </div>

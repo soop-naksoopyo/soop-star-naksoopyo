@@ -40,6 +40,7 @@ export async function GET(request: Request) {
               totalStars: Number(item.balloon) || 0,
               broadcastHours: Math.round((minutes / 60) * 10) / 10,
               averageViewers: Number(item.viewerAvg) || 0,
+              isLive: Boolean(item.isLive),
             };
           }
         }

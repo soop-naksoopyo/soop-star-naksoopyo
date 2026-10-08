@@ -70,6 +70,7 @@ export interface CalmmonMemberRow {
   gender: Gender;
   isBoss?: boolean;
   isBirthday: boolean;
+  isLive?: boolean;
   rawVal: number;
   displayVal: string;
   tierBadge?: 'top1' | 'top5' | 'top10' | 'boss';
@@ -90,6 +91,7 @@ export interface StreamerStatInput {
   totalStars?: number;
   broadcastHours?: number;
   averageViewers?: number;
+  isLive?: boolean;
 }
 
 // 스크린샷 및 Trackify 실시간 연동 기준 기본 통계 (안전한 폴백 및 초기값)
@@ -142,6 +144,7 @@ export function calculateCalmmonStats(
       gender: m.gender,
       isBoss: m.isBoss,
       isBirthday: isBirthdayMonth(m.soopId, yearMonth),
+      isLive: Boolean(s?.isLive),
       rawVal,
       displayVal,
     };

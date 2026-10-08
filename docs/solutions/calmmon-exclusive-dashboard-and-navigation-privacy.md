@@ -74,11 +74,13 @@ Key requirements included:
    - Kept `OFFICIAL_STAR_CREWS` in `src/lib/starCrewsData.ts` at 16 members, ensuring his balloon points do not distort the official Star Crew battle scores on the main page (`/`).
    - Kim Yoon-hwan's statistics remain exclusively visible on the dedicated Calmmon page (`/calm`).
 
+9. **SOOP Signature Cyan Live Indicator (Option 1)**:
+   - Synchronized Trackify API's real-time `isLive` status into `/api/calmmon` and `calculateCalmmonStats`.
+   - On member profile avatars, active streamers (`isLive === true`) receive SOOP's official cyan/sky-blue border ring (`ring-2 ring-[#00c7ff] border border-white shadow-2xs`) and a cyan status dot at the bottom-right corner (`w-2 h-2 rounded-full bg-[#00c7ff] ring-1.5 ring-white`).
+   - Inactive streamers retain the clean default avatar frame without visual clutter.
+   - Added an indicator item (`● 방송 중 (ON)`) in SOOP cyan to the bottom legend.
+
 ## Verification
-- **Unit Tests**: `vitest run` passed all 48 test suites across 13 test files.
+- **Unit Tests**: `vitest run` passed all 49 test suites across 13 test files.
 - **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages.
-- **Live Visual Validation**: Verified via Playwright and API response inspection:
-  - `Is brainzerg7 in main viewership? false`
-  - `Is brainzerg7 in main star crew ranking? false`
-  - `Is brainzerg7 in calmmon API? true` (별풍선: `94,002`, 방송시간: `39.5시간`)
-  - Confirmed Kim Yoon-hwan's official SOOP profile avatar rendering on `/calm` with zero vertical scrolling.
+- **Live Visual Validation**: Verified via Playwright at 1280x900 resolution (`scrollHeight: 900 clientHeight: 900`). Confirmed active live streamers (김윤환, 사테, 비타밍, 지두두, 햇살, 아리송이, 소주양) show the vibrant SOOP cyan live ring and dot, while offline members remain clean and standard.

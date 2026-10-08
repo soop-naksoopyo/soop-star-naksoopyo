@@ -56,4 +56,14 @@ describe('calmmonData', () => {
     expect(sponResult.totalSumStr).toBe('준비 중');
     expect(sponResult.male[0].displayVal).toBe('-');
   });
+
+  it('isLive 필드가 true인 경우 멤버 행의 isLive가 true로 전달되어야 한다', () => {
+    const mockStatsMap = new Map([
+      ['brainzerg7', { totalStars: 90000, broadcastHours: 35, isLive: true }],
+      ['freshtomato', { totalStars: 200000, broadcastHours: 70, isLive: false }],
+    ]);
+    const result = calculateCalmmonStats(mockStatsMap, 'star', '2026-10');
+    expect(result.male.find((m) => m.soopId === 'brainzerg7')?.isLive).toBe(true);
+    expect(result.female.find((m) => m.soopId === 'freshtomato')?.isLive).toBe(false);
+  });
 });
