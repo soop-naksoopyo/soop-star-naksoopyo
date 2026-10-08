@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { CalmmonCard } from '@/components/calm/CalmmonCard';
 import {
@@ -13,10 +14,23 @@ import { getCurrentMonthDate } from '@/lib/month';
 
 export default function CalmmonPage() {
   const currentYearMonth = getCurrentMonthDate().slice(0, 7);
+  const [selectedMonth, setSelectedMonth] = useState<string>(currentYearMonth);
   const [currentTab, setCurrentTab] = useState<CalmmonTabType>('star');
   const [statsMap, setStatsMap] = useState<Map<string, StreamerStatInput>>(new Map());
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdatedText, setLastUpdatedText] = useState('실시간');
+
+  const handlePrevMonth = () => {
+    const [y, m] = selectedMonth.split('-').map(Number);
+    const d = new Date(Date.UTC(y, m - 2, 1));
+    setSelectedMonth(`${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`);
+  };
+
+  const handleNextMonth = () => {
+    const [y, m] = selectedMonth.split('-').map(Number);
+    const d = new Date(Date.UTC(y, m, 1));
+    setSelectedMonth(`${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`);
+  };
 
   const fetchStats = async () => {
     try {
@@ -61,30 +75,46 @@ export default function CalmmonPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const statsResult = calculateCalmmonStats(statsMap, currentTab, currentYearMonth);
+  const statsResult = calculateCalmmonStats(statsMap, currentTab, selectedMonth);
 
   return (
     <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#f8fafc] text-slate-900 pt-5 pb-16 px-3 sm:px-6 flex flex-col items-center">
       <Header />
 
-      <div className="w-full max-w-2xl py-2 sm:py-4">
-        {/* 상단 빵부스러기 및 이동 링크 */}
+      <div className="w-full max-w-4xl lg:max-w-5xl py-2 sm:py-4">
+        {/* 상단 네비게이션 및 월 넘김 네비게이터 */}
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <Link
-              href="/"
-              className="text-xs font-semibold text-slate-500 hover:text-blue-600 transition flex items-center gap-1"
-            >
-              <span>←</span> 메인 스타크루 대시보드
-            </Link>
-            <span className="text-slate-300">/</span>
-            <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
-              캄몬스타즈 전용 뷰 (/calm)
-            </span>
-          </div>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-blue-600 transition bg-white border border-slate-200 px-3.5 py-1.5 rounded-lg shadow-2xs hover:bg-slate-50"
+          >
+            <span>←</span> 메인 대시보드
+          </Link>
 
-          <div className="text-xs text-slate-400">
-            {currentYearMonth.slice(2, 4)}년 {currentYearMonth.slice(5, 7)}월 기준
+          {/* 월 넘김 네비게이터 */}
+          <div className="flex items-center gap-1 bg-white border border-slate-200/90 rounded-full px-2 py-1 shadow-2xs">
+            <button
+              type="button"
+              onClick={handlePrevMonth}
+              aria-label="이전 달"
+              className="p-1 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition cursor-pointer"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <div className="flex items-center gap-1.5 px-2 text-xs sm:text-sm font-bold text-slate-800 select-none">
+              <Calendar className="w-3.5 h-3.5 text-blue-600" />
+              <span>
+                {selectedMonth.slice(0, 4)}년 {Number(selectedMonth.slice(5))}월
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={handleNextMonth}
+              aria-label="다음 달"
+              className="p-1 rounded-full text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition cursor-pointer"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
@@ -93,18 +123,17 @@ export default function CalmmonPage() {
           currentTab={currentTab}
           onTabChange={setCurrentTab}
           stats={statsResult}
-          currentDateText={`${currentYearMonth.slice(2, 4)}년 ${currentYearMonth.slice(5, 7)}월`}
-          sourceText={`업데이트: ${lastUpdatedText} · 출처: 풍고 / SOOP`}
+          currentDateText={`${selectedMonth.slice(0, 4)}년 ${Number(selectedMonth.slice(5))}월`}
           isLiveLoading={isLoading}
         />
 
         {/* 하단 설명 안내 */}
-        <div className="mt-6 text-center text-xs text-slate-400 leading-relaxed">
+        <div className="mt-8 text-center text-xs text-slate-400 leading-relaxed">
           <p>
-            ※ 수장 김윤환(전력외)을 포함한 캄몬스타즈 17명 전체 통계입니다.
+            ※ 수장 김윤환(전력외)을 포함한 캄몬스타즈 17인 전용 통계입니다.
           </p>
           <p className="mt-1">
-            ※ 생일인 멤버에게는 닉네임 우측에 <span className="inline-block">🎂</span> 케이크 이모지가 자동으로 표시됩니다.
+            ※ 당월 생일 멤버에게는 닉네임 우측에 <span className="inline-block">🎂</span> 케이크 이모지가 표시됩니다.
           </p>
         </div>
       </div>
