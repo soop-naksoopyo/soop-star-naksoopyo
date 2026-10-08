@@ -1,0 +1,57 @@
+name: Periodic Ygosu Ranking Post
+
+on:
+  schedule:
+    # 3시간마다 실행 (KST 정시 기준 00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00, 21:00)
+    # UTC 기준: 15, 18, 21, 00, 03, 06, 09, 12 -> 0 */3 * * *
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+    inputs:
+      title:
+        description: '게시글 제목 (기본값 "auto": [MM-DD HH시] 스타크루 별풍선 & 뷰어십 랭킹 / 개인 TOP10 자동 생성)'
+        required: false
+        default: 'auto'
+
+concurrency:
+  group: ygosu-ranking-post
+  cancel-in-progress: false
+
+jobs:
+  post-to-ygosu:
+    runs-on: ubuntu-latest
+    name: Capture Leaderboards & Post to Ygosu
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Playwright & Chromium
+        run: |
+          pip install playwright
+          npx playwright install --with-deps chromium
+
+      - name: Capture 4 Ranking Screenshots
+        run: |
+          node scripts/capture_leaderboards.js "https://soop-star-naksoopyo.pages.dev"
+
+      - name: Publish Post to Ygosu
+        env:
+          YGOSU_ID: ${{ secrets.YGOSU_ID }}
+          YGOSU_PW: ${{ secrets.YGOSU_PW }}
+          YGOSU_BOARD: ${{ secrets.YGOSU_BOARD || 'pan_random' }}
+          POST_TITLE: ${{ inputs.title || 'auto' }}
+        run: |
+          python3 scripts/ygosu_post.py --auto-submit --headless
