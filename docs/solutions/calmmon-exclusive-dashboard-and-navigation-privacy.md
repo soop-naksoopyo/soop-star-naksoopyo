@@ -1,0 +1,58 @@
+---
+title: Calmmon Stars Dedicated Dashboard and Private URL Navigation
+date: 2026-10-09
+category: ui
+module: frontend
+problem_type: best_practice
+component: frontend
+symptoms:
+  - User requested a dedicated Calmmon Stars 17-member card view at /calm with Poong-go aesthetic
+  - User requested hiding the /calm navigation link from the main menu (accessed via direct URL like /log)
+  - User requested excluding the viewership tab from the Calmmon view while keeping stars and broadcast hours
+root_cause: feature_request
+resolution_type: architectural_change
+severity: minor
+tags:
+  - calmmon-stars
+  - dashboard
+  - birthday-emoji
+  - direct-url-access
+  - responsive-cards
+---
+
+# Calmmon Stars Dedicated Dashboard and Private URL Navigation
+
+## Problem & Context
+The user needed a custom standalone dashboard for "Calmmon Stars" (캄몬스타즈) crew members (total 17 streamers: 6 male, 11 female), mimicking the popular Poong-go 2-column card design.
+Key requirements included:
+1. Direct URL access only (`/calm`), hidden from the public navigation tabs on the main homepage (`/`), similar to the private admin log console (`/log`).
+2. Automatic birthday cake (`🎂`) emoji badge next to streamers whose birthday month matches the active query month (e.g. 주하랑 in October).
+3. Display real-time Star Balloon (별풍선) and Broadcast Hours (방송시간) metrics, while leaving Match Counts (스폰 판수) and Donors (후원 랭킹) empty with a "준비 중" badge.
+4. Exclude Viewership (뷰어십) tab entirely from the `/calm` page.
+
+## Solution
+
+1. **Standalone Route (`src/app/calm/page.tsx`)**:
+   - Created `/calm` with real-time fetching from `/api/stats` and auto-refresh every 60 seconds.
+   - Breadcrumb navigation (`← 메인 스타크루 대시보드`) allows returning to the main page while keeping `/calm` isolated.
+   - Removed unnecessary calls to `/api/viewership` to keep page loads fast and light.
+
+2. **Clean Main Navigation (`src/components/NavTabs.tsx`)**:
+   - Reverted `NavTabs.tsx` to display only the standard `[별풍선]` and `[뷰어십]` tabs.
+   - Completely omitted `/calm` links so that casual visitors do not see the secret/custom page, matching the pattern used by `/log`.
+
+3. **Domain Logic & Birthdays (`src/lib/calmmonData.ts`)**:
+   - Registered all 17 streamer metadata and birth dates (`MM-DD`).
+   - Implemented `isBirthdayMonth(soopId, yearMonth)` which dynamically attaches `isBirthday` flag.
+   - Calculated 3 summary stats: Total Sum (`전체 합계`), Female Average (`여자 평균`), and Total Average (`전체 평균`).
+   - Configured `boss` highlight styling for leader Kim Yoon-hwan (`brainzerg77`) and percentile tiers (`top1`, `top5`, `top10`).
+
+4. **Poong-go Style Card UI (`src/components/calm/CalmmonCard.tsx`)**:
+   - 2-column layout (Left: Male 6, Right: Female 11).
+   - Removed the `👀 뷰어십` tab button, leaving `🎈 별풍선`, `⏱️ 방송시간`, `⚔️ 스폰 판수 [준비중]`, `👑 후원 랭킹 [준비중]`.
+   - Included 1-click clipboard summary export (`📋 요약 복사`).
+
+## Verification
+- **Unit Tests**: `vitest run` passed all 48 test suites (`src/test/calmmonData.test.ts`).
+- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed via `wrangler pages deploy`.
+- **Live Visual Validation**: Checked `https://soop-star-naksoopyo.pages.dev/` (no Calmmon menu visible) and `https://soop-star-naksoopyo.pages.dev/calm` (4 tabs without viewership, Ju Harang cake emoji `🎂` rendered, real-time numbers populated).
