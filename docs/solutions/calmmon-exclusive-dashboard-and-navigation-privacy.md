@@ -53,11 +53,18 @@ Key requirements included:
    - Included 1-click clipboard summary export (`📋 요약 복사`).
 
 5. **Layout Widening & Interactive Month Navigation**:
-   - Expanded card layout to wide responsive container (`max-w-4xl lg:max-w-5xl`) with comfortable paddings and crisp typography.
+   - Initial iteration expanded card layout to wide responsive container (`max-w-4xl lg:max-w-5xl`).
    - Removed cluttered text (`26년 10월 · 업데이트 · 출처`) and replaced the `/calm` badge with a clean `← 메인 대시보드` return button.
-   - Introduced interactive month navigator (`< YYYY년 MM월 >`) with safe availability guardrails (`AVAILABLE_CALMMON_MONTHS = ['2026-10']`). Months without data (e.g. September 9월 or November 11월) automatically disable navigation buttons (`disabled:opacity-25 disabled:cursor-not-allowed`) to prevent broken/empty views while keeping dynamic extensibility for when future months arrive.
+   - Introduced interactive month navigator (`< YYYY년 MM월 >`) with safe availability guardrails (`AVAILABLE_CALMMON_MONTHS = ['2026-10']`). Months without data (e.g. September 9월 or November 11월) automatically disable navigation buttons (`disabled:opacity-25 disabled:cursor-not-allowed`) to prevent broken/empty views.
+
+6. **Compact Viewport Optimization & SOOP Avatars**:
+   - Integrated official SOOP profile avatars (`https://profile.img.sooplive.co.kr/LOGO/{soopId[:2]}/{soopId}/{soopId}.jpg`) with fallback gif next to all 17 streamers' nicknames, linking to their respective live channels (`https://ch.sooplive.co.kr/{soopId}`).
+   - Replaced emoji icon with the official Calmmon Stars Crew Emblem (`<CrewCrest crewName="캄몬" size="md" />`).
+   - Removed the copy summary button (`📋 요약 복사`) and bottom 2-line redundant notes.
+   - Reduced card width to `max-w-2xl` and tightened row/summary box padding so the entire view fits on a 900px viewport with zero vertical scroll (`scrollHeight === clientHeight`).
+   - Confirmed data pipeline collects real-time/monthly 별풍선 and 방송시간 directly from Trackify API into `/api/stats`.
 
 ## Verification
-- **Unit Tests**: `vitest run` passed all 48 test suites (`src/test/calmmonData.test.ts`).
-- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed via `wrangler pages deploy`.
-- **Live Visual Validation**: Checked `https://soop-star-naksoopyo.pages.dev/` (no Calmmon menu visible) and `https://soop-star-naksoopyo.pages.dev/calm` (clean wide card, month switcher working with 9/11월 buttons safely disabled, cake emoji verified).
+- **Unit Tests**: `vitest run` passed all 48 test suites across 13 test files.
+- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages.
+- **Live Visual Validation**: Verified via Playwright at 1280x900 resolution (`scrollHeight: 900 clientHeight: 900`), confirming zero vertical scrolling, official Calmmon emblem rendering, all 17 SOOP streamer avatars loaded, and responsive styling.

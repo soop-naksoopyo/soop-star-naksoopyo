@@ -89,12 +89,12 @@ export default function CalmmonPage() {
   const statsResult = calculateCalmmonStats(statsMap, currentTab, selectedMonth);
 
   return (
-    <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#f8fafc] text-slate-900 pt-5 pb-16 px-3 sm:px-6 flex flex-col items-center">
+    <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#f8fafc] text-slate-900 pt-3 pb-8 px-3 sm:px-6 flex flex-col items-center">
       <Header />
 
-      <div className="w-full max-w-4xl lg:max-w-5xl py-2 sm:py-4">
+      <div className="w-full max-w-2xl py-2">
         {/* 상단 네비게이션 및 월 넘김 네비게이터 */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-2.5">
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-blue-600 transition bg-white border border-slate-200 px-3.5 py-1.5 rounded-lg shadow-2xs hover:bg-slate-50"
@@ -141,16 +141,6 @@ export default function CalmmonPage() {
           currentDateText={`${selectedMonth.slice(0, 4)}년 ${Number(selectedMonth.slice(5))}월`}
           isLiveLoading={isLoading}
         />
-
-        {/* 하단 설명 안내 */}
-        <div className="mt-8 text-center text-xs text-slate-400 leading-relaxed">
-          <p>
-            ※ 수장 김윤환(전력외)을 포함한 캄몬스타즈 17인 전용 통계입니다.
-          </p>
-          <p className="mt-1">
-            ※ 당월 생일 멤버에게는 닉네임 우측에 <span className="inline-block">🎂</span> 케이크 이모지가 표시됩니다.
-          </p>
-        </div>
       </div>
     </main>
   );
