@@ -106,7 +106,7 @@ export default function CalmmonPage() {
     <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#f8fafc] text-slate-900 pt-3 pb-8 px-3 sm:px-6 flex flex-col items-center">
       <Header />
 
-      <div className="w-full max-w-2xl py-2">
+      <div className="w-full max-w-3xl py-2.5">
         {/* 상단 네비게이션 및 월 넘김 네비게이터 */}
         <div className="flex items-center justify-between mb-2.5">
           <Link
