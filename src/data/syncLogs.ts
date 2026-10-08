@@ -3,18 +3,34 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
-    "id": "run-1791449934093",
-    "timestamp": "2026-10-08T08:58:54.093Z",
-    "kstTime": "2026-10-08 17:58:54",
+    "id": "run-1791450621799",
+    "timestamp": "2026-10-08T09:10:21.799Z",
+    "kstTime": "2026-10-08 18:10:21",
     "yearMonth": "2026-10",
     "trigger": "schedule",
     "status": "success",
-    "requestedCount": 238,
-    "fetchedCount": 238,
+    "requestedCount": 240,
+    "fetchedCount": 240,
     "failedCount": 0,
     "failedStreamers": [],
     "durationSeconds": 3,
-    "changedCount": 72,
+    "changedCount": 0,
+    "changes": [],
+    "note": "2026-10 전원 정상 수집 완료 (240명, 변동 없음)"
+  },
+  {
+    "id": "run-1791450383855",
+    "timestamp": "2026-10-08T09:06:23.855Z",
+    "kstTime": "2026-10-08 18:06:23",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "success",
+    "requestedCount": 240,
+    "fetchedCount": 240,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 3,
+    "changedCount": 78,
     "changes": [
       {
         "soopId": "lovelove7777",
@@ -24,8 +40,8 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 78493,
         "diffStars": 6355,
         "prevHours": 75.3,
-        "newHours": 75.7,
-        "diffHours": 0.4
+        "newHours": 75.8,
+        "diffHours": 0.5
       },
       {
         "soopId": "dptmfl1258",
@@ -35,8 +51,19 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 119249,
         "diffStars": 3398,
         "prevHours": 21.2,
-        "newHours": 21.6,
-        "diffHours": 0.4
+        "newHours": 21.7,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "qhkrwns12",
+        "nickname": "미동미동",
+        "crewName": "DM",
+        "prevStars": 14715,
+        "newStars": 18048,
+        "diffStars": 3333,
+        "prevHours": 48.2,
+        "newHours": 48.7,
+        "diffHours": 0.5
       },
       {
         "soopId": "wlgua7272",
@@ -46,19 +73,41 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 52229,
         "diffStars": 3328,
         "prevHours": 23.2,
-        "newHours": 23.5,
-        "diffHours": 0.3
+        "newHours": 23.7,
+        "diffHours": 0.5
       },
       {
         "soopId": "tjgpdus97",
         "nickname": "요닝",
         "crewName": "드림즈",
         "prevStars": 54051,
-        "newStars": 56591,
-        "diffStars": 2540,
+        "newStars": 56891,
+        "diffStars": 2840,
         "prevHours": 23.2,
-        "newHours": 23.5,
-        "diffHours": 0.3
+        "newHours": 23.7,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "rhakdncjs90",
+        "nickname": "으냉이",
+        "crewName": "무소속",
+        "prevStars": 122970,
+        "newStars": 124515,
+        "diffStars": 1545,
+        "prevHours": 85.6,
+        "newHours": 86.1,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "maeong2",
+        "nickname": "메옹",
+        "crewName": "흑카데미",
+        "prevStars": 3355,
+        "newStars": 4807,
+        "diffStars": 1452,
+        "prevHours": 2.4,
+        "newHours": 2.9,
+        "diffHours": 0.5
       },
       {
         "soopId": "janjanoo",
@@ -68,8 +117,19 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 26273,
         "diffStars": 1059,
         "prevHours": 58.8,
-        "newHours": 59.2,
-        "diffHours": 0.4
+        "newHours": 59.3,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "seols2",
+        "nickname": "정서린",
+        "crewName": "케이대",
+        "prevStars": 61980,
+        "newStars": 63026,
+        "diffStars": 1046,
+        "prevHours": 56.9,
+        "newHours": 57.4,
+        "diffHours": 0.5
       },
       {
         "soopId": "jmc06170",
@@ -79,7 +139,18 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 41618,
         "diffStars": 1001,
         "prevHours": 48.5,
-        "newHours": 48.9,
+        "newHours": 49,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "rlekfu6",
+        "nickname": "박재혁",
+        "crewName": "더블비",
+        "prevStars": 244911,
+        "newStars": 245911,
+        "diffStars": 1000,
+        "prevHours": 69.8,
+        "newHours": 70.2,
         "diffHours": 0.4
       },
       {
@@ -90,8 +161,19 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 28889,
         "diffStars": 1000,
         "prevHours": 47,
-        "newHours": 47.3,
-        "diffHours": 0.3
+        "newHours": 47.4,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "mwhdgus",
+        "nickname": "윤진규",
+        "crewName": "더블비",
+        "prevStars": 51773,
+        "newStars": 52463,
+        "diffStars": 690,
+        "prevHours": 36.6,
+        "newHours": 37.1,
+        "diffHours": 0.5
       },
       {
         "soopId": "ovoa3316",
@@ -101,29 +183,62 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 55950,
         "diffStars": 600,
         "prevHours": 35.8,
-        "newHours": 36.1,
-        "diffHours": 0.3
+        "newHours": 36.3,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "ksmo54",
+        "nickname": "구라미스",
+        "crewName": "뉴캣슬",
+        "prevStars": 48667,
+        "newStars": 49167,
+        "diffStars": 500,
+        "prevHours": 97.5,
+        "newHours": 98,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "phh95426",
+        "nickname": "소심",
+        "crewName": "JSA",
+        "prevStars": 39034,
+        "newStars": 39392,
+        "diffStars": 358,
+        "prevHours": 32.5,
+        "newHours": 33,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "imducko3o",
+        "nickname": "오리꿍",
+        "crewName": "드림즈",
+        "prevStars": 42631,
+        "newStars": 42979,
+        "diffStars": 348,
+        "prevHours": 33,
+        "newHours": 33.5,
+        "diffHours": 0.5
       },
       {
         "soopId": "sksmsskdsl10",
         "nickname": "낭니",
         "crewName": "캄몬",
         "prevStars": 73376,
-        "newStars": 73712,
-        "diffStars": 336,
+        "newStars": 73722,
+        "diffStars": 346,
         "prevHours": 32.5,
-        "newHours": 32.9,
-        "diffHours": 0.4
+        "newHours": 33,
+        "diffHours": 0.5
       },
       {
-        "soopId": "seols2",
-        "nickname": "정서린",
-        "crewName": "케이대",
-        "prevStars": 61980,
-        "newStars": 62140,
-        "diffStars": 160,
-        "prevHours": 56.9,
-        "newHours": 57.2,
+        "soopId": "pokimasiso",
+        "nickname": "또해영",
+        "crewName": "더블비",
+        "prevStars": 133388,
+        "newStars": 133721,
+        "diffStars": 333,
+        "prevHours": 40.4,
+        "newHours": 40.7,
         "diffHours": 0.3
       },
       {
@@ -131,11 +246,33 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "nickname": "효짱",
         "crewName": "드림즈",
         "prevStars": 22579,
-        "newStars": 22733,
-        "diffStars": 154,
+        "newStars": 22863,
+        "diffStars": 284,
         "prevHours": 24.8,
-        "newHours": 24.9,
-        "diffHours": 0.1
+        "newHours": 25.1,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "parkle1006",
+        "nickname": "박듀듀",
+        "crewName": "뉴캣슬",
+        "prevStars": 29534,
+        "newStars": 29777,
+        "diffStars": 243,
+        "prevHours": 54.4,
+        "newHours": 54.8,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "jooyoung0040",
+        "nickname": "또아",
+        "crewName": "케이대",
+        "prevStars": 73676,
+        "newStars": 73847,
+        "diffStars": 171,
+        "prevHours": 54.2,
+        "newHours": 54.7,
+        "diffHours": 0.5
       },
       {
         "soopId": "nvbn114",
@@ -145,8 +282,8 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 18902,
         "diffStars": 132,
         "prevHours": 19.1,
-        "newHours": 19.5,
-        "diffHours": 0.4
+        "newHours": 19.6,
+        "diffHours": 0.5
       },
       {
         "soopId": "cksgmldbs",
@@ -156,30 +293,19 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 20062,
         "diffStars": 129,
         "prevHours": 45.7,
-        "newHours": 46,
-        "diffHours": 0.3
+        "newHours": 46.2,
+        "diffHours": 0.5
       },
       {
-        "soopId": "phh95426",
-        "nickname": "소심",
-        "crewName": "JSA",
-        "prevStars": 39034,
-        "newStars": 39153,
-        "diffStars": 119,
-        "prevHours": 32.5,
-        "newHours": 32.8,
-        "diffHours": 0.3
-      },
-      {
-        "soopId": "imducko3o",
-        "nickname": "오리꿍",
-        "crewName": "드림즈",
-        "prevStars": 42631,
-        "newStars": 42740,
-        "diffStars": 109,
-        "prevHours": 33,
-        "newHours": 33.4,
-        "diffHours": 0.4
+        "soopId": "totoo23",
+        "nickname": "밍또얌",
+        "crewName": "뉴캣슬",
+        "prevStars": 19091,
+        "newStars": 19214,
+        "diffStars": 123,
+        "prevHours": 34.4,
+        "newHours": 34.9,
+        "diffHours": 0.5
       },
       {
         "soopId": "1004yomi",
@@ -189,8 +315,8 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 41923,
         "diffStars": 101,
         "prevHours": 64.6,
-        "newHours": 64.9,
-        "diffHours": 0.3
+        "newHours": 65.1,
+        "diffHours": 0.5
       },
       {
         "soopId": "dmk1212",
@@ -200,19 +326,19 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 18554,
         "diffStars": 100,
         "prevHours": 55.5,
-        "newHours": 55.8,
-        "diffHours": 0.3
+        "newHours": 56,
+        "diffHours": 0.5
       },
       {
-        "soopId": "parkle1006",
-        "nickname": "박듀듀",
-        "crewName": "뉴캣슬",
-        "prevStars": 29534,
-        "newStars": 29634,
-        "diffStars": 100,
-        "prevHours": 54.4,
-        "newHours": 54.6,
-        "diffHours": 0.2
+        "soopId": "roa0216",
+        "nickname": "허로아",
+        "crewName": "더블비",
+        "prevStars": 12653,
+        "newStars": 12710,
+        "diffStars": 57,
+        "prevHours": 28.6,
+        "newHours": 29.1,
+        "diffHours": 0.5
       },
       {
         "soopId": "khl1589",
@@ -222,8 +348,19 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 18363,
         "diffStars": 32,
         "prevHours": 41.5,
-        "newHours": 41.8,
-        "diffHours": 0.3
+        "newHours": 42,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "bora99",
+        "nickname": "구보라",
+        "crewName": "마범대",
+        "prevStars": 24365,
+        "newStars": 24393,
+        "diffStars": 28,
+        "prevHours": 24.4,
+        "newHours": 24.9,
+        "diffHours": 0.5
       },
       {
         "soopId": "kysvic2",
@@ -233,8 +370,8 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 15164,
         "diffStars": 20,
         "prevHours": 28,
-        "newHours": 28.3,
-        "diffHours": 0.3
+        "newHours": 28.5,
+        "diffHours": 0.5
       },
       {
         "soopId": "jungym0116",
@@ -244,8 +381,8 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 56647,
         "diffStars": 14,
         "prevHours": 41.3,
-        "newHours": 41.6,
-        "diffHours": 0.3
+        "newHours": 41.8,
+        "diffHours": 0.5
       },
       {
         "soopId": "min030606",
@@ -255,41 +392,8 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 46532,
         "diffStars": 10,
         "prevHours": 29,
-        "newHours": 29.4,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "bora99",
-        "nickname": "구보라",
-        "crewName": "마범대",
-        "prevStars": 24365,
-        "newStars": 24370,
-        "diffStars": 5,
-        "prevHours": 24.4,
-        "newHours": 24.7,
-        "diffHours": 0.3
-      },
-      {
-        "soopId": "totoo23",
-        "nickname": "밍또얌",
-        "crewName": "뉴캣슬",
-        "prevStars": 19091,
-        "newStars": 19094,
-        "diffStars": 3,
-        "prevHours": 34.4,
-        "newHours": 34.7,
-        "diffHours": 0.3
-      },
-      {
-        "soopId": "gpfl5473",
-        "nickname": "히리캉",
-        "crewName": "케이대",
-        "prevStars": 44046,
-        "newStars": 44047,
-        "diffStars": 1,
-        "prevHours": 60.3,
-        "newHours": 60.7,
-        "diffHours": 0.4
+        "newHours": 29.5,
+        "diffHours": 0.5
       },
       {
         "soopId": "meezmeun",
@@ -299,184 +403,19 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 38082,
         "diffStars": 1,
         "prevHours": 63.9,
-        "newHours": 64.2,
-        "diffHours": 0.3
+        "newHours": 64.4,
+        "diffHours": 0.5
       },
       {
-        "soopId": "ksmo54",
-        "nickname": "구라미스",
-        "crewName": "뉴캣슬",
-        "prevStars": 48667,
-        "newStars": 48667,
-        "diffStars": 0,
-        "prevHours": 97.5,
-        "newHours": 97.9,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "yuzzzz",
-        "nickname": "유즈",
-        "crewName": "뉴캣슬",
-        "prevStars": 64839,
-        "newStars": 64839,
-        "diffStars": 0,
-        "prevHours": 78.2,
-        "newHours": 78.6,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "2ahgo1203",
-        "nickname": "이아깽",
-        "crewName": "뉴캣슬",
-        "prevStars": 78665,
-        "newStars": 78665,
-        "diffStars": 0,
-        "prevHours": 77.3,
-        "newHours": 77.7,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "kss33325",
-        "nickname": "김수식",
-        "crewName": "드림즈",
-        "prevStars": 10474,
-        "newStars": 10474,
-        "diffStars": 0,
-        "prevHours": 40,
-        "newHours": 40.4,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "snfjdro369",
-        "nickname": "윤수철",
-        "crewName": "신세계",
-        "prevStars": 7095,
-        "newStars": 7095,
-        "diffStars": 0,
-        "prevHours": 50.2,
-        "newHours": 50.6,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "shj06170",
-        "nickname": "얌쭈",
-        "crewName": "와플대",
-        "prevStars": 14145,
-        "newStars": 14145,
-        "diffStars": 0,
-        "prevHours": 26,
-        "newHours": 26.4,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "daegalheo",
-        "nickname": "허유",
-        "crewName": "와플대",
-        "prevStars": 31391,
-        "newStars": 31391,
-        "diffStars": 0,
-        "prevHours": 75.1,
-        "newHours": 75.5,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "goodzerg",
-        "nickname": "배성흠",
-        "crewName": "캄몬",
-        "prevStars": 3332,
-        "newStars": 3332,
-        "diffStars": 0,
-        "prevHours": 37.3,
-        "newHours": 37.7,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "seemin88",
-        "nickname": "비타밍",
-        "crewName": "캄몬",
-        "prevStars": 129378,
-        "newStars": 129378,
-        "diffStars": 0,
-        "prevHours": 80.5,
-        "newHours": 80.9,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "dlaguswl501",
-        "nickname": "임조이",
-        "crewName": "캄몬",
-        "prevStars": 52205,
-        "newStars": 52205,
-        "diffStars": 0,
-        "prevHours": 53.3,
-        "newHours": 53.7,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "wittyku",
-        "nickname": "냥수디",
+        "soopId": "gpfl5473",
+        "nickname": "히리캉",
         "crewName": "케이대",
-        "prevStars": 43306,
-        "newStars": 43306,
-        "diffStars": 0,
-        "prevHours": 28.5,
-        "newHours": 28.9,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "jelly97",
-        "nickname": "찌효",
-        "crewName": "케이대",
-        "prevStars": 36705,
-        "newStars": 36705,
-        "diffStars": 0,
-        "prevHours": 81.4,
-        "newHours": 81.8,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "hy4985",
-        "nickname": "뽀누나",
-        "crewName": "BGM",
-        "prevStars": 18258,
-        "newStars": 18258,
-        "diffStars": 0,
-        "prevHours": 95.8,
-        "newHours": 96.2,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "qhkrwns12",
-        "nickname": "미동미동",
-        "crewName": "DM",
-        "prevStars": 14715,
-        "newStars": 14715,
-        "diffStars": 0,
-        "prevHours": 48.2,
-        "newHours": 48.6,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "sharpragu",
-        "nickname": "조기석",
-        "crewName": "JSA",
-        "prevStars": 12649,
-        "newStars": 12649,
-        "diffStars": 0,
-        "prevHours": 30.9,
-        "newHours": 31.3,
-        "diffHours": 0.4
-      },
-      {
-        "soopId": "rhakdncjs90",
-        "nickname": "으냉이",
-        "crewName": "무소속",
-        "prevStars": 122970,
-        "newStars": 122970,
-        "diffStars": 0,
-        "prevHours": 85.6,
-        "newHours": 86,
-        "diffHours": 0.4
+        "prevStars": 44046,
+        "newStars": 44047,
+        "diffStars": 1,
+        "prevHours": 60.3,
+        "newHours": 60.8,
+        "diffHours": 0.5
       },
       {
         "soopId": "killkg2",
@@ -486,8 +425,8 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 84932,
         "diffStars": 0,
         "prevHours": 161.3,
-        "newHours": 161.6,
-        "diffHours": 0.3
+        "newHours": 161.8,
+        "diffHours": 0.5
       },
       {
         "soopId": "corgi1102",
@@ -497,8 +436,30 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 36643,
         "diffStars": 0,
         "prevHours": 80.5,
-        "newHours": 80.8,
-        "diffHours": 0.3
+        "newHours": 81,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "yuzzzz",
+        "nickname": "유즈",
+        "crewName": "뉴캣슬",
+        "prevStars": 64839,
+        "newStars": 64839,
+        "diffStars": 0,
+        "prevHours": 78.2,
+        "newHours": 78.7,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "2ahgo1203",
+        "nickname": "이아깽",
+        "crewName": "뉴캣슬",
+        "prevStars": 78665,
+        "newStars": 78665,
+        "diffStars": 0,
+        "prevHours": 77.3,
+        "newHours": 77.8,
+        "diffHours": 0.5
       },
       {
         "soopId": "dbrbals",
@@ -508,8 +469,8 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 3600,
         "diffStars": 0,
         "prevHours": 27.3,
-        "newHours": 27.6,
-        "diffHours": 0.3
+        "newHours": 27.8,
+        "diffHours": 0.5
       },
       {
         "soopId": "123rhaxld",
@@ -519,8 +480,8 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 118673,
         "diffStars": 0,
         "prevHours": 60,
-        "newHours": 60.3,
-        "diffHours": 0.3
+        "newHours": 60.5,
+        "diffHours": 0.5
       },
       {
         "soopId": "kjhanna824",
@@ -530,30 +491,8 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 22740,
         "diffStars": 0,
         "prevHours": 27.2,
-        "newHours": 27.5,
-        "diffHours": 0.3
-      },
-      {
-        "soopId": "rlekfu6",
-        "nickname": "박재혁",
-        "crewName": "더블비",
-        "prevStars": 244911,
-        "newStars": 244911,
-        "diffStars": 0,
-        "prevHours": 69.8,
-        "newHours": 70.1,
-        "diffHours": 0.3
-      },
-      {
-        "soopId": "mwhdgus",
-        "nickname": "윤진규",
-        "crewName": "더블비",
-        "prevStars": 51773,
-        "newStars": 51773,
-        "diffStars": 0,
-        "prevHours": 36.6,
-        "newHours": 36.9,
-        "diffHours": 0.3
+        "newHours": 27.7,
+        "diffHours": 0.5
       },
       {
         "soopId": "heksd",
@@ -563,11 +502,88 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
         "newStars": 7947,
         "diffStars": 0,
         "prevHours": 39.3,
-        "newHours": 39.6,
-        "diffHours": 0.3
+        "newHours": 39.8,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "kss33325",
+        "nickname": "김수식",
+        "crewName": "드림즈",
+        "prevStars": 10474,
+        "newStars": 10474,
+        "diffStars": 0,
+        "prevHours": 40,
+        "newHours": 40.5,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "alaelddl97",
+        "nickname": "민지",
+        "crewName": "드림즈",
+        "prevStars": 59932,
+        "newStars": 59932,
+        "diffStars": 0,
+        "prevHours": 31.3,
+        "newHours": 31.8,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "wjswpalssla1",
+        "nickname": "전제민",
+        "crewName": "드림즈",
+        "prevStars": 13202,
+        "newStars": 13202,
+        "diffStars": 0,
+        "prevHours": 29.1,
+        "newHours": 29.6,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "dkwkal",
+        "nickname": "탱크~_~",
+        "crewName": "드림즈",
+        "prevStars": 24169,
+        "newStars": 24169,
+        "diffStars": 0,
+        "prevHours": 25.5,
+        "newHours": 26,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "nreupne",
+        "nickname": "핑핑",
+        "crewName": "드림즈",
+        "prevStars": 58823,
+        "newStars": 58823,
+        "diffStars": 0,
+        "prevHours": 48.6,
+        "newHours": 49.1,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "jackpot",
+        "nickname": "이창우",
+        "crewName": "마범대",
+        "prevStars": 15373,
+        "newStars": 15373,
+        "diffStars": 0,
+        "prevHours": 40.8,
+        "newHours": 41.3,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "janghoman",
+        "nickname": "베트남테란",
+        "crewName": "소병대",
+        "prevStars": 2347,
+        "newStars": 2347,
+        "diffStars": 0,
+        "prevHours": 74.8,
+        "newHours": 75.3,
+        "diffHours": 0.5
       }
     ],
-    "note": "2026-10 전원 정상 수집 완료 (238명, 72명 수치 갱신)"
+    "note": "2026-10 전원 정상 수집 완료 (240명, 78명 수치 갱신)"
   },
   {
     "id": "run-1791448739171",
@@ -10169,19 +10185,5 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "failedStreamers": [],
     "durationSeconds": 95,
     "note": "정기 자동 스케줄 (평소 30분 주기 수집) — 100% 정상 완료"
-  },
-  {
-    "id": "run-37272243300",
-    "timestamp": "2026-10-05T06:25:58Z",
-    "kstTime": "2026-10-05 15:25:58",
-    "yearMonth": "2026-10",
-    "trigger": "schedule",
-    "status": "success",
-    "requestedCount": 237,
-    "fetchedCount": 237,
-    "failedCount": 0,
-    "failedStreamers": [],
-    "durationSeconds": 98,
-    "note": "정기 자동 스케줄 수집 — 100% 정상 완료"
   }
 ];

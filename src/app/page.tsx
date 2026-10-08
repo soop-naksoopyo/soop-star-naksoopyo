@@ -274,7 +274,7 @@ export default function HomePage() {
           </div>
 
           {/* 선택 월 기준 스타크루 명단 (2열 와이드 배치) */}
-          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
             {rankedCrews.map((crew, idx) => (
               <CrewCard
                 key={crew.crewName}

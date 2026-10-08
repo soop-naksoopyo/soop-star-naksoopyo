@@ -104,7 +104,7 @@ export const CrewCard: React.FC<CrewCardProps> = ({ crewName, rank, members }) =
       </div>
 
       {/* 스트리머 멤버 2열 그리드 배치 (전체 멤버 한눈에 보기) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 flex-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 content-start auto-rows-max">
         {sortedMembers.length > 0 ? (
           sortedMembers.map((member, idx) => (
             <StreamerRow
