@@ -3,6 +3,20 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791445475441",
+    "timestamp": "2026-10-08T07:44:35.441Z",
+    "kstTime": "2026-10-08 16:44:35",
+    "yearMonth": "2026-10",
+    "trigger": "manual",
+    "status": "success",
+    "requestedCount": 238,
+    "fetchedCount": 238,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 2,
+    "note": "2026-10 Trackify 전원 정상 수집 완료 (238명)"
+  },
+  {
     "id": "run-1791445262377",
     "timestamp": "2026-10-08T07:41:02.377Z",
     "kstTime": "2026-10-08 16:41:02",
