@@ -123,7 +123,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "soopId": "diniowo",
         "nickname": "막내현진",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/di/diniowo/diniowo.jpg",
-        "totalStars": 98122,
+        "totalStars": 98620,
         "broadcastHours": 61
       },
       {
@@ -814,7 +814,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "핑핑",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/nr/nreupne/nreupne.jpg",
         "totalStars": 57607,
-        "broadcastHours": 39
+        "broadcastHours": 40
       },
       {
         "soopId": "wlswn6565",
