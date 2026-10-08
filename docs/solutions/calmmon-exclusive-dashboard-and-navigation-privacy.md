@@ -55,9 +55,9 @@ Key requirements included:
 5. **Layout Widening & Interactive Month Navigation**:
    - Expanded card layout to wide responsive container (`max-w-4xl lg:max-w-5xl`) with comfortable paddings and crisp typography.
    - Removed cluttered text (`26년 10월 · 업데이트 · 출처`) and replaced the `/calm` badge with a clean `← 메인 대시보드` return button.
-   - Introduced interactive month navigator (`< YYYY년 MM월 >`), enabling seamless switching between months (e.g. October -> November, instantly shifting birthday `🎂` cake icons from Ju Harang to Haessal and Im Joy).
+   - Introduced interactive month navigator (`< YYYY년 MM월 >`) with safe availability guardrails (`AVAILABLE_CALMMON_MONTHS = ['2026-10']`). Months without data (e.g. September 9월 or November 11월) automatically disable navigation buttons (`disabled:opacity-25 disabled:cursor-not-allowed`) to prevent broken/empty views while keeping dynamic extensibility for when future months arrive.
 
 ## Verification
 - **Unit Tests**: `vitest run` passed all 48 test suites (`src/test/calmmonData.test.ts`).
 - **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed via `wrangler pages deploy`.
-- **Live Visual Validation**: Checked `https://soop-star-naksoopyo.pages.dev/` (no Calmmon menu visible) and `https://soop-star-naksoopyo.pages.dev/calm` (clean wide card, month switcher working, dynamic cake emoji shift verified).
+- **Live Visual Validation**: Checked `https://soop-star-naksoopyo.pages.dev/` (no Calmmon menu visible) and `https://soop-star-naksoopyo.pages.dev/calm` (clean wide card, month switcher working with 9/11월 buttons safely disabled, cake emoji verified).
