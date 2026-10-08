@@ -74,13 +74,13 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
       "soopId": "yochba0402",
       "nickname": "졈니",
       "totalStars": 142413,
-      "broadcastHours": 37
+      "broadcastHours": 37.2
     },
     {
       "soopId": "yjk011599",
       "nickname": "나무늘봉순",
       "totalStars": 169721,
-      "broadcastHours": 83.5
+      "broadcastHours": 83.7
     },
     {
       "soopId": "zalalz",
@@ -91,8 +91,8 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
     {
       "soopId": "qpqpro",
       "nickname": "디임",
-      "totalStars": 123719,
-      "broadcastHours": 68.7
+      "totalStars": 123819,
+      "broadcastHours": 68.9
     },
     {
       "soopId": "ouo20411",
@@ -109,20 +109,20 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
     {
       "soopId": "kmj05317",
       "nickname": "우리밍_",
-      "totalStars": 70551,
-      "broadcastHours": 59.6
+      "totalStars": 72531,
+      "broadcastHours": 59.7
     },
     {
       "soopId": "rhakdncjs90",
       "nickname": "으냉이",
       "totalStars": 129112,
-      "broadcastHours": 94.8
+      "broadcastHours": 95
     },
     {
       "soopId": "gks2wl",
       "nickname": "앵지",
       "totalStars": 57591,
-      "broadcastHours": 47.7
+      "broadcastHours": 47.9
     },
     {
       "soopId": "dmsgkdn12",
