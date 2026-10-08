@@ -19,7 +19,7 @@ export const HeroStats: React.FC<HeroStatsProps> = ({
   totalAllStars,
 }) => {
   return (
-    <div className="w-full max-w-7xl 2xl:max-w-[1600px] grid grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
+    <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
       {/* 1. 이달의 1위 스타크루 */}
       <div className="bg-white border border-slate-200/90 rounded-xl p-3.5 sm:p-4 hover:border-slate-300 shadow-xs hover:shadow-sm transition">
         <div className="flex items-center justify-between">

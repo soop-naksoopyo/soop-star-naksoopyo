@@ -201,14 +201,14 @@ export default function HomePage() {
       <Header />
 
       {/* 2. 메인 내비게이션 */}
-      <div className="mb-4 w-full max-w-7xl 2xl:max-w-[1600px]">
+      <div className="mb-4 w-full max-w-7xl 2xl:max-w-[1720px]">
         <NavTabs currentTab={currentTab} onTabChange={setCurrentTab} />
       </div>
 
       {/* 4. 탭별 뷰 렌더링 */}
       {currentTab !== 'viewership' && (
         <RankingSectionHeader
-          className="mb-4 w-full max-w-7xl 2xl:max-w-[1600px]"
+          className="mb-4 w-full max-w-7xl 2xl:max-w-[1720px]"
           title="월간 별풍선 순위"
           description="스타크루별 또는 개인별 월간 별풍선 순위를 확인할 수 있습니다."
           icon={<Star className="h-5 w-5 text-emerald-600" />}
@@ -221,7 +221,7 @@ export default function HomePage() {
       )}
 
       {currentTab === 'star' && (
-        <div className="w-full max-w-7xl 2xl:max-w-[1600px] flex flex-col gap-6">
+        <div className="w-full max-w-7xl 2xl:max-w-[1720px] flex flex-col gap-6">
           {isHistoricalLoading ? (
             <div className="flex min-h-52 items-center justify-center gap-3 text-sm text-slate-500" role="status">
               <Settings className="h-6 w-6 animate-spin text-emerald-500" strokeWidth={1.75} />
@@ -273,8 +273,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* 선택 월 기준 스타크루 명단 (2열 와이드 배치) */}
-          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
+          {/* 선택 월 기준 스타크루 명단 (4열 배치) */}
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 items-start">
             {rankedCrews.map((crew, idx) => (
               <CrewCard
                 key={crew.crewName}
