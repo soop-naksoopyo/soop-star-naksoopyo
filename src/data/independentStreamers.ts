@@ -67,74 +67,74 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
     {
       "soopId": "xodud1898",
       "nickname": "태영♥",
-      "totalStars": 91902,
-      "broadcastHours": 39.7
+      "totalStars": 145136,
+      "broadcastHours": 65.1
     },
     {
       "soopId": "yochba0402",
       "nickname": "졈니",
-      "totalStars": 78616,
-      "broadcastHours": 23
+      "totalStars": 95505,
+      "broadcastHours": 29.7
     },
     {
       "soopId": "yjk011599",
       "nickname": "나무늘봉순",
-      "totalStars": 117990,
-      "broadcastHours": 52.9
+      "totalStars": 140948,
+      "broadcastHours": 75.4
     },
     {
       "soopId": "zalalz",
       "nickname": "조은",
       "totalStars": 49588,
-      "broadcastHours": 15.9
+      "broadcastHours": 22.6
     },
     {
       "soopId": "qpqpro",
       "nickname": "디임",
-      "totalStars": 95953,
+      "totalStars": 108291,
       "broadcastHours": 65
     },
     {
       "soopId": "ouo20411",
       "nickname": "히댕",
       "totalStars": 74758,
-      "broadcastHours": 8.6
+      "broadcastHours": 12.2
     },
     {
       "soopId": "sdkels",
       "nickname": "강덕구",
-      "totalStars": 11050,
-      "broadcastHours": 12.1
+      "totalStars": 34466,
+      "broadcastHours": 40.5
     },
     {
       "soopId": "kmj05317",
       "nickname": "우리밍_",
-      "totalStars": 48706,
-      "broadcastHours": 42.8
+      "totalStars": 68798,
+      "broadcastHours": 51.9
     },
     {
       "soopId": "rhakdncjs90",
       "nickname": "으냉이",
-      "totalStars": 61210,
-      "broadcastHours": 34.6
+      "totalStars": 122833,
+      "broadcastHours": 84.6
     },
     {
       "soopId": "gks2wl",
       "nickname": "앵지",
-      "totalStars": 38878,
-      "broadcastHours": 30.5
+      "totalStars": 45588,
+      "broadcastHours": 40.4
     },
     {
       "soopId": "dmsgkdn12",
       "nickname": "엔돌핀♥",
-      "totalStars": 19428,
-      "broadcastHours": 26.4
+      "totalStars": 23824,
+      "broadcastHours": 33.8
     },
     {
       "soopId": "forweourus",
       "nickname": "이유란ㅇ",
-      "totalStars": 0,
-      "broadcastHours": 0
+      "totalStars": 69451,
+      "broadcastHours": 30
     }
   ],
   "2026-11": [

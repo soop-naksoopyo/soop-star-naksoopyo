@@ -80,69 +80,69 @@ function getRoster(yearMonth) {
   return Array.from(byId.values());
 }
 
-async function fetchViewership(streamer, yearMonth, retryCount = 0) {
-  const [targetYear, targetMonthNum] = yearMonth.split('-');
+async function fetchTrackifyBatch(targetRoster, yearMonth) {
+  const chunkSize = 80;
+  const resultMap = new Map();
+  const failures = new Map();
 
-  const statsUrl = `https://soopscope.com/api/streamer/${encodeURIComponent(streamer.soopId)}/stats?year=${targetYear}&month=${Number(targetMonthNum)}`;
+  for (let i = 0; i < targetRoster.length; i += chunkSize) {
+    const chunk = targetRoster.slice(i, i + chunkSize);
+    const idList = chunk.map((s) => s.soopId).join(',');
+    const url = `https://www.trackify.kr/api/v1/p/soop/ranking/summary?sortKey=viewership&order=desc&range=monthly&date=${yearMonth}&page=1&size=100&ids=${encodeURIComponent(idList)}`;
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 12_000);
+    let success = false;
+    let lastError = null;
 
-  const headers = {
-    'User-Agent': userAgent,
-    'Accept': 'application/json, text/plain, */*',
-    'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
-    'Referer': `https://soopscope.com/streamer/${encodeURIComponent(streamer.soopId)}`,
-    'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-site': 'same-origin',
-  };
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15_000);
 
-  try {
-    const statsRes = await fetch(statsUrl, { headers, signal: controller.signal });
+      try {
+        const res = await fetch(url, {
+          headers: {
+            'User-Agent': userAgent,
+            'Accept': 'application/json, text/plain, */*',
+          },
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
 
-    if (!statsRes.ok) return { error: `http_${statsRes.status}` };
+        if (!res.ok) {
+          throw new Error(`http_${res.status}`);
+        }
 
-    const payload = await statsRes.json();
-    if (!payload || typeof payload !== 'object' || !('current' in payload)) return { error: 'missing_current' };
-    const current = payload.current && typeof payload.current === 'object' ? payload.current : {};
-
-    const numberOrZero = (value) => {
-      const number = Number(value);
-      return Number.isFinite(number) && number > 0 ? Math.round(number) : 0;
-    };
-
-    const totalStars = numberOrZero(current.totalStars);
-
-    const averageViewers = numberOrZero(current.avgViewers);
-    const broadcastMinutes = numberOrZero(current.minutes);
-
-    return { row: {
-      ...streamer,
-      totalStars,
-      starsSource: 'stats',
-      averageViewers,
-      totalViewers: numberOrZero(current.totalViewers),
-      peakViewers: numberOrZero(current.peak),
-      broadcastMinutes,
-      viewerShip: Math.round((averageViewers * broadcastMinutes) / 60),
-      fetchedAt: new Date().toISOString(),
-      collectionStatus: 'available',
-      viewershipStatus: 'available',
-    } };
-  } catch (error) {
-    if (retryCount < 2) {
-      clearTimeout(timeout);
-      await new Promise((resolve) => setTimeout(resolve, 3000 * (retryCount + 1)));
-      return fetchViewership(streamer, yearMonth, retryCount + 1);
+        const data = await res.json();
+        if (Array.isArray(data.items)) {
+          for (const item of data.items) {
+            if (item && item.broadUserId) {
+              resultMap.set(item.broadUserId.toLowerCase(), item);
+            }
+          }
+        }
+        success = true;
+        break;
+      } catch (err) {
+        clearTimeout(timeout);
+        lastError = err?.name === 'AbortError' ? 'timeout' : (err?.message || 'network_error');
+        if (attempt < 3) {
+          await new Promise((resolve) => setTimeout(resolve, 2000 * attempt));
+        }
+      }
     }
-    return { error: error?.name === 'AbortError' ? 'timeout' : 'network_or_json_error' };
-  } finally {
-    clearTimeout(timeout);
+
+    if (!success) {
+      console.warn(`[Trackify Batch] Failed chunk ${Math.floor(i / chunkSize) + 1} (${chunk.length} streamers): ${lastError}`);
+      for (const s of chunk) {
+        failures.set(s.soopId.toLowerCase(), lastError || 'trackify_failed');
+      }
+    }
+
+    if (i + chunkSize < targetRoster.length) {
+      await new Promise((resolve) => setTimeout(resolve, 400));
+    }
   }
+
+  return { resultMap, failures };
 }
 
 async function saveAndSyncSnapshots({
@@ -166,7 +166,7 @@ async function saveAndSyncSnapshots({
 
   const rosterIds = new Set(roster.map((r) => r.soopId.toLowerCase()));
   const streamers = Array.from(mergedMap.values()).filter((s) => rosterIds.has(s.soopId.toLowerCase()));
-  console.log(`[SoopScope Sync] Processing ${streamers.length}/${roster.length} streamers (newly fetched: ${newlyFetchedIds.size}) for ${yearMonth}`);
+  console.log(`[Trackify Sync] Processing ${streamers.length}/${roster.length} streamers (newly fetched: ${newlyFetchedIds.size}) for ${yearMonth}`);
 
   if (newlyFetchedIds.size > 0) {
     archives[yearMonth] = {
@@ -185,9 +185,9 @@ async function saveAndSyncSnapshots({
       `export const VIEWERSHIP_MONTHLY_SNAPSHOTS: Record<string, ViewershipMonthlySnapshot> = ${JSON.stringify(archives, null, 2)};\n`,
     );
     fs.writeFileSync(archivePath, updatedContent, 'utf8');
-    console.log(`[SoopScope Sync] Saved ${streamers.length} streamers to ${archivePath}`);
+    console.log(`[Trackify Sync] Saved ${streamers.length} streamers to ${archivePath}`);
   } else {
-    console.warn(`[SoopScope Sync] ⚠️ 0 streamers fetched in this run. Retaining existing snapshot without touching updatedAt.`);
+    console.warn(`[Trackify Sync] ⚠️ 0 streamers fetched in this run. Retaining existing snapshot without touching updatedAt.`);
   }
 
   let runLogEntry = null;
@@ -249,14 +249,14 @@ async function saveAndSyncSnapshots({
       failedStreamers: uncollectedStreamers.slice(0, 50),
       durationSeconds,
       note: Array.from(failures.values()).some((reason) => reason.includes('http_403'))
-        ? `${yearMonth} SoopScope API가 HTTP 403을 반환해 수집을 중단하고 기존 스냅샷을 유지함`
+        ? `${yearMonth} Trackify API가 HTTP 403을 반환해 수집을 중단하고 기존 스냅샷을 유지함`
         : Array.from(failures.values()).some((reason) => reason.includes('http_429'))
-          ? `${yearMonth} SoopScope API가 HTTP 429를 반환해 수집을 중단하고 기존 스냅샷을 유지함`
+          ? `${yearMonth} Trackify API가 HTTP 429를 반환해 수집을 중단하고 기존 스냅샷을 유지함`
           : newlyFetchedIds.size === 0
-            ? `${yearMonth} 수집 실패 (0명 수집됨)`
+            ? `${yearMonth} Trackify 수집 실패 (0명 수집됨)`
             : newlyFetchedIds.size < roster.length
-              ? `${yearMonth} 부분 수집 (${newlyFetchedIds.size}/${roster.length}명 성공)`
-              : `${yearMonth} 전원 정상 수집 완료 (${newlyFetchedIds.size}명)`,
+              ? `${yearMonth} Trackify 부분 수집 (${newlyFetchedIds.size}/${roster.length}명 성공)`
+              : `${yearMonth} Trackify 전원 정상 수집 완료 (${newlyFetchedIds.size}명)`,
     };
     runLogEntry = newLogEntry;
 
@@ -290,7 +290,7 @@ async function saveAndSyncSnapshots({
       `export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = ${JSON.stringify(starCrews, null, 2)};\n`,
     );
     fs.writeFileSync(starCrewsPath, updatedCrewContent, 'utf8');
-    console.log(`[SoopScope Sync] Synchronized ${starCrewsPath} with latest ${yearMonth} data!`);
+    console.log(`[Trackify Sync] Synchronized ${starCrewsPath} with latest ${yearMonth} data!`);
 
     const indepPath = path.join(root, 'src/data/independentStreamers.ts');
     const { content: indepContent, pattern: indepPattern, data: indepMap } = readObjectExport(
@@ -311,7 +311,7 @@ async function saveAndSyncSnapshots({
         `export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> = ${JSON.stringify(indepMap, null, 2)};\n`,
       );
       fs.writeFileSync(indepPath, updatedIndepContent, 'utf8');
-      console.log(`[SoopScope Sync] Synchronized ${indepPath} with latest ${yearMonth} data!`);
+      console.log(`[Trackify Sync] Synchronized ${indepPath} with latest ${yearMonth} data!`);
     }
   }
 
@@ -353,14 +353,14 @@ async function saveAndSyncSnapshots({
         });
 
         if (!res.ok) {
-          console.error(`[SoopScope Sync] Supabase REST API error (${res.status}):`, await res.text());
+          console.error(`[Trackify Sync] Supabase REST API error (${res.status}):`, await res.text());
         } else {
-          console.log(`[SoopScope Sync] Successfully synced ${records.length} records to Supabase (${yearMonth})!`);
+          console.log(`[Trackify Sync] Successfully synced ${records.length} records to Supabase (${yearMonth})!`);
         }
       }
 
     } catch (err) {
-      console.error('[SoopScope Sync] Failed syncing to Supabase:', err.message);
+      console.error('[Trackify Sync] Failed syncing to Supabase:', err.message);
     }
   }
 
@@ -480,46 +480,84 @@ async function main() {
   const previousSnapshot = archives[yearMonth];
   const existingMap = new Map((previousSnapshot?.streamers || []).map((s) => [s.soopId.toLowerCase(), s]));
 
-  console.log(`[Sync Engine] Fetching ${targetRoster.length} streamers from SoopScope stats API sequentially...`);
-  for (let index = 0; index < targetRoster.length; index += 1) {
-    const streamer = targetRoster[index];
-    const soopId = streamer.soopId.toLowerCase();
-    const existing = existingMap.get(soopId);
-    const result = await fetchViewership(streamer, yearMonth);
+  console.log(`[Trackify Sync] Fetching ${targetRoster.length} streamers via Trackify batch API for ${yearMonth}...`);
+  const { resultMap: trackifyMap, failures: batchFailures } = await fetchTrackifyBatch(targetRoster, yearMonth);
 
-    if (result.error) {
-      failures.set(soopId, result.error);
-      console.warn(`[SoopScope API] ${soopId}: ${result.error}`);
-      if (result.error === 'http_403' || result.error === 'http_429') {
-        stoppedByLimit = true;
-        break;
-      }
-    } else {
-      const row = result.row;
-      if (existing) {
-        row.totalStars = Math.max(row.totalStars || 0, existing.totalStars || 0);
-        row.broadcastMinutes = Math.max(row.broadcastMinutes || 0, existing.broadcastMinutes || 0);
-        row.viewerShip = Math.round(((row.averageViewers || 0) * (row.broadcastMinutes || 0)) / 60);
-      }
-      collectedRows.push(row);
-    }
-
-    if (index < targetRoster.length - 1) await new Promise((resolve) => setTimeout(resolve, 1250));
+  for (const [id, reason] of batchFailures.entries()) {
+    failures.set(id, reason);
   }
 
-  if (stoppedByLimit) {
-    const stopSoopId = targetRoster.find((streamer) => failures.has(streamer.soopId.toLowerCase()))?.soopId.toLowerCase();
-    const stopReason = failures.get(stopSoopId);
-    console.warn(`[SoopScope API] ${stopReason} received; stopping this run and keeping the existing snapshot unchanged.`);
-    collectedRows.length = 0;
-    for (const streamer of targetRoster) {
-      const existing = existingMap.get(streamer.soopId.toLowerCase());
+  if (batchFailures.size === targetRoster.length && targetRoster.length > 0) {
+    console.warn('[Trackify API] All batch requests failed; keeping existing snapshot.');
+    stoppedByLimit = true;
+  }
+
+  const nowIso = new Date().toISOString();
+  const newlyFetchedIds = new Set();
+
+  for (const streamer of targetRoster) {
+    const soopId = streamer.soopId.toLowerCase();
+    if (excludedSoopIds.has(soopId)) continue;
+
+    if (failures.has(soopId)) {
+      const existing = existingMap.get(soopId);
       if (existing) collectedRows.push(existing);
+      continue;
     }
-    failures.clear();
-    for (const streamer of targetRoster) {
-      const soopId = streamer.soopId.toLowerCase();
-      failures.set(soopId, soopId === stopSoopId ? stopReason : `not_requested_after_${stopReason}`);
+
+    const item = trackifyMap.get(soopId);
+    const existing = existingMap.get(soopId);
+
+    if (item) {
+      const itemStars = Number(item.balloon);
+      const validItemStars = Number.isFinite(itemStars) && itemStars > 0 ? Math.round(itemStars) : 0;
+      const totalStars = Math.max(validItemStars, existing?.totalStars || 0);
+
+      const averageViewers = Number.isFinite(Number(item.viewerAvg)) ? Math.round(Number(item.viewerAvg)) : 0;
+      const peakViewers = Number.isFinite(Number(item.viewerPeak)) ? Math.round(Number(item.viewerPeak)) : 0;
+      const totalViewers = Number.isFinite(Number(item.uniqueViewers)) ? Math.round(Number(item.uniqueViewers)) : 0;
+
+      const itemMinutes = Number.isFinite(Number(item.broadTimeSec)) ? Math.round(Number(item.broadTimeSec) / 60) : 0;
+      const broadcastMinutes = Math.max(itemMinutes, existing?.broadcastMinutes || 0);
+      const viewerShip = Math.round((averageViewers * broadcastMinutes) / 60);
+
+      collectedRows.push({
+        ...streamer,
+        totalStars,
+        starsSource: validItemStars > 0 ? 'trackify' : (existing?.starsSource || 'trackify'),
+        averageViewers,
+        totalViewers,
+        peakViewers,
+        broadcastMinutes,
+        viewerShip,
+        fetchedAt: nowIso,
+        collectionStatus: 'available',
+        viewershipStatus: 'available',
+      });
+      newlyFetchedIds.add(soopId);
+    } else {
+      // Inactive streamer during this month (Trackify returns no item if 0 broadcast time)
+      const totalStars = existing?.totalStars || 0;
+      const broadcastMinutes = existing?.broadcastMinutes || 0;
+      const averageViewers = 0;
+      const totalViewers = 0;
+      const peakViewers = 0;
+      const viewerShip = 0;
+
+      collectedRows.push({
+        ...streamer,
+        totalStars,
+        starsSource: existing?.starsSource || 'trackify',
+        averageViewers,
+        totalViewers,
+        peakViewers,
+        broadcastMinutes,
+        viewerShip,
+        fetchedAt: nowIso,
+        collectionStatus: 'available',
+        viewershipStatus: 'available',
+      });
+      newlyFetchedIds.add(soopId);
     }
   }
 
@@ -529,28 +567,16 @@ async function main() {
     const outputPath = path.resolve(root, outputArg.split('=')[1]);
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     fs.writeFileSync(outputPath, JSON.stringify(collectedRows, null, 2), 'utf8');
-    console.log(`[SoopScope Shard] Wrote ${collectedRows.length} rows to ${outputPath}`);
+    console.log(`[Trackify Shard] Wrote ${collectedRows.length} rows to ${outputPath}`);
     return;
   }
 
   // 4. 단일 실행일 경우 로컬 스냅샷 + Supabase + 로그 통합 동기화
   const previous = archives[yearMonth];
   const mergedMap = new Map((previous?.streamers || []).map((s) => [s.soopId.toLowerCase(), s]));
-  const newlyFetchedIds = new Set(collectedRows.filter((row) => !stoppedByLimit && !failures.has(row.soopId.toLowerCase())).map((row) => row.soopId.toLowerCase()));
   for (const row of collectedRows) {
     if (row && row.soopId && !excludedSoopIds.has(row.soopId.toLowerCase())) {
       const soopId = row.soopId.toLowerCase();
-      const existing = mergedMap.get(soopId);
-      if (existing) {
-        if ((row.totalStars || 0) < (existing.totalStars || 0) && (existing.totalStars || 0) > 0) {
-          row.totalStars = existing.totalStars;
-          row.starsSource = existing.starsSource;
-        }
-        if ((row.broadcastMinutes || 0) < (existing.broadcastMinutes || 0) && (existing.broadcastMinutes || 0) > 0) {
-          row.broadcastMinutes = existing.broadcastMinutes;
-        }
-        row.viewerShip = Math.round(((row.averageViewers || 0) * (row.broadcastMinutes || 0)) / 60);
-      }
       mergedMap.set(soopId, row);
     }
   }
@@ -559,7 +585,7 @@ async function main() {
   await saveAndSyncSnapshots({
     yearMonth,
     roster,
-    newlyFetchedIds,
+    newlyFetchedIds: stoppedByLimit ? new Set() : newlyFetchedIds,
     mergedMap,
     archives,
     content,
@@ -574,6 +600,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error('[SoopScope Sync] failed:', error);
+  console.error('[Trackify Sync] failed:', error);
   process.exit(1);
 });

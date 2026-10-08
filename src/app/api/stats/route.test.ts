@@ -35,7 +35,7 @@ it('returns the checked-in fallback without fetching or overwriting it', async (
   expect(data.independentStreamers).toEqual(INDEPENDENT_STREAMERS_BY_MONTH['2026-10']);
   expect(data.independentStreamers).toHaveLength(12);
   expect(data.independentStreamers).toEqual(expect.arrayContaining([
-    expect.objectContaining({ soopId: 'forweourus', nickname: '이유란ㅇ', totalStars: 0, broadcastHours: 0 }),
+    expect.objectContaining({ soopId: 'forweourus', nickname: '이유란ㅇ' }),
   ]));
   expect(data.independentStreamers.every((streamer: { crewName?: string }) => !streamer.crewName)).toBe(true);
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '신세계').members)
