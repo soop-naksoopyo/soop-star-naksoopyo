@@ -73,7 +73,7 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
       {/* 4. 누적 별풍선, 5. 방송시간 */}
       <div className="flex items-center gap-1.5 sm:gap-2 text-right shrink-0">
         <div className="w-[58px] sm:w-[66px] text-right">
-          <div className="font-bold text-amber-800 tabular-nums text-xs whitespace-nowrap">
+          <div className="font-bold text-amber-800 tabular-nums text-[11px] sm:text-xs whitespace-nowrap">
             {formatStars(totalStars)}
           </div>
           <div
@@ -87,8 +87,8 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
             <div className="h-full rounded-full bg-amber-500 transition-[width]" style={{ width: `${starProgress}%` }} />
           </div>
         </div>
-        <div className="w-[40px] sm:w-[46px] text-right">
-          <div className="font-semibold text-slate-900 tabular-nums text-xs whitespace-nowrap">
+        <div className="w-[52px] sm:w-[56px] text-right">
+          <div className="font-semibold text-slate-900 tabular-nums text-[11px] sm:text-xs whitespace-nowrap">
             {formatHours(broadcastHours)}
           </div>
         </div>

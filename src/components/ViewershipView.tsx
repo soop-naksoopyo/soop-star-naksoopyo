@@ -266,21 +266,21 @@ const ViewershipCrewCard: React.FC<{ crew: ViewershipCrewSummary; rank: number }
             <div className="text-base sm:text-lg font-bold tabular-nums text-emerald-800 leading-tight">
               {formatNumber(crew.averageViewerShip)}
             </div>
-            <div className="mt-0.5 text-[10px] font-mono text-slate-500 whitespace-nowrap">
+            <div className="mt-0.5 text-[10px] font-mono text-slate-500">
               총 {formatNumber(crew.totalViewerShip)} · 평시 {formatNumber(crew.averageViewers)}명
             </div>
           </div>
         </div>
       </header>
 
-      {/* 1열 컬럼 헤더 */}
-      <div className="grid grid-cols-[minmax(0,1fr)_3.5rem_4rem] items-center gap-1.5 px-3 pt-2 text-[10px] font-semibold text-slate-500 border-b border-slate-200 pb-1">
-        <span>순위 · 스트리머</span>
-        <span className="text-right">평균시청자</span>
-        <span className="text-right">뷰어십</span>
-      </div>
-
       <div className="p-2 sm:p-2.5 flex-1 flex flex-col">
+        {/* 1열 컬럼 헤더 */}
+        <div className="grid grid-cols-[minmax(0,1fr)_3.5rem_4rem] items-center gap-1 px-2 pb-1.5 text-[10px] font-semibold text-slate-500 border-b border-slate-200 mb-1.5">
+          <span>순위 · 스트리머</span>
+          <span className="text-right">평균시청자</span>
+          <span className="text-right">뷰어십</span>
+        </div>
+
         <div className="flex flex-col gap-1.5 content-start flex-1">
           {crew.members.map((streamer, index) => (
             <CompactStreamerRow key={streamer.soopId} rank={index + 1} streamer={streamer} />

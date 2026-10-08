@@ -186,7 +186,7 @@ export default function HomePage() {
 
   if (isInitialLoading) {
     return (
-      <main className="min-h-screen bg-[#f8fafc] text-slate-900 pt-5 pb-16 px-3 sm:px-6 flex flex-col items-center selection:bg-emerald-100 selection:text-emerald-900">
+      <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#f8fafc] text-slate-900 pt-5 pb-16 px-3 sm:px-6 flex flex-col items-center selection:bg-emerald-100 selection:text-emerald-900">
         <Header />
         <div className="w-full max-w-7xl 2xl:max-w-[1600px] flex flex-1 items-center justify-center" role="status" aria-label="스냅샷 불러오는 중">
           <Settings className="h-9 w-9 animate-spin text-emerald-500" strokeWidth={1.75} />
@@ -196,7 +196,7 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f8fafc] text-slate-900 pt-5 pb-16 px-3 sm:px-6 flex flex-col items-center selection:bg-emerald-100 selection:text-emerald-900">
+    <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#f8fafc] text-slate-900 pt-5 pb-16 px-3 sm:px-6 flex flex-col items-center selection:bg-emerald-100 selection:text-emerald-900">
       {/* 1. 상단 헤더 */}
       <Header />
 

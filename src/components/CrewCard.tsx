@@ -35,7 +35,7 @@ export const CrewCard: React.FC<CrewCardProps> = ({ crewName, rank, members }) =
   return (
     <div
       id={`crew-card-${crewName}`}
-      className="bg-white rounded-xl border-2 border-slate-200/90 hover:border-slate-300 transition flex flex-col p-3 sm:p-3.5 shadow-sm scroll-mt-20 h-full"
+      className="bg-white rounded-xl border-2 border-slate-200/90 hover:border-slate-300 transition flex flex-col p-3 sm:p-3.5 shadow-sm scroll-mt-20 h-full max-w-full overflow-hidden"
     >
       {/* 카드 헤더: 스타크루명, 인원수, 요약 지표 */}
       <div className="flex items-start justify-between pb-2.5 border-b-2 border-slate-200 mb-2.5 gap-2">
@@ -71,14 +71,14 @@ export const CrewCard: React.FC<CrewCardProps> = ({ crewName, rank, members }) =
 
       {/* 1열 컬럼 헤더 */}
       <div className="flex items-center justify-between px-2 py-1 text-[11px] text-slate-500 font-semibold border-b border-slate-200 mb-1.5">
-        <span className="flex items-center gap-1.5">
-          <span className="w-5 text-center">#</span>
-          <span>스트리머</span>
-        </span>
-        <span className="flex items-center gap-2">
-          <span>별풍선</span>
-          <span className="w-[42px] text-right">방송시간</span>
-        </span>
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className="w-5 text-center shrink-0">#</span>
+          <span className="shrink-0 pl-[24px]">스트리머</span>
+        </div>
+        <div className="flex items-center gap-1.5 sm:gap-2 text-right shrink-0">
+          <span className="w-[58px] sm:w-[66px] text-right">별풍선</span>
+          <span className="w-[52px] sm:w-[56px] text-right">방송시간</span>
+        </div>
       </div>
 
       {/* 스트리머 멤버 1열 리스트 배치 */}
