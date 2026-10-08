@@ -79,8 +79,8 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
     {
       "soopId": "yjk011599",
       "nickname": "나무늘봉순",
-      "totalStars": 176153,
-      "broadcastHours": 85.7
+      "totalStars": 177519,
+      "broadcastHours": 86
     },
     {
       "soopId": "zalalz",
@@ -116,7 +116,7 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
       "soopId": "rhakdncjs90",
       "nickname": "으냉이",
       "totalStars": 129386,
-      "broadcastHours": 97
+      "broadcastHours": 97.3
     },
     {
       "soopId": "gks2wl",
