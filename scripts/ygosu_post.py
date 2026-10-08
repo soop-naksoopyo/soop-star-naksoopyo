@@ -59,7 +59,7 @@ def main():
     parser = argparse.ArgumentParser(description="와이고수 랜능크게시판 Playwright 글쓰기 도구")
     parser.add_argument("--id", default=os.environ.get("YGOSU_ID", "brainzerg77"), help="와이고수 아이디")
     parser.add_argument("--pw", default=os.environ.get("YGOSU_PW", "didgmlxo12!@"), help="와이고수 비밀번호")
-    parser.add_argument("--board", default=os.environ.get("YGOSU_BOARD", "pan_random"), help="게시판 아이디 (기본값: pan_random)")
+    parser.add_argument("--board", default=os.environ.get("YGOSU_BOARD", "pan_prison,starbbs"), help="게시판 아이디 (쉼표로 복수 지정 가능, 기본값: pan_prison,starbbs)")
     parser.add_argument("--title", default=os.environ.get("POST_TITLE", "auto"), help="글 제목 ('auto' 시 현재 KST 시간 기반 자동 생성)")
     parser.add_argument("--content", default=os.environ.get("POST_CONTENT", ""), help="글 본문 (기본값: 내용 없음, 사진만 첨부)")
     parser.add_argument("--auto-submit", action="store_true", help="작성 후 자동으로 완료/등록 버튼 클릭")
@@ -72,14 +72,20 @@ def main():
         from datetime import datetime, timezone, timedelta
         kst = timezone(timedelta(hours=9))
         now_kst = datetime.now(kst)
-        args.title = f"[{now_kst.strftime('%m-%d %H시')}] 스타크루 별풍선 & 뷰어십 랭킹 / 개인 TOP10"
+        args.title = f"[{now_kst.strftime('%m/%d %H시 기준')}] 스타크루 별풍선 & 뷰어십 랭킹 / 개인 TOP 10"
+
+    # 대상 게시판 리스트 파싱
+    boards = [b.strip() for b in args.board.split(",") if b.strip()]
+    if not boards:
+        boards = ["pan_prison", "starbbs"]
+    print(f"🎯 대상 게시판 목록: {boards}")
 
     # 첨부할 캡처 이미지 경로 (사용자 요청 순서: 별풍크루 -> 뷰어십크루 -> 별풍개인 -> 뷰어십개인)
     project_root = Path(__file__).resolve().parent.parent
     captures_dir = project_root / "public" / "captures"
     image_files = [
         captures_dir / "01_star_crew_ranking.png",          # 1. 별풍선 크루 순위
-        captures_dir / "03_viewership_crew_ranking.png",     # 2. 뷰어십 크루 순위
+        captures_dir / "03_viewership_crew_ranking.png",     # 2. 뷰어십 크루 순위 (명단 제외)
         captures_dir / "02_star_individual_top10.png",      # 3. 별풍선 개인 top10
         captures_dir / "04_viewership_individual_top10.png", # 4. 뷰어십 개인 top10
     ]
@@ -102,13 +108,11 @@ def main():
         # 알림창(alert/confirm) 자동 수락
         page.on("dialog", lambda d: (print(f"🔔 알림창 감지: '{d.message}' -> 확인 클릭"), d.accept()))
 
-        login_url = f"https://ygosu.com/login/?type=normal&backurl=%2Fboard%2F{args.board}%2F%3Fmode%3Dwrite"
-        write_url = f"https://ygosu.com/board/{args.board}/?mode=write"
-
+        # 1. 자동 로그인 시도
+        login_url = f"https://ygosu.com/login/?type=normal&backurl=%2Fboard%2F{boards[0]}%2F%3Fmode%3Dwrite"
         print(f"🌐 로그인 페이지로 이동: {login_url}")
         page.goto(login_url, wait_until="domcontentloaded")
 
-        # 1. 자동 로그인 시도
         if args.id and args.pw:
             print(f"🔑 계정({args.id})으로 로그인을 진행합니다...")
             page.wait_for_selector("#ygosu_login_id", timeout=10000)
@@ -117,82 +121,6 @@ def main():
             page.press("#ygosu_login_pwd", "Enter")
             page.wait_for_timeout(2500)
 
-        # 2. 글쓰기 페이지 이동
-        print(f"📝 글쓰기 페이지({write_url})로 이동합니다...")
-        page.goto(write_url, wait_until="domcontentloaded")
-        page.wait_for_selector("#subject", timeout=15000)
-        print("✅ 글쓰기 페이지 진입 성공!")
-
-        # 임시저장 글 불러오기 모달이 뜬 경우 "취소" 클릭하여 닫기
-        try:
-            cancel_btn = page.locator(".yg-dialog-modal button:has-text('취소'), .yg-dialog-daisy button:has-text('취소')").first
-            if cancel_btn.count() > 0 and cancel_btn.is_visible():
-                print("🗑️ 임시 저장 글 불러오기 모달 감지 -> '취소' 클릭하여 닫음")
-                cancel_btn.click()
-                page.wait_for_timeout(1000)
-        except Exception:
-            pass
-
-        # 3. 제목 입력
-        print(f"✍️ 제목 입력: '{args.title}'")
-        page.fill("#subject", args.title)
-
-        # 4. 본문 입력 (Summernote) - 본문 내용이 있을 때만 입력, 없으면 빈 상태 유지
-        if args.content and args.content.strip():
-            print("📄 본문 내용 입력 중...")
-            paragraphs = args.content.split("\n\n")
-            html_content = "".join([f"<p>{p.replace(chr(10), '<br>')}</p>" for p in paragraphs if p.strip()])
-            page.evaluate(f"""() => {{
-                const el = document.querySelector('.note-editable');
-                if (el) {{
-                    el.innerHTML = {repr(html_content)};
-                    el.dispatchEvent(new Event('input', {{ bubbles: true }}));
-                }}
-                const textarea = document.querySelector('#ygosu_editor_');
-                if (textarea) {{
-                    textarea.value = {repr(html_content)};
-                }}
-            }}""")
-            print("✅ 본문 내용 주입 완료!")
-        else:
-            print("📄 본문 내용 없음 (사진만 단독 게시)")
-            page.evaluate("""() => {
-                const el = document.querySelector('.note-editable');
-                if (el) {
-                    el.innerHTML = '<p><br></p>';
-                    el.dispatchEvent(new Event('input', { bubbles: true }));
-                }
-                const textarea = document.querySelector('#ygosu_editor_');
-                if (textarea) {
-                    textarea.value = '';
-                }
-            }""")
-
-        # 5. 파일 첨부 (순서 보장을 위해 4장 순차 업로드)
-        if valid_images:
-            print("🖼️ 캡처 이미지 4장 순차 첨부 중...")
-            file_input = page.locator("input[type='file'][onchange*='board_file_upload']").first
-            if file_input.count() > 0:
-                for idx, img_path in enumerate(valid_images):
-                    file_name = Path(img_path).name
-                    print(f"  [{idx+1}/{len(valid_images)}] 업로드 중: {file_name}")
-                    file_input.set_input_files(img_path)
-                    page.wait_for_function(
-                        f"document.querySelectorAll('#upload_file_list li').length === {idx+1}",
-                        timeout=15000
-                    )
-                    page.wait_for_timeout(600)
-                
-                # 업로드된 파일 목록 최종 확인
-                uploaded_items = page.evaluate("""() => {
-                    return Array.from(document.querySelectorAll('#upload_file_list li'))
-                        .map(li => li.innerText.split('\\n')[0].trim());
-                }""")
-                print(f"✅ 파일 업로드 완료 (총 {len(uploaded_items)}개 등록됨): {uploaded_items}")
-            else:
-                print("⚠️ 파일 첨부 인풋을 찾지 못했습니다.")
-
-        # 6. 등록 처리
         artifact_dir_env = os.environ.get("ARTIFACT_DIR")
         if artifact_dir_env and Path(artifact_dir_env).exists():
             artifact_dir = Path(artifact_dir_env)
@@ -201,58 +129,142 @@ def main():
         else:
             artifact_dir = None
 
-        if artifact_dir:
+        # 2. 각 게시판 순차 글쓰기
+        for board_idx, target_board in enumerate(boards):
+            print(f"\n{'='*60}")
+            print(f"📌 [{board_idx+1}/{len(boards)}] 게시판: {target_board} 작성 시작")
+            print(f"{'='*60}")
+
+            write_url = f"https://ygosu.com/board/{target_board}/?mode=write"
+            print(f"📝 글쓰기 페이지({write_url})로 이동합니다...")
+            page.goto(write_url, wait_until="domcontentloaded")
+            page.wait_for_selector("#subject", timeout=15000)
+            print(f"✅ [{target_board}] 글쓰기 페이지 진입 성공!")
+
+            # 임시저장 글 불러오기 모달이 뜬 경우 "취소" 클릭하여 닫기
             try:
-                page.screenshot(path=str(artifact_dir / "ygosu_write_form_ready.png"))
+                cancel_btn = page.locator(".yg-dialog-modal button:has-text('취소'), .yg-dialog-daisy button:has-text('취소')").first
+                if cancel_btn.count() > 0 and cancel_btn.is_visible():
+                    print(f"[{target_board}] 🗑️ 임시 저장 글 불러오기 모달 감지 -> '취소' 클릭하여 닫음")
+                    cancel_btn.click()
+                    page.wait_for_timeout(1000)
             except Exception:
                 pass
 
-        if args.auto_submit:
-            print("🚀 [완료] 등록 버튼을 클릭하여 게시글을 등록합니다...")
-            # 남아있는 모달이 있다면 닫기
-            try:
-                page.evaluate("""() => {
-                    document.querySelectorAll('.yg-dialog-modal button, .yg-dialog-daisy button').forEach(b => {
-                        if (b.innerText.includes('취소') || b.innerText.includes('닫기')) b.click();
-                    });
-                }""")
-                page.wait_for_timeout(500)
-            except Exception:
-                pass
+            # 제목 입력
+            print(f"✍️ 제목 입력: '{args.title}'")
+            page.fill("#subject", args.title)
 
-            submit_btn = page.locator("a[onclick*='check_board_write']").first
-            if submit_btn.count() > 0:
-                try:
-                    submit_btn.click(force=True, timeout=5000)
-                except Exception:
-                    page.evaluate("() => { const el = document.querySelector('a[onclick*=\"check_board_write\"]'); if (el) el.click(); }")
-                print("⏳ 게시글 등록 중... 잠시 대기합니다.")
-                try:
-                    page.wait_for_url(lambda u: "/?mode=write" not in u, timeout=15000)
-                except Exception:
-                    page.wait_for_timeout(6000)
-                print(f"🎉 게시글 등록 완료! 현재 URL: {page.url}")
-                page.wait_for_timeout(2000)
-                if artifact_dir:
-                    try:
-                        page.screenshot(path=str(artifact_dir / "ygosu_published_post.png"))
-                    except Exception:
-                        pass
+            # 본문 입력 (Summernote) - 사진만 단독 게시 시 빈 줄 주입
+            if args.content and args.content.strip():
+                print("📄 본문 내용 입력 중...")
+                paragraphs = args.content.split("\n\n")
+                html_content = "".join([f"<p>{p.replace(chr(10), '<br>')}</p>" for p in paragraphs if p.strip()])
+                page.evaluate(f"""() => {{
+                    const el = document.querySelector('.note-editable');
+                    if (el) {{
+                        el.innerHTML = {repr(html_content)};
+                        el.dispatchEvent(new Event('input', {{ bubbles: true }}));
+                    }}
+                    const textarea = document.querySelector('#ygosu_editor_');
+                    if (textarea) {{
+                        textarea.value = {repr(html_content)};
+                    }}
+                }}""")
+                print("✅ 본문 내용 주입 완료!")
             else:
-                print("⚠️ 등록 버튼을 찾지 못했습니다.")
-        else:
-            print("\n" + "=" * 60)
-            print("🎉 제목, 본문, 이미지 4장이 모두 입력되었습니다!")
-            print(f"   제목: {args.title}")
-            print(f"   본문: {args.content[:50]}...")
-            print(f"   첨부: {len(valid_images)}장 완료")
-            print("👉 브라우저에서 최종 확인 후 [완료] 버튼을 누르시면 됩니다.")
-            print("   (터미널에서 Enter를 누르면 브라우저를 닫고 종료합니다)")
-            print("=" * 60 + "\n")
-            try:
-                input("👉 확인 및 등록 후 [Enter]를 눌러 종료하세요: ")
-            except KeyboardInterrupt:
-                pass
+                print("📄 본문 내용 없음 (사진만 단독 게시)")
+                page.evaluate("""() => {
+                    const el = document.querySelector('.note-editable');
+                    if (el) {
+                        el.innerHTML = '<p><br></p>';
+                        el.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                    const textarea = document.querySelector('#ygosu_editor_');
+                    if (textarea) {
+                        textarea.value = '';
+                    }
+                }""")
+
+            # 파일 첨부 (순서 보장을 위해 4장 순차 업로드)
+            if valid_images:
+                print("🖼️ 캡처 이미지 4장 순차 첨부 중...")
+                file_input = page.locator("input[type='file'][onchange*='board_file_upload']").first
+                if file_input.count() > 0:
+                    for idx, img_path in enumerate(valid_images):
+                        file_name = Path(img_path).name
+                        print(f"  [{idx+1}/{len(valid_images)}] 업로드 중: {file_name}")
+                        file_input.set_input_files(img_path)
+                        page.wait_for_function(
+                            f"document.querySelectorAll('#upload_file_list li').length === {idx+1}",
+                            timeout=15000
+                        )
+                        page.wait_for_timeout(600)
+
+                    uploaded_items = page.evaluate("""() => {
+                        return Array.from(document.querySelectorAll('#upload_file_list li'))
+                            .map(li => li.innerText.split('\\n')[0].trim());
+                    }""")
+                    print(f"✅ 파일 업로드 완료 (총 {len(uploaded_items)}개 등록됨): {uploaded_items}")
+                else:
+                    print("⚠️ 파일 첨부 인풋을 찾지 못했습니다.")
+
+            if artifact_dir:
+                try:
+                    page.screenshot(path=str(artifact_dir / f"ygosu_write_form_ready_{target_board}.png"))
+                except Exception:
+                    pass
+
+            if args.auto_submit:
+                print(f"🚀 [{target_board}] 등록 버튼을 클릭하여 게시글을 등록합니다...")
+                try:
+                    page.evaluate("""() => {
+                        document.querySelectorAll('.yg-dialog-modal button, .yg-dialog-daisy button').forEach(b => {
+                            if (b.innerText.includes('취소') || b.innerText.includes('닫기')) b.click();
+                        });
+                    }""")
+                    page.wait_for_timeout(500)
+                except Exception:
+                    pass
+
+                submit_btn = page.locator("a[onclick*='check_board_write']").first
+                if submit_btn.count() > 0:
+                    try:
+                        submit_btn.click(force=True, timeout=5000)
+                    except Exception:
+                        page.evaluate("() => { const el = document.querySelector('a[onclick*=\"check_board_write\"]'); if (el) el.click(); }")
+                    print("⏳ 게시글 등록 중... 잠시 대기합니다.")
+                    try:
+                        page.wait_for_url(lambda u: "/?mode=write" not in u, timeout=15000)
+                    except Exception:
+                        page.wait_for_timeout(6000)
+                    print(f"🎉 [{target_board}] 게시글 등록 완료! 현재 URL: {page.url}")
+                    page.wait_for_timeout(2000)
+                    if artifact_dir:
+                        try:
+                            page.screenshot(path=str(artifact_dir / f"ygosu_published_{target_board}.png"))
+                        except Exception:
+                            pass
+                else:
+                    print("⚠️ 등록 버튼을 찾지 못했습니다.")
+
+                # 다음 게시판이 남아있다면 와이고수 연속 작성 도배 방지 쿨다운 (25초)
+                if board_idx < len(boards) - 1:
+                    next_b = boards[board_idx + 1]
+                    print(f"\n⏳ 와이고수 도배 방지(쿨다운)를 위해 다음 게시판({next_b}) 작성 전 25초간 대기합니다...")
+                    page.wait_for_timeout(25000)
+            else:
+                print("\n" + "=" * 60)
+                print(f"🎉 [{target_board}] 제목, 본문, 이미지 4장이 모두 입력되었습니다!")
+                print(f"   제목: {args.title}")
+                print(f"   첨부: {len(valid_images)}장 완료")
+                print("👉 브라우저에서 최종 확인 후 [완료] 버튼을 누르시면 됩니다.")
+                print("=" * 60 + "\n")
+                if board_idx < len(boards) - 1:
+                    try:
+                        input(f"👉 [{target_board}] 확인 완료 후 다음 게시판({boards[board_idx+1]})으로 넘어가려면 [Enter]를 누르세요: ")
+                    except KeyboardInterrupt:
+                        pass
 
         browser.close()
         print("👋 스크립트 실행이 종료되었습니다.")

@@ -8,11 +8,11 @@ on:
   workflow_dispatch:
     inputs:
       board:
-        description: '게시판 코드 (기본값: pan_random, 스타방송: st2, 스타1: star, 자유: free 등)'
+        description: '게시판 코드 (기본값: pan_prison,starbbs - 쉼표로 복수 지정 가능)'
         required: false
-        default: 'pan_random'
+        default: 'pan_prison,starbbs'
       title:
-        description: '게시글 제목 (기본값 "auto": [MM-DD HH시] 스타크루 별풍선 & 뷰어십 랭킹 / 개인 TOP10 자동 생성)'
+        description: '게시글 제목 (기본값 "auto": [MM/DD HH시 기준] 스타크루 별풍선 & 뷰어십 랭킹 / 개인 TOP 10 자동 생성)'
         required: false
         default: 'auto'
 
@@ -56,7 +56,7 @@ jobs:
         env:
           YGOSU_ID: ${{ secrets.YGOSU_ID }}
           YGOSU_PW: ${{ secrets.YGOSU_PW }}
-          YGOSU_BOARD: ${{ inputs.board || secrets.YGOSU_BOARD || 'pan_random' }}
+          YGOSU_BOARD: ${{ inputs.board || secrets.YGOSU_BOARD || 'pan_prison,starbbs' }}
           POST_TITLE: ${{ inputs.title || 'auto' }}
         run: |
           python3 scripts/ygosu_post.py --auto-submit --headless
