@@ -36,28 +36,30 @@ Posting periodic StarCraft crew rankings and viewership statistics (4 distinct l
 1. **Login Form Handling**: Ygosu does not use a standard HTML `<form>` submit for login; it uses `#ygosu_login_id` and `#ygosu_login_pwd` which post credentials asynchronously via `api.ygosu.com/v3/member-login/password` on `Enter` keypress or button click.
 2. **Summernote Editor Integration**: Simply writing text to the hidden `#ygosu_editor_` `<textarea>` does not reflect in the active Summernote editor (`.note-editable`), and form submission validation checks both or triggers Summernote's sync routine. HTML paragraphs (`<p>...<br></p>`) must be inserted directly into `.note-editable` and input events dispatched.
 3. **File Upload Ordering & Race Condition**: When passing multiple files simultaneously via `set_input_files([f1, f2, f3, f4])`, the browser and Ygosu server process each upload asynchronously in parallel. Smaller images finish earlier (e.g., 225KB image finished ahead of 552KB image), scrambling the presentation order. To guarantee exact ordering, files must be uploaded **sequentially** (`set_input_files(file_i)`) with explicit waiting on `document.querySelectorAll('#upload_file_list li').length === i + 1`.
-4. **Post Submission**: Post registration triggers `YG_BOARD.check_board_write('BOARD_pan_random_0')` via `<a onclick="check_board_write...">`. If no body text is desired, Summernote can be left with empty content (`<p><br></p>`) while files remain attached.
+4. **Draft Restore & Modal Interception**: Ygosu renders custom DaisyUI modals (`.yg-dialog-modal`) when previous drafts exist. The modal backdrop intercepts pointer clicks to the submit button. Solved by dismissing drafts on page load and using `force=True` / JS fallback on submission.
+5. **Precise Section Capture**: In `ViewershipView`, an outer `<section>` encapsulates both `CrewRankSummary` and the lengthy `CrewView` (university member cards). Generic `section:has-text("스타크루 뷰어십 랭킹")` captured the entire outer container. Solved by targeting `h2:has-text("스타크루 뷰어십 랭킹")` with `xpath=ancestor::section[1]` to isolate the podium and 2-column rank table.
 
 ## Solution
-Implemented an automated Playwright workflow in `scripts/ygosu_post.py` and batch capture generation:
+Implemented an automated Playwright workflow in `scripts/ygosu_post.py`, capture script `scripts/capture_leaderboards.js`, and GitHub Actions workflow `.github/workflows/ygosu-ranking-post.yml`:
 
-1. **High-DPI Retina Screen Captures**:
-   - `scripts/capture_ygosu.ts` (or headless Playwright script) captured the 4 target containers at 2x device scale factor:
-     - `public/captures/01_star_crew_ranking.png` (별풍 크루)
-     - `public/captures/03_viewership_crew_ranking.png` (뷰어십 크루)
-     - `public/captures/02_star_individual_top10.png` (별풍 개인 TOP10)
-     - `public/captures/04_viewership_individual_top10.png` (뷰어십 개인 TOP10)
+1. **High-DPI Retina Screen Captures (`scripts/capture_leaderboards.js`)**:
+   - Captures the 4 target containers at 2x device scale factor against live site (`https://soop-star-naksoopyo.pages.dev`):
+     - `01_star_crew_ranking.png` (별풍 크루 요약)
+     - `03_viewership_crew_ranking.png` (뷰어십 크루 요약 - 하단 대학별 명단 제외)
+     - `02_star_individual_top10.png` (별풍 개인 TOP10)
+     - `04_viewership_individual_top10.png` (뷰어십 개인 TOP10)
 2. **Playwright Script (`scripts/ygosu_post.py`)**:
-   - Accepts CLI arguments: `--id`, `--pw`, `--board`, `--title`, `--content`, `--auto-submit`, `--headless`.
+   - Accepts CLI arguments or environment variables (`YGOSU_ID`, `YGOSU_PW`, `YGOSU_BOARD`, `POST_TITLE`).
    - Automates login with user-agent spoofing to avoid bot detection.
-   - Converts formatted plain text into `<p>` / `<br>` blocks and writes to both `.note-editable` and `#ygosu_editor_` (or leaves empty when only images are requested).
-   - Sequentially attaches each image waiting for `#upload_file_list` DOM length increment to prevent async upload race conditions and preserve exact sequence.
-   - Supports preview mode (holding browser open until Enter is pressed) as well as `--auto-submit` for full hands-free publishing.
+   - Converts formatted plain text into `<p>` / `<br>` blocks or leaves empty when only images are requested.
+   - Sequentially attaches each image waiting for `#upload_file_list` DOM length increment.
+   - Handles draft modals and supports hands-free headless submission.
+3. **GitHub Actions 3-Hour Automation (`.github/workflows/ygosu-ranking-post.yml`)**:
+   - Triggers on `cron: '0 */3 * * *'` (every 3 hours) and `workflow_dispatch` (manual run).
+   - Reads secrets securely and enables custom board/title selection.
 
 ## Verification
-- Executed `python3 scripts/ygosu_post.py --id brainzerg77 --pw ... --board pan_random --title "테스트" --auto-submit`.
-- Successfully verified:
-  - Login succeeded as user `나의_영웅_김윤환`.
-  - 4 images uploaded and acknowledged by Ygosu server.
-  - Post successfully published at `https://ygosu.com/board/pan_random` with title `테스트 [사진]`.
-  - Board listing screenshot verified at `ygosu_published_post.png`.
+- GitHub Actions run `#37811781166` executed end-to-end on Ubuntu runner in 1m 27s.
+- 4 screenshots captured cleanly and uploaded sequentially.
+- Published to Ygosu `pan_random` board at `https://ygosu.com/board/pan_random/121`.
+- Post view confirmed at `ygosu_post_detail_view_v2.png` showing perfectly balanced podium + tables.
