@@ -31,7 +31,7 @@ export function CalmmonCard({
     // 텍스트 요약 클립보드 복사
     try {
       const summaryText = `[${currentDateText}] 캄몬스타즈 ${
-        currentTab === 'star' ? '별풍선' : currentTab === 'time' ? '방송시간' : '뷰어십'
+        currentTab === 'star' ? '별풍선' : currentTab === 'time' ? '방송시간' : currentTab === 'spon' ? '스폰 판수' : '후원 랭킹'
       } 현황
 - 전체 합계: ${stats.totalSumStr}
 - 여자 평균: ${stats.femaleAvgStr}
@@ -56,7 +56,6 @@ ${stats.female.map((f, i) => `${i + 1}. ${f.nickname}${f.isBirthday ? ' 🎂' : 
     switch (currentTab) {
       case 'star': return '별풍선';
       case 'time': return '방송시간';
-      case 'view': return '평균 시청자';
       case 'spon': return '스폰판수';
       case 'donor': return '후원 별풍';
       default: return '수치';
@@ -166,16 +165,6 @@ ${stats.female.map((f, i) => `${i + 1}. ${f.nickname}${f.isBirthday ? ' 🎂' : 
             }`}
           >
             ⏱️ 방송시간
-          </button>
-          <button
-            onClick={() => onTabChange('view')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
-              currentTab === 'view'
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }`}
-          >
-            👀 뷰어십
           </button>
           <button
             onClick={() => onTabChange('spon')}

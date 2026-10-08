@@ -3,8 +3,6 @@
 import React from 'react';
 import { Eye, Star } from 'lucide-react';
 
-import Link from 'next/link';
-
 export type TabType = 'star' | 'rank' | 'viewership';
 
 interface NavTabsProps {
@@ -43,12 +41,6 @@ export const NavTabs: React.FC<NavTabsProps> = ({ currentTab, onTabChange }) => 
           <Eye className={`h-3.5 w-3.5 ${currentTab === 'viewership' ? 'text-emerald-600' : 'text-slate-500'}`} />
           뷰어십
         </button>
-        <Link
-          href="/calm"
-          className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold transition-all duration-150 sm:px-3.5 sm:text-sm text-blue-700 bg-blue-100/70 hover:bg-blue-100 border border-blue-200/80 shadow-xs sm:ml-2"
-        >
-          <span>🪐</span> 캄몬스타즈 (/calm)
-        </Link>
     </nav>
   );
 };

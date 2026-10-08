@@ -1,5 +1,5 @@
 export type Gender = 'male' | 'female';
-export type CalmmonTabType = 'star' | 'time' | 'view' | 'spon' | 'donor';
+export type CalmmonTabType = 'star' | 'time' | 'spon' | 'donor';
 
 export interface CalmmonMemberMeta {
   soopId: string;
@@ -130,9 +130,6 @@ export function calculateCalmmonStats(
     } else if (tab === 'time') {
       rawVal = s?.broadcastHours || 0;
       displayVal = `${rawVal.toFixed(1)}시간`;
-    } else if (tab === 'view') {
-      rawVal = s?.averageViewers || 0;
-      displayVal = `${rawVal.toLocaleString()}명`;
     } else {
       // spon, donor 등 빈 데이터 처리
       rawVal = 0;
@@ -174,7 +171,7 @@ export function calculateCalmmonStats(
   const femaleAvg = female.length ? Math.round(femaleSum / female.length) : 0;
   const totalAvg = totalCount ? Math.round(totalSum / totalCount) : 0;
 
-  const unit = tab === 'star' ? '개' : tab === 'view' ? '명' : tab === 'time' ? '시간' : '';
+  const unit = tab === 'star' ? '개' : tab === 'time' ? '시간' : '';
   
   if (tab === 'spon' || tab === 'donor') {
     return {

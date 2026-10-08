@@ -20,16 +20,12 @@ export default function CalmmonPage() {
 
   const fetchStats = async () => {
     try {
-      const [statsRes, viewRes] = await Promise.allSettled([
-        fetch('/api/stats'),
-        fetch('/api/viewership?month=' + currentYearMonth),
-      ]);
-
+      const statsRes = await fetch('/api/stats');
       const newMap = new Map<string, StreamerStatInput>();
 
-      // 1. /api/stats 별풍선 & 방송시간 파싱
-      if (statsRes.status === 'fulfilled' && statsRes.value.ok) {
-        const statsData = await statsRes.value.json();
+      // /api/stats 별풍선 & 방송시간 파싱
+      if (statsRes.ok) {
+        const statsData = await statsRes.json();
         if (statsData.success && Array.isArray(statsData.starCrews)) {
           const calmCrew = statsData.starCrews.find((c: any) => c.crewName === '캄몬');
           if (calmCrew && Array.isArray(calmCrew.members)) {
@@ -46,22 +42,6 @@ export default function CalmmonPage() {
         if (statsData.timestamp) {
           const d = new Date(statsData.timestamp);
           setLastUpdatedText(`${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`);
-        }
-      }
-
-      // 2. /api/viewership 뷰어십 데이터 파싱
-      if (viewRes.status === 'fulfilled' && viewRes.value.ok) {
-        const viewData = await viewRes.value.json();
-        const streamers = viewData?.snapshot?.streamers || viewData?.streamers;
-        if (Array.isArray(streamers)) {
-          for (const s of streamers) {
-            const key = s.soopId.toLowerCase();
-            const prev = newMap.get(key) || {};
-            newMap.set(key, {
-              ...prev,
-              averageViewers: s.averageViewers || s.peakViewers || prev.averageViewers,
-            });
-          }
         }
       }
 
