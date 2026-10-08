@@ -109,7 +109,7 @@ export const CrewRankSummary: React.FC<CrewRankSummaryProps> = ({
   const renderTable = (items: CrewRankStat[]) => (
     <div className="w-full">
       {/* 헤더 */}
-      <div className="grid grid-cols-[24px_minmax(0,1fr)_36px_72px_78px] gap-x-2 sm:grid-cols-12 sm:gap-x-0 text-slate-500 text-[10px] sm:text-[13px] font-medium py-2 px-2 border-b border-slate-200 text-center">
+      <div className="grid grid-cols-[24px_minmax(0,1fr)_36px_72px_78px] gap-x-2 sm:grid-cols-12 sm:gap-x-0 text-slate-600 text-[10px] sm:text-[13px] font-semibold py-2 px-2.5 border-b-2 border-slate-200 bg-slate-50/70 rounded-t-lg text-center">
         <span className="col-span-1 text-left sm:text-center">순위</span>
         <span className="col-span-1 sm:col-span-4 text-left">스타크루</span>
         <span className="col-span-1 sm:col-span-2 text-center">인원</span>
@@ -118,12 +118,12 @@ export const CrewRankSummary: React.FC<CrewRankSummaryProps> = ({
       </div>
 
       {/* 로우 리스트 */}
-      <div className="divide-y divide-slate-100">
+      <div className="divide-y divide-slate-200">
         {items.map((item) => (
           <div
             key={item.crewName}
             onClick={() => handleRowClick(item.crewName)}
-            className="grid grid-cols-[24px_minmax(0,1fr)_36px_72px_78px] gap-x-2 sm:grid-cols-12 sm:gap-x-0 items-center py-2.5 px-2 text-[11px] sm:text-[13px] hover:bg-slate-50 cursor-pointer transition rounded-md group"
+            className="grid grid-cols-[24px_minmax(0,1fr)_36px_72px_78px] gap-x-2 sm:grid-cols-12 sm:gap-x-0 items-center py-2.5 px-2.5 text-[11px] sm:text-[13px] hover:bg-slate-50 cursor-pointer transition rounded-md group"
           >
             <span className={`col-span-1 text-left sm:text-center ${getRankBadgeClass(item.rank)}`}>
               {item.rank}위
@@ -286,9 +286,9 @@ export const CrewRankSummary: React.FC<CrewRankSummaryProps> = ({
       </div>
 
       {/* 2. 순위 모아보기 테이블 (좌/우 2열 분할) */}
-      <div className="bg-white border border-slate-200 rounded-xl p-3 sm:p-5 shadow-xs">
+      <div className="bg-white border-2 border-slate-200 rounded-xl p-3 sm:p-5 shadow-sm">
         {/* 데스크톱: 2분할 나란히 배치 */}
-        <div className="hidden lg:grid lg:grid-cols-2 gap-6 divide-x divide-slate-200">
+        <div className="hidden lg:grid lg:grid-cols-2 gap-6 divide-x-2 divide-slate-200">
           <div className="pr-3">
             {renderTable(leftList)}
           </div>

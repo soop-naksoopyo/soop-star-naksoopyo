@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Eye, Search, Settings } from 'lucide-react';
+import { Eye, Search, Settings, ChevronDown, ChevronUp } from 'lucide-react';
 import { CrewCrest } from '@/components/CrewCrest';
 import { CrewAffiliation } from '@/components/CrewAffiliation';
 import { CrewRankSummary, type CrewRankStat } from '@/components/CrewRankSummary';
@@ -221,51 +221,114 @@ const CrewView: React.FC<{ crews: ViewershipCrewSummary[] }> = ({ crews }) => (
   crews.length === 0 ? (
     <div className="rounded-xl border border-slate-200 bg-white py-12 text-center text-sm text-slate-400">표시할 스타크루 자료가 없습니다.</div>
   ) : (
-    <div className="grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
       {crews.map((crew, index) => (
-        <article id={`crew-card-${crew.crewName}`} key={crew.crewName} className="h-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xs">
-          <header className="border-b border-slate-100 bg-slate-50 px-4 py-4">
-            <div className="flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <div className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-slate-500">
-                  <span className={`rounded-full px-2.5 py-1 font-extrabold ${index === 0 ? 'bg-rose-500 text-white' : index === 1 ? 'bg-slate-700 text-white' : index === 2 ? 'bg-amber-600 text-white' : 'bg-white text-slate-500'}`}>
-                    {index + 1}위
-                  </span>
-                  <span className="rounded-md border border-slate-200 bg-white px-2 py-1 tabular-nums">
-                    소속 {crew.members.length}명
-                  </span>
-                </div>
-                <div className="flex min-w-0 items-center gap-2.5">
-                  <CrewCrest crewName={crew.crewName} size="lg" />
-                  <h3 className="truncate text-base font-black text-slate-900 sm:text-lg">{crew.crewName}</h3>
-                </div>
-              </div>
-              <div className="shrink-0 text-right">
-                <div className="mb-0.5 text-[10px] font-semibold text-slate-500 sm:text-xs">인당 뷰어십</div>
-                <div className="text-lg font-black tabular-nums text-emerald-800 sm:text-xl">
-                  {formatNumber(crew.averageViewerShip)}
-                </div>
-                <div className="mt-0.5 text-[10px] font-medium tabular-nums text-slate-600 sm:text-xs">
-                  총 {formatNumber(crew.totalViewerShip)} · 평시 {formatNumber(crew.averageViewers)}명
-                </div>
-              </div>
-            </div>
-          </header>
-          <div className="px-2 py-1">
-            <div className="grid grid-cols-[minmax(0,1fr)_4.5rem_5.5rem] items-center gap-2 border-b border-slate-100 px-1 py-2 text-[9px] font-semibold text-slate-500 sm:text-[10px]">
-              <span>순위 · 스트리머</span>
-              <span className="text-right">평균 시청자</span>
-              <span className="text-right">뷰어십</span>
-            </div>
-            {crew.members.map((streamer, index) => (
-              <CompactStreamerRow key={streamer.soopId} rank={index + 1} streamer={streamer} />
-            ))}
-          </div>
-        </article>
+        <ViewershipCrewCard key={crew.crewName} crew={crew} rank={index + 1} />
       ))}
     </div>
   )
 );
+
+const ViewershipCrewCard: React.FC<{ crew: ViewershipCrewSummary; rank: number }> = ({ crew, rank }) => {
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  const INITIAL_LIMIT = 10;
+  const hasMore = crew.members.length > INITIAL_LIMIT;
+  const displayMembers = isExpanded ? crew.members : crew.members.slice(0, INITIAL_LIMIT);
+
+  return (
+    <article
+      id={`crew-card-${crew.crewName}`}
+      className="h-full overflow-hidden rounded-xl border-2 border-slate-200/90 bg-white shadow-sm flex flex-col"
+    >
+      <header className="border-b-2 border-slate-200 bg-slate-50/80 px-4 py-3.5">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <div className="mb-1.5 flex items-center gap-2 text-xs font-semibold text-slate-500">
+              <span
+                className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold shadow-xs ${
+                  rank === 1
+                    ? 'bg-rose-500 text-white'
+                    : rank === 2
+                    ? 'bg-slate-700 text-white'
+                    : rank === 3
+                    ? 'bg-amber-600 text-white'
+                    : 'bg-white text-slate-600 border border-slate-200'
+                }`}
+              >
+                {rank}위
+              </span>
+              <span className="rounded-md border border-slate-200 bg-white px-2 py-0.5 text-[11px] font-semibold tabular-nums text-slate-700">
+                소속 {crew.members.length}명
+              </span>
+            </div>
+            <div className="flex min-w-0 items-center gap-2.5">
+              <CrewCrest crewName={crew.crewName} size="lg" />
+              <h3 className="truncate text-base font-black text-slate-900 sm:text-lg">{crew.crewName}</h3>
+            </div>
+          </div>
+          <div className="shrink-0 text-right">
+            <div className="mb-0.5 text-[10px] font-semibold text-slate-500 sm:text-xs">인당 뷰어십</div>
+            <div className="text-lg font-black tabular-nums text-emerald-800 sm:text-xl">
+              {formatNumber(crew.averageViewerShip)}
+            </div>
+            <div className="mt-0.5 text-[10px] font-medium tabular-nums text-slate-600 sm:text-xs">
+              총 {formatNumber(crew.totalViewerShip)} · 평시 {formatNumber(crew.averageViewers)}명
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* 컬럼 헤더 (2열 / 1열) */}
+      <div className="hidden sm:grid sm:grid-cols-2 gap-2 px-3 pt-2 text-[10px] font-semibold text-slate-500 border-b border-slate-200 pb-1">
+        <div className="grid grid-cols-[minmax(0,1fr)_4rem_4.5rem] items-center gap-1.5 px-2">
+          <span>순위 · 스트리머</span>
+          <span className="text-right">평균시청자</span>
+          <span className="text-right">뷰어십</span>
+        </div>
+        <div className="grid grid-cols-[minmax(0,1fr)_4rem_4.5rem] items-center gap-1.5 px-2">
+          <span>순위 · 스트리머</span>
+          <span className="text-right">평균시청자</span>
+          <span className="text-right">뷰어십</span>
+        </div>
+      </div>
+      <div className="sm:hidden grid grid-cols-[minmax(0,1fr)_4rem_4.5rem] items-center gap-1.5 px-4 pt-2 text-[10px] font-semibold text-slate-500 border-b border-slate-200 pb-1">
+        <span>순위 · 스트리머</span>
+        <span className="text-right">평균시청자</span>
+        <span className="text-right">뷰어십</span>
+      </div>
+
+      <div className="p-3 flex-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {displayMembers.map((streamer, index) => (
+            <CompactStreamerRow key={streamer.soopId} rank={index + 1} streamer={streamer} />
+          ))}
+        </div>
+      </div>
+
+      {hasMore && (
+        <div className="px-3 pb-3 pt-1 border-t border-slate-200 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/80 rounded-lg transition border border-slate-200 cursor-pointer"
+          >
+            {isExpanded ? (
+              <>
+                <span>접기 (상위 10명만 보기)</span>
+                <ChevronUp className="w-3.5 h-3.5 text-slate-500" />
+              </>
+            ) : (
+              <>
+                <span>전체 {crew.members.length}명 모두 보기 (+{crew.members.length - INITIAL_LIMIT}명)</span>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+              </>
+            )}
+          </button>
+        </div>
+      )}
+    </article>
+  );
+};
 
 const IndividualView: React.FC<{
   streamers: ViewershipStreamerSnapshot[];
@@ -279,8 +342,8 @@ const IndividualView: React.FC<{
   totalCount: number;
   onPageChange: (page: number) => void;
 }> = ({ streamers, search, onSearch, crewFilter, onCrewFilterChange, availableCrews, currentPage, pageCount, totalCount, onPageChange }) => (
-  <div className="w-full rounded-xl border border-slate-200/90 bg-white p-2.5 shadow-xs sm:p-5">
-    <div className="mb-3 flex flex-col justify-between gap-3 border-b border-slate-100 pb-4 sm:flex-row sm:items-center">
+  <div className="w-full rounded-xl border-2 border-slate-200 bg-white p-3 sm:p-5 shadow-sm">
+    <div className="mb-3 flex flex-col justify-between gap-3 border-b-2 border-slate-200 pb-4 sm:flex-row sm:items-center">
       <div>
         <div className="flex items-center gap-2">
           <Eye className="h-5 w-5 shrink-0 text-emerald-600" />
@@ -324,7 +387,7 @@ const IndividualView: React.FC<{
         </div>
       </div>
     </div>
-    <div className="mb-1 grid grid-cols-[minmax(0,1fr)_2.5rem_3rem_4rem] items-center gap-1 border-b border-slate-100 px-2 py-2 text-[9px] font-semibold text-slate-400 sm:grid-cols-[minmax(0,1fr)_4rem_5rem_6rem] sm:gap-2 sm:text-xs">
+    <div className="mb-1 grid grid-cols-[minmax(0,1fr)_2.5rem_3rem_4rem] items-center gap-1 border-b-2 border-slate-200 bg-slate-50/80 rounded-t-lg px-2.5 py-2 text-[10px] font-semibold text-slate-600 sm:grid-cols-[minmax(0,1fr)_4rem_5rem_6rem] sm:gap-2 sm:text-xs">
       <span># · 스트리머</span>
       <span className="text-center">소속</span>
       <span className="text-right"><span className="sm:hidden">평균</span><span className="hidden sm:inline">평균 시청자</span></span>
@@ -346,11 +409,23 @@ const IndividualView: React.FC<{
 );
 
 const CompactStreamerRow: React.FC<{ rank: number; streamer: ViewershipStreamerSnapshot }> = ({ rank, streamer }) => (
-  <div className="grid grid-cols-[minmax(0,1fr)_4.5rem_5.5rem] items-center gap-2 border-b border-slate-100 py-2 last:border-b-0">
-    <div className="flex min-w-0 items-center gap-2">
-      <span className="w-5 shrink-0 text-center text-[10px] font-bold text-slate-400">{rank}</span>
+  <div className="grid grid-cols-[minmax(0,1fr)_4rem_4.5rem] items-center gap-1.5 border border-slate-200 bg-white hover:border-slate-300 hover:shadow-2xs rounded-lg px-2.5 py-2 transition">
+    <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
+      <span
+        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-mono font-bold ${
+          rank === 1
+            ? 'bg-amber-100 text-amber-800 ring-1 ring-amber-200'
+            : rank === 2
+            ? 'bg-slate-200 text-slate-700 ring-1 ring-slate-300'
+            : rank === 3
+            ? 'bg-orange-100 text-orange-800 ring-1 ring-orange-200'
+            : 'text-slate-400'
+        }`}
+      >
+        {rank}
+      </span>
       <StreamerAvatar streamer={streamer} size="small" />
-      <a href={`https://ch.sooplive.co.kr/${streamer.soopId}`} target="_blank" rel="noopener noreferrer" className="truncate text-xs font-semibold text-slate-800 hover:text-emerald-700">{streamer.nickname}</a>
+      <a href={`https://ch.sooplive.co.kr/${streamer.soopId}`} target="_blank" rel="noopener noreferrer" className="truncate text-xs font-semibold text-slate-800 hover:text-emerald-700 min-w-0 flex-1">{streamer.nickname}</a>
       {streamer.collectionStatus === 'unavailable' && <span className="shrink-0 text-[9px] text-slate-400" title="SoopScope에서 시청 지표를 제공하지 않습니다.">조회 불가</span>}
     </div>
     <span className="whitespace-nowrap text-right text-[10px] font-semibold tabular-nums text-slate-800 sm:text-[11px]">{formatNumber(streamer.averageViewers)}명</span>
@@ -368,7 +443,7 @@ const IndividualRow: React.FC<{ rank: number; streamer: ViewershipStreamerSnapsh
         : 'text-slate-400';
 
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)_2.5rem_3rem_4rem] items-center gap-1 border-b border-slate-100 px-2 py-2.5 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_4rem_5rem_6rem] sm:gap-2 sm:py-3">
+    <div className="grid grid-cols-[minmax(0,1fr)_2.5rem_3rem_4rem] items-center gap-1 border-b border-slate-200 px-2.5 py-2.5 last:border-b-0 hover:bg-slate-50/80 transition sm:grid-cols-[minmax(0,1fr)_4rem_5rem_6rem] sm:gap-2 sm:py-3">
       <div className="flex min-w-0 items-center gap-1 sm:gap-3">
         <span className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${rankBadgeClass}`}>
           {rank}

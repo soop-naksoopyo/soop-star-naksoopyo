@@ -123,9 +123,9 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
   const visibleStreamers = filtered.slice(startIndex, startIndex + PAGE_SIZE);
 
   return (
-    <div className="w-full max-w-7xl 2xl:max-w-[1600px] bg-white rounded-xl border border-slate-200/90 shadow-xs p-2.5 sm:p-5">
+    <div className="w-full max-w-7xl 2xl:max-w-[1600px] bg-white rounded-xl border-2 border-slate-200 shadow-sm p-3 sm:p-5">
       {/* 랭킹 뷰 상단 컨트롤 */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 mb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b-2 border-slate-200 mb-3">
         <div>
           <div className="flex items-center gap-2">
             <Trophy className="w-5 h-5 text-amber-500 shrink-0" />
@@ -188,7 +188,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
       </div>
 
       {/* 컬럼 헤더 */}
-      <div className="flex items-center justify-between px-2 sm:px-3 py-1.5 text-xs text-slate-500 font-medium border-b border-slate-100 mb-1">
+      <div className="flex items-center justify-between px-2.5 sm:px-3 py-2 text-xs text-slate-600 font-semibold border-b-2 border-slate-200 bg-slate-50/80 rounded-t-lg mb-1">
         {/* 데스크톱/모바일 좌측 스트리머 */}
         <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
           <span className="w-4 sm:w-6 text-center shrink-0">#</span>
@@ -214,7 +214,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
       </div>
 
       {/* 랭킹 리스트 */}
-      <div className="divide-y divide-slate-100">
+      <div className="divide-y divide-slate-200">
         {isMonthLoading ? (
           <div className="py-10 text-center text-sm text-slate-500">월별 기록을 불러오는 중입니다.</div>
         ) : monthError ? (
@@ -233,7 +233,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
           return (
             <div
               key={`${streamer.soopId}-${idx}`}
-              className={`group flex items-center justify-between py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg transition text-sm ${tierStyle.rowBgClass}`}
+              className={`group flex items-center justify-between py-2 sm:py-2.5 px-2.5 sm:px-3 rounded-lg transition text-sm hover:bg-slate-50/80 ${tierStyle.rowBgClass}`}
             >
               {/* 왼쪽: 순위, 아바타, 닉네임, ID */}
               <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">

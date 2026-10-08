@@ -24,12 +24,12 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
 
   return (
     <div
-      className={`group flex items-center justify-between py-1.5 px-2 rounded-lg transition duration-150 border-b border-slate-100 last:border-b-0 text-sm ${tierStyle.rowBgClass}`}
+      className={`group flex items-center justify-between py-2 px-2.5 rounded-lg transition duration-150 border border-slate-200 hover:border-slate-300 hover:shadow-2xs text-sm ${tierStyle.rowBgClass}`}
     >
       {/* 1. 순위, 2. 프로필 아바타, 3. 닉네임 */}
-      <div className="flex items-center gap-2 min-w-0 flex-1 mr-2">
+      <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1 mr-1.5 sm:mr-2">
         <span
-          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-mono font-bold ${
+          className={`flex h-5 w-5 sm:h-6 sm:w-6 shrink-0 items-center justify-center rounded-full text-[10px] sm:text-[11px] font-mono font-bold ${
             rank === 1
               ? 'bg-amber-100 text-amber-800 ring-1 ring-amber-200'
               : rank === 2
@@ -51,14 +51,14 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
             (e.target as HTMLImageElement).src =
               'https://res.sooplive.co.kr/images/user/thumb_user.gif';
           }}
-          className="w-7 h-7 rounded-full object-cover border border-slate-200 shrink-0"
+          className="w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover border border-slate-200 shrink-0"
         />
 
         <a
           href={channelUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[13px] font-semibold text-slate-800 group-hover:text-emerald-600 truncate transition min-w-0 flex-1"
+          className="text-xs sm:text-[13px] font-semibold text-slate-800 group-hover:text-emerald-600 truncate transition min-w-0 flex-1"
           title={`${nickname} (${soopId}) 방송국 바로가기`}
         >
           {nickname}
@@ -72,7 +72,7 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
 
       {/* 4. 누적 별풍선, 5. 방송시간 */}
       <div className="flex items-center gap-2 text-right shrink-0">
-        <div className="w-[74px] text-right">
+        <div className="w-[66px] sm:w-[70px] text-right">
           <div className="font-bold text-amber-800 tabular-nums text-xs whitespace-nowrap">
             {formatStars(totalStars)}
           </div>
@@ -87,7 +87,7 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
             <div className="h-full rounded-full bg-amber-500 transition-[width]" style={{ width: `${starProgress}%` }} />
           </div>
         </div>
-        <div className="w-[74px] text-right">
+        <div className="w-[46px] sm:w-[50px] text-right">
           <div className="font-semibold text-slate-900 tabular-nums text-xs whitespace-nowrap">
             {formatHours(broadcastHours)}
           </div>
