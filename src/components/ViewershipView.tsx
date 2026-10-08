@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Eye, Search, Settings, ChevronDown, ChevronUp } from 'lucide-react';
+import { Eye, Search, Settings } from 'lucide-react';
 import { CrewCrest } from '@/components/CrewCrest';
 import { CrewAffiliation } from '@/components/CrewAffiliation';
 import { CrewRankSummary, type CrewRankStat } from '@/components/CrewRankSummary';
@@ -230,11 +230,6 @@ const CrewView: React.FC<{ crews: ViewershipCrewSummary[] }> = ({ crews }) => (
 );
 
 const ViewershipCrewCard: React.FC<{ crew: ViewershipCrewSummary; rank: number }> = ({ crew, rank }) => {
-  const [isExpanded, setIsExpanded] = React.useState(false);
-  const INITIAL_LIMIT = 10;
-  const hasMore = crew.members.length > INITIAL_LIMIT;
-  const displayMembers = isExpanded ? crew.members : crew.members.slice(0, INITIAL_LIMIT);
-
   return (
     <article
       id={`crew-card-${crew.crewName}`}
@@ -299,33 +294,11 @@ const ViewershipCrewCard: React.FC<{ crew: ViewershipCrewSummary; rank: number }
 
       <div className="p-3 flex-1">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {displayMembers.map((streamer, index) => (
+          {crew.members.map((streamer, index) => (
             <CompactStreamerRow key={streamer.soopId} rank={index + 1} streamer={streamer} />
           ))}
         </div>
       </div>
-
-      {hasMore && (
-        <div className="px-3 pb-3 pt-1 border-t border-slate-200 flex justify-center">
-          <button
-            type="button"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/80 rounded-lg transition border border-slate-200 cursor-pointer"
-          >
-            {isExpanded ? (
-              <>
-                <span>접기 (상위 10명만 보기)</span>
-                <ChevronUp className="w-3.5 h-3.5 text-slate-500" />
-              </>
-            ) : (
-              <>
-                <span>전체 {crew.members.length}명 모두 보기 (+{crew.members.length - INITIAL_LIMIT}명)</span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
-              </>
-            )}
-          </button>
-        </div>
-      )}
     </article>
   );
 };
