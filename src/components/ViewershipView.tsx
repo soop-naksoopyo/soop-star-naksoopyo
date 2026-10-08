@@ -37,6 +37,7 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
   const [hasError, setHasError] = React.useState(false);
   const [mode, setMode] = React.useState<'crew' | 'individual'>('crew');
   const [search, setSearch] = React.useState('');
+  const [crewFilter, setCrewFilter] = React.useState<string>('all');
   const [currentPage, setCurrentPage] = React.useState(1);
 
   const viewershipCacheRef = React.useRef<Map<string, ViewershipMonthlySnapshot>>(new Map());
@@ -45,6 +46,7 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
     let cancelled = false;
     setHasError(false);
     setSearch('');
+    setCrewFilter('all');
     setCurrentPage(1);
 
     const cached = viewershipCacheRef.current.get(yearMonth);
@@ -97,15 +99,37 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
     rank: index + 1,
   }));
   const totalViewerShip = streamers.reduce((sum, streamer) => sum + streamer.viewerShip, 0);
+  const availableCrews = React.useMemo(() => {
+    const crewSet = new Set<string>();
+    streamers.forEach((s) => {
+      if (s.crewName && s.crewName !== '무소속') {
+        crewSet.add(s.crewName);
+      }
+    });
+    return Array.from(crewSet).sort((a, b) => a.localeCompare(b, 'ko'));
+  }, [streamers]);
+
   const rankedStreamers = React.useMemo(() => {
     const term = search.trim().toLocaleLowerCase();
     return [...streamers]
-      .filter((streamer) => !term
-        || streamer.nickname.toLocaleLowerCase().includes(term)
-        || streamer.soopId.toLocaleLowerCase().includes(term)
-        || (streamer.crewName || '무소속').toLocaleLowerCase().includes(term))
+      .filter((streamer) => {
+        if (crewFilter !== 'all') {
+          const isIndep = !streamer.crewName || streamer.crewName === '무소속';
+          if (crewFilter === '무소속') {
+            if (!isIndep) return false;
+          } else {
+            if (streamer.crewName !== crewFilter) return false;
+          }
+        }
+        if (!term) return true;
+        return (
+          streamer.nickname.toLocaleLowerCase().includes(term) ||
+          streamer.soopId.toLocaleLowerCase().includes(term) ||
+          (streamer.crewName || '무소속').toLocaleLowerCase().includes(term)
+        );
+      })
       .sort((a, b) => b.viewerShip - a.viewerShip || b.averageViewers - a.averageViewers);
-  }, [streamers, search]);
+  }, [streamers, search, crewFilter]);
   const pageCount = Math.max(1, Math.ceil(rankedStreamers.length / PAGE_SIZE));
   const page = Math.min(currentPage, pageCount);
   const pageStreamers = rankedStreamers.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -120,7 +144,7 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
         availableMonths={availableMonths}
         onSelectMonth={onSelectMonth}
         mode={mode}
-        onModeChange={(nextMode) => { setMode(nextMode); setCurrentPage(1); }}
+        onModeChange={(nextMode) => { setMode(nextMode); setCrewFilter('all'); setSearch(''); setCurrentPage(1); }}
       />
 
       {isLoading ? (
@@ -174,6 +198,9 @@ export const ViewershipView: React.FC<ViewershipViewProps> = ({ yearMonth, curre
                 streamers={pageStreamers}
                 search={search}
                 onSearch={(value) => { setSearch(value); setCurrentPage(1); }}
+                crewFilter={crewFilter}
+                onCrewFilterChange={(value) => { setCrewFilter(value); setCurrentPage(1); }}
+                availableCrews={availableCrews}
                 currentPage={page}
                 pageCount={pageCount}
                 totalCount={rankedStreamers.length}
@@ -240,11 +267,14 @@ const IndividualView: React.FC<{
   streamers: ViewershipStreamerSnapshot[];
   search: string;
   onSearch: (value: string) => void;
+  crewFilter: string;
+  onCrewFilterChange: (value: string) => void;
+  availableCrews: string[];
   currentPage: number;
   pageCount: number;
   totalCount: number;
   onPageChange: (page: number) => void;
-}> = ({ streamers, search, onSearch, currentPage, pageCount, totalCount, onPageChange }) => (
+}> = ({ streamers, search, onSearch, crewFilter, onCrewFilterChange, availableCrews, currentPage, pageCount, totalCount, onPageChange }) => (
   <div className="w-full rounded-xl border border-slate-200/90 bg-white p-2.5 shadow-xs sm:p-5">
     <div className="mb-3 flex flex-col justify-between gap-3 border-b border-slate-100 pb-4 sm:flex-row sm:items-center">
       <div>
@@ -263,13 +293,26 @@ const IndividualView: React.FC<{
       </div>
 
       <div className="flex w-full items-center gap-2 sm:w-auto">
+        <select
+          value={crewFilter}
+          onChange={(event) => onCrewFilterChange(event.target.value)}
+          className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-800 outline-none transition focus:border-emerald-500 focus:bg-white cursor-pointer max-w-[110px] sm:max-w-none"
+        >
+          <option value="all">전체 크루</option>
+          <option value="무소속">무소속</option>
+          {availableCrews.map((crew) => (
+            <option key={crew} value={crew}>
+              {crew}
+            </option>
+          ))}
+        </select>
         <div className="relative min-w-0 flex-1 sm:flex-initial">
           <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
           <input
             value={search}
             onChange={(event) => onSearch(event.target.value)}
-            placeholder="닉네임, 크루 검색"
-            className="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-3 text-xs text-slate-800 outline-none placeholder:text-slate-400 transition focus:border-emerald-500 focus:bg-white sm:w-44"
+            placeholder="닉네임 검색"
+            className="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-3 text-xs text-slate-800 outline-none placeholder:text-slate-400 transition focus:border-emerald-500 focus:bg-white sm:w-40"
           />
         </div>
         <div className="shrink-0 rounded-lg border border-slate-200 bg-slate-100 px-2.5 py-1.5 text-xs font-mono text-slate-600">

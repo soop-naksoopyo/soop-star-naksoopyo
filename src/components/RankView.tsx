@@ -16,6 +16,7 @@ interface RankViewProps {
 
 export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, selectedMonth }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCrew, setSelectedCrew] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [archivedStreamers, setArchivedStreamers] = useState<(StreamerRowData & { crewName?: string })[] | null>(null);
   const [isMonthLoading, setIsMonthLoading] = useState(false);
@@ -23,6 +24,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
 
   React.useEffect(() => {
     setSearchTerm('');
+    setSelectedCrew('all');
     setCurrentPage(1);
   }, [selectedMonth]);
 
@@ -71,8 +73,26 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
 
   const rankedStreamers = selectedMonth === currentMonth ? streamers : archivedStreamers ?? [];
 
+  const availableCrews = React.useMemo(() => {
+    const crewSet = new Set<string>();
+    rankedStreamers.forEach((s) => {
+      if (s.crewName && s.crewName !== '무소속') {
+        crewSet.add(s.crewName);
+      }
+    });
+    return Array.from(crewSet).sort((a, b) => a.localeCompare(b, 'ko'));
+  }, [rankedStreamers]);
+
   const filtered = rankedStreamers
     .filter((s) => {
+      if (selectedCrew !== 'all') {
+        const isIndep = !s.crewName || s.crewName === '무소속';
+        if (selectedCrew === '무소속') {
+          if (!isIndep) return false;
+        } else {
+          if (s.crewName !== selectedCrew) return false;
+        }
+      }
       if (!searchTerm) return true;
       const term = searchTerm.toLowerCase();
       return (
@@ -114,24 +134,41 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
         {/* 검색 및 필터 */}
         <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
           <div className="flex w-full items-center gap-2 sm:w-auto">
+            {/* 크루 필터 셀렉트 박스 */}
+            <select
+              value={selectedCrew}
+              onChange={(e) => {
+                setSelectedCrew(e.target.value);
+                setCurrentPage(1);
+              }}
+              className="bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-800 px-2.5 py-1.5 outline-none focus:border-emerald-500 focus:bg-white transition cursor-pointer max-w-[110px] sm:max-w-none"
+            >
+              <option value="all">전체 크루</option>
+              <option value="무소속">무소속</option>
+              {availableCrews.map((crew) => (
+                <option key={crew} value={crew}>
+                  {crew}
+                </option>
+              ))}
+            </select>
+
             <div className="relative min-w-0 flex-1 sm:flex-initial">
               <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="닉네임, 크루 검색"
+                placeholder="닉네임 검색"
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:outline-hidden focus:border-emerald-500 focus:bg-white w-full sm:w-44 transition"
+                className="pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:outline-hidden focus:border-emerald-500 focus:bg-white w-full sm:w-40 transition"
               />
             </div>
             <div className="text-xs font-mono text-slate-600 bg-slate-100 px-2.5 py-1.5 rounded-lg border border-slate-200 shrink-0">
               {filtered.length}명
             </div>
           </div>
-
         </div>
       </div>
 
