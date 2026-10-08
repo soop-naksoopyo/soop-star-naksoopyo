@@ -42,6 +42,7 @@ jobs:
         run: |
           pip install playwright
           npx playwright install --with-deps chromium
+          python -m playwright install chromium
 
       - name: Capture 4 Ranking Screenshots
         run: |
