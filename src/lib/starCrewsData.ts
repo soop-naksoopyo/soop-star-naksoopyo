@@ -1625,7 +1625,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "soopId": "zinsim",
         "nickname": "봄덕이",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/zi/zinsim/zinsim.jpg",
-        "totalStars": 15687,
+        "totalStars": 15925,
         "broadcastHours": 26.9
       },
       {

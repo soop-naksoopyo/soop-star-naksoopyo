@@ -145,6 +145,30 @@ async function fetchTrackifyBatch(targetRoster, yearMonth) {
   return { resultMap, failures };
 }
 
+async function fetchGoogleSheetFallbackStars() {
+  const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTFEkKcEuvw3cKm6YAMFflI2kF_GmF-cmLnwAMkLFIF_wMOd5CBtqwn_IZnHueQe_6ULU5-XsFqEku0/pub?gid=0&single=true&output=csv';
+  try {
+    const res = await fetch(sheetUrl, { headers: { 'User-Agent': userAgent } });
+    if (!res.ok) return new Map();
+    const text = await res.text();
+    const rows = text.split('\n').map((l) => l.trim().split(','));
+    const map = new Map();
+    for (const r of rows.slice(1)) {
+      if (r.length >= 5) {
+        const id = r[2]?.trim().toLowerCase();
+        const stars = parseInt(r[4]?.trim() || '0', 10);
+        if (id && Number.isFinite(stars) && stars > 0) {
+          map.set(id, stars);
+        }
+      }
+    }
+    return map;
+  } catch (err) {
+    console.warn('[Google Sheet Fallback] Failed fetching sheet:', err.message);
+    return new Map();
+  }
+}
+
 async function saveAndSyncSnapshots({
   yearMonth,
   roster,
@@ -492,6 +516,17 @@ async function main() {
     stoppedByLimit = true;
   }
 
+  // 별풍선이 비공개(isBalloonHidden)인 스트리머(예: 봄덕이 zinsim)가 있으면 구글 시트에서 별풍선 수치 조회
+  let sheetStarsMap = null;
+  const hasHiddenStreamers = targetRoster.some((s) => {
+    const item = trackifyMap.get(s.soopId.toLowerCase());
+    return item?.isBalloonHidden;
+  });
+  if (hasHiddenStreamers) {
+    console.log('[Trackify Sync] Found streamer with hidden balloons. Fetching Google Sheet fallback...');
+    sheetStarsMap = await fetchGoogleSheetFallbackStars();
+  }
+
   const nowIso = new Date().toISOString();
   const newlyFetchedIds = new Set();
 
@@ -511,7 +546,8 @@ async function main() {
     if (item) {
       const itemStars = Number(item.balloon);
       const validItemStars = Number.isFinite(itemStars) && itemStars > 0 ? Math.round(itemStars) : 0;
-      const totalStars = Math.max(validItemStars, existing?.totalStars || 0);
+      const sheetStars = (item.isBalloonHidden && sheetStarsMap?.has(soopId)) ? (sheetStarsMap.get(soopId) || 0) : 0;
+      const totalStars = Math.max(validItemStars, sheetStars, existing?.totalStars || 0);
 
       const averageViewers = Number.isFinite(Number(item.viewerAvg)) ? Math.round(Number(item.viewerAvg)) : 0;
       const peakViewers = Number.isFinite(Number(item.viewerPeak)) ? Math.round(Number(item.viewerPeak)) : 0;
@@ -521,10 +557,12 @@ async function main() {
       const broadcastMinutes = Math.max(itemMinutes, existing?.broadcastMinutes || 0);
       const viewerShip = Math.round((averageViewers * broadcastMinutes) / 60);
 
+      const starsSource = validItemStars > 0 ? 'trackify' : (sheetStars > 0 ? 'sheets' : (existing?.starsSource || 'trackify'));
+
       collectedRows.push({
         ...streamer,
         totalStars,
-        starsSource: validItemStars > 0 ? 'trackify' : (existing?.starsSource || 'trackify'),
+        starsSource,
         averageViewers,
         totalViewers,
         peakViewers,
