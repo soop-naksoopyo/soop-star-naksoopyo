@@ -80,71 +80,10 @@ function getRoster(yearMonth) {
   return Array.from(byId.values());
 }
 
-const SHARED_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTFEkKcEuvw3cKm6YAMFflI2kF_GmF-cmLnwAMkLFIF_wMOd5CBtqwn_IZnHueQe_6ULU5-XsFqEku0/pub?gid=0&single=true&output=csv';
-
-async function fetchLiveGoogleSheetData(maxRetries = 3) {
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 25_000);
-      const res = await fetch(SHARED_CSV_URL, {
-        headers: {
-          'User-Agent': userAgent,
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache',
-        },
-        signal: controller.signal,
-      });
-      clearTimeout(timeout);
-
-      if (res.ok) {
-        const text = await res.text();
-        if (text && text.includes(',')) {
-          const rows = text.split('\n').map((r) => r.split(','));
-          const map = new Map();
-          for (let r = 1; r < rows.length; r++) {
-            const row = rows[r];
-            if (row.length >= 6) {
-              const soopId = (row[2] || '').replace(/[\r\n"]/g, '').trim().toLowerCase();
-              const rawBalloons = (row[4] || '').replace(/[^0-9]/g, '');
-              const rawHours = (row[5] || '').replace(/[^0-9]/g, '');
-              if (soopId) {
-                map.set(soopId, {
-                  soopId,
-                  nickname: (row[3] || '').replace(/[\r\n"]/g, '').trim(),
-                  crewName: (row[1] || '').replace(/[\r\n"]/g, '').trim(),
-                  department: (row[0] || '').replace(/[\r\n"]/g, '').trim(),
-                  balloons: rawBalloons ? parseInt(rawBalloons, 10) : 0,
-                  hours: rawHours ? parseInt(rawHours, 10) : 0,
-                });
-              }
-            }
-          }
-          if (map.size >= 100) {
-            console.log(`[Google Sheet] ✅ Successfully fetched ${map.size} streamers from live spreadsheet (attempt ${attempt}/${maxRetries})`);
-            return map;
-          }
-        }
-      }
-      console.warn(`[Google Sheet] Attempt ${attempt}/${maxRetries} returned HTTP ${res.status}`);
-    } catch (err) {
-      console.warn(`[Google Sheet] Attempt ${attempt}/${maxRetries} failed:`, err.message);
-    }
-
-    if (attempt < maxRetries) {
-      const delayMs = attempt * 2000;
-      console.log(`[Google Sheet] Retrying in ${delayMs / 1000}s...`);
-      await new Promise((resolve) => setTimeout(resolve, delayMs));
-    }
-  }
-  return null;
-}
-
 async function fetchViewership(streamer, yearMonth, retryCount = 0) {
   const [targetYear, targetMonthNum] = yearMonth.split('-');
 
   const statsUrl = `https://soopscope.com/api/streamer/${encodeURIComponent(streamer.soopId)}/stats?year=${targetYear}&month=${Number(targetMonthNum)}`;
-  const monthlyTotalUrl = `https://soopscope.com/api/streamer/${encodeURIComponent(streamer.soopId)}/monthly-total?year=${targetYear}&month=${Number(targetMonthNum)}`;
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 12_000);
@@ -163,16 +102,7 @@ async function fetchViewership(streamer, yearMonth, retryCount = 0) {
   };
 
   try {
-    const [statsRes, totalRes] = await Promise.all([
-      fetch(statsUrl, { headers, signal: controller.signal }),
-      fetch(monthlyTotalUrl, { headers, signal: controller.signal }).catch(() => null),
-    ]);
-
-    if (statsRes.status === 429 && retryCount < 1) {
-      clearTimeout(timeout);
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-      return fetchViewership(streamer, yearMonth, retryCount + 1);
-    }
+    const statsRes = await fetch(statsUrl, { headers, signal: controller.signal });
 
     if (!statsRes.ok) return { error: `http_${statsRes.status}` };
 
@@ -185,16 +115,7 @@ async function fetchViewership(streamer, yearMonth, retryCount = 0) {
       return Number.isFinite(number) && number > 0 ? Math.round(number) : 0;
     };
 
-    let totalStars = numberOrZero(current.totalStars);
-    let starsSource = 'stats';
-
-    if (totalRes && totalRes.ok) {
-      const totalPayload = await totalRes.json().catch(() => null);
-      if (totalPayload && typeof totalPayload.canonical === 'number' && totalPayload.canonical > 0) {
-        totalStars = totalPayload.canonical;
-        starsSource = 'canonical';
-      }
-    }
+    const totalStars = numberOrZero(current.totalStars);
 
     const averageViewers = numberOrZero(current.avgViewers);
     const broadcastMinutes = numberOrZero(current.minutes);
@@ -202,7 +123,7 @@ async function fetchViewership(streamer, yearMonth, retryCount = 0) {
     return { row: {
       ...streamer,
       totalStars,
-      starsSource,
+      starsSource: 'stats',
       averageViewers,
       totalViewers: numberOrZero(current.totalViewers),
       peakViewers: numberOrZero(current.peak),
@@ -236,7 +157,7 @@ async function saveAndSyncSnapshots({
   durationSeconds = 60,
   completedShards = 1,
   expectedShards = 1,
-  isRetainedFallback = false,
+  failures = new Map(),
 }) {
   const currentMonth = (() => {
     const kst = new Date(Date.now() + 9 * 60 * 60 * 1000);
@@ -247,13 +168,13 @@ async function saveAndSyncSnapshots({
   const streamers = Array.from(mergedMap.values()).filter((s) => rosterIds.has(s.soopId.toLowerCase()));
   console.log(`[SoopScope Sync] Processing ${streamers.length}/${roster.length} streamers (newly fetched: ${newlyFetchedIds.size}) for ${yearMonth}`);
 
-  if (newlyFetchedIds.size > 0 && !isRetainedFallback) {
+  if (newlyFetchedIds.size > 0) {
     archives[yearMonth] = {
       yearMonth,
       updatedAt: new Date().toISOString(),
       requestedCount: roster.length,
-      fetchedCount: streamers.length,
-      failedCount: Math.max(0, roster.length - streamers.length),
+      fetchedCount: newlyFetchedIds.size,
+      failedCount: Math.max(0, roster.length - newlyFetchedIds.size),
       streamers: streamers.sort((a, b) =>
         (a.crewName || '\uffff').localeCompare(b.crewName || '\uffff', 'ko')
         || a.nickname.localeCompare(b.nickname, 'ko')),
@@ -265,8 +186,6 @@ async function saveAndSyncSnapshots({
     );
     fs.writeFileSync(archivePath, updatedContent, 'utf8');
     console.log(`[SoopScope Sync] Saved ${streamers.length} streamers to ${archivePath}`);
-  } else if (isRetainedFallback) {
-    console.log(`[SoopScope Sync] ℹ️ Google Sheet temporarily delayed. Retained existing snapshot for ${streamers.length} streamers.`);
   } else {
     console.warn(`[SoopScope Sync] ⚠️ 0 streamers fetched in this run. Retaining existing snapshot without touching updatedAt.`);
   }
@@ -299,7 +218,7 @@ async function saveAndSyncSnapshots({
           soopId: r.soopId,
           nickname: r.nickname,
           crewName: r.crewName || '무소속',
-          reason: newlyFetchedIds.size === 0 ? 'SoopScope 403 Forbidden 차단' : '수집 실패',
+          reason: failures.get(r.soopId.toLowerCase()) || '수집 실패',
         });
       }
     }
@@ -308,16 +227,14 @@ async function saveAndSyncSnapshots({
     const kstTime = kstDate.toISOString().replace('T', ' ').slice(0, 19);
     const isManual = Boolean(process.argv[2] && process.env.GITHUB_EVENT_NAME === 'workflow_dispatch');
 
-    const entryStatus = isRetainedFallback
-      ? 'success'
-      : newlyFetchedIds.size === 0
-        ? 'failed'
-        : newlyFetchedIds.size >= roster.length
-          ? 'success'
-          : 'partial';
+    const entryStatus = newlyFetchedIds.size === 0
+      ? 'failed'
+      : newlyFetchedIds.size >= roster.length
+        ? 'success'
+        : 'partial';
 
-    const effectiveFetchedCount = isRetainedFallback ? roster.length : newlyFetchedIds.size;
-    const effectiveFailedCount = isRetainedFallback ? 0 : roster.length - newlyFetchedIds.size;
+    const effectiveFetchedCount = newlyFetchedIds.size;
+    const effectiveFailedCount = roster.length - newlyFetchedIds.size;
 
     const newLogEntry = {
       id: `run-${Date.now()}`,
@@ -329,15 +246,17 @@ async function saveAndSyncSnapshots({
       requestedCount: roster.length,
       fetchedCount: effectiveFetchedCount,
       failedCount: effectiveFailedCount,
-      failedStreamers: isRetainedFallback ? [] : uncollectedStreamers.slice(0, 50),
+      failedStreamers: uncollectedStreamers.slice(0, 50),
       durationSeconds,
-      note: isRetainedFallback
-        ? `${yearMonth} 구글 시트 일시 지연으로 기존 스냅샷 정상 유지 (${roster.length}명 보존)`
-        : newlyFetchedIds.size === 0
-          ? `${yearMonth} 수집 실패 (0명 수집됨)`
-          : newlyFetchedIds.size < roster.length
-            ? `${yearMonth} 부분 수집 (${newlyFetchedIds.size}/${roster.length}명 성공)`
-            : `${yearMonth} 전원 정상 수집 완료 (${newlyFetchedIds.size}명)`,
+      note: Array.from(failures.values()).some((reason) => reason.includes('http_403'))
+        ? `${yearMonth} SoopScope API가 HTTP 403을 반환해 수집을 중단하고 기존 스냅샷을 유지함`
+        : Array.from(failures.values()).some((reason) => reason.includes('http_429'))
+          ? `${yearMonth} SoopScope API가 HTTP 429를 반환해 수집을 중단하고 기존 스냅샷을 유지함`
+          : newlyFetchedIds.size === 0
+            ? `${yearMonth} 수집 실패 (0명 수집됨)`
+            : newlyFetchedIds.size < roster.length
+              ? `${yearMonth} 부분 수집 (${newlyFetchedIds.size}/${roster.length}명 성공)`
+              : `${yearMonth} 전원 정상 수집 완료 (${newlyFetchedIds.size}명)`,
     };
     runLogEntry = newLogEntry;
 
@@ -554,77 +473,50 @@ async function main() {
     console.log(`[SoopScope Shard ${shardIndex + 1}/${totalShards}] Roster ${start + 1} ~ ${end} (${targetRoster.length} streamers)`);
   }
 
-  const batchSize = 1;
   const collectedRows = [];
   const failures = new Map();
   const startTime = Date.now();
-  let consecutive403Count = 0;
-  let isRetainedFallback = false;
-
-  // 1차: 실시간 구글 스프레드시트에서 수집 (차단/WAF 없이 237명 최신 별풍선/방송시간 100% 보장)
-  const sheetMap = await fetchLiveGoogleSheetData();
+  let stoppedByLimit = false;
   const previousSnapshot = archives[yearMonth];
   const existingMap = new Map((previousSnapshot?.streamers || []).map((s) => [s.soopId.toLowerCase(), s]));
 
-  if (sheetMap && sheetMap.size >= 100) {
-    console.log(`[Sync Engine] 🚀 Processing ${targetRoster.length} streamers using live Google Sheet data...`);
-    for (const streamer of targetRoster) {
-      const soopId = streamer.soopId.toLowerCase();
-      const sheetData = sheetMap.get(soopId);
-      const existing = existingMap.get(soopId);
+  console.log(`[Sync Engine] Fetching ${targetRoster.length} streamers from SoopScope stats API sequentially...`);
+  for (let index = 0; index < targetRoster.length; index += 1) {
+    const streamer = targetRoster[index];
+    const soopId = streamer.soopId.toLowerCase();
+    const existing = existingMap.get(soopId);
+    const result = await fetchViewership(streamer, yearMonth);
 
-      const totalStars = sheetData
-        ? Math.max(existing?.totalStars || 0, sheetData.balloons)
-        : (existing?.totalStars || 0);
-
-      const broadcastMinutes = sheetData
-        ? Math.max(existing?.broadcastMinutes || 0, sheetData.hours * 60)
-        : (existing?.broadcastMinutes || 0);
-
-      const averageViewers = existing?.averageViewers || 0;
-      const totalViewers = existing?.totalViewers || 0;
-      const peakViewers = existing?.peakViewers || 0;
-      const viewerShip = Math.round((averageViewers * broadcastMinutes) / 60);
-
-      collectedRows.push({
-        ...streamer,
-        totalStars,
-        starsSource: 'canonical',
-        averageViewers,
-        totalViewers,
-        peakViewers,
-        broadcastMinutes,
-        viewerShip,
-        fetchedAt: new Date().toISOString(),
-        collectionStatus: 'available',
-        viewershipStatus: 'available',
-      });
-    }
-    console.log(`[Sync Engine] ✅ Successfully synced all ${collectedRows.length} streamers without WAF blocks!`);
-  } else {
-    console.warn(`[Sync Engine] ⚠️ Google Sheet temporarily unavailable. Retaining previous snapshot for all ${targetRoster.length} streamers to prevent 403 lockouts.`);
-    isRetainedFallback = true;
-    for (const streamer of targetRoster) {
-      const soopId = streamer.soopId.toLowerCase();
-      const existing = existingMap.get(soopId);
-      if (existing) {
-        collectedRows.push(existing);
-      } else {
-        collectedRows.push({
-          ...streamer,
-          totalStars: 0,
-          starsSource: 'canonical',
-          averageViewers: 0,
-          totalViewers: 0,
-          peakViewers: 0,
-          broadcastMinutes: 0,
-          viewerShip: 0,
-          fetchedAt: new Date().toISOString(),
-          collectionStatus: 'available',
-          viewershipStatus: 'available',
-        });
+    if (result.error) {
+      failures.set(soopId, result.error);
+      console.warn(`[SoopScope API] ${soopId}: ${result.error}`);
+      if (result.error === 'http_403' || result.error === 'http_429') {
+        stoppedByLimit = true;
+        break;
       }
+    } else {
+      const row = result.row;
+      if (existing) {
+        row.totalStars = Math.max(row.totalStars || 0, existing.totalStars || 0);
+        row.broadcastMinutes = Math.max(row.broadcastMinutes || 0, existing.broadcastMinutes || 0);
+        row.viewerShip = Math.round(((row.averageViewers || 0) * (row.broadcastMinutes || 0)) / 60);
+      }
+      collectedRows.push(row);
     }
+
+    if (index < targetRoster.length - 1) await new Promise((resolve) => setTimeout(resolve, 1250));
+  }
+
+  if (stoppedByLimit) {
+    const stopReason = failures.get(targetRoster.find((streamer) => failures.has(streamer.soopId.toLowerCase()))?.soopId.toLowerCase());
+    console.warn(`[SoopScope API] ${stopReason} received; stopping this run and keeping the existing snapshot unchanged.`);
+    collectedRows.length = 0;
+    for (const streamer of targetRoster) {
+      const existing = existingMap.get(streamer.soopId.toLowerCase());
+      if (existing) collectedRows.push(existing);
+    }
+    failures.clear();
+    for (const streamer of targetRoster) failures.set(streamer.soopId.toLowerCase(), `run_stopped_by_${stopReason}`);
   }
 
   // 3. Shard 개별 결과 파일 저장 (--output=path.json)
@@ -640,11 +532,10 @@ async function main() {
   // 4. 단일 실행일 경우 로컬 스냅샷 + Supabase + 로그 통합 동기화
   const previous = archives[yearMonth];
   const mergedMap = new Map((previous?.streamers || []).map((s) => [s.soopId.toLowerCase(), s]));
-  const newlyFetchedIds = new Set();
+  const newlyFetchedIds = new Set(collectedRows.filter((row) => !stoppedByLimit && !failures.has(row.soopId.toLowerCase())).map((row) => row.soopId.toLowerCase()));
   for (const row of collectedRows) {
     if (row && row.soopId && !excludedSoopIds.has(row.soopId.toLowerCase())) {
       const soopId = row.soopId.toLowerCase();
-      newlyFetchedIds.add(soopId);
       const existing = mergedMap.get(soopId);
       if (existing) {
         if ((row.totalStars || 0) < (existing.totalStars || 0) && (existing.totalStars || 0) > 0) {
@@ -653,9 +544,6 @@ async function main() {
         }
         if ((row.broadcastMinutes || 0) < (existing.broadcastMinutes || 0) && (existing.broadcastMinutes || 0) > 0) {
           row.broadcastMinutes = existing.broadcastMinutes;
-        }
-        if ((row.averageViewers || 0) === 0 && (existing.averageViewers || 0) > 0) {
-          row.averageViewers = existing.averageViewers;
         }
         row.viewerShip = Math.round(((row.averageViewers || 0) * (row.broadcastMinutes || 0)) / 60);
       }
@@ -676,7 +564,7 @@ async function main() {
     durationSeconds,
     completedShards: 1,
     expectedShards: 1,
-    isRetainedFallback,
+    failures,
   });
 }
 

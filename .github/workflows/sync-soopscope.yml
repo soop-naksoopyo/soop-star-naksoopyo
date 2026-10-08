@@ -2,8 +2,8 @@ name: Periodic SoopScope Snapshot
 
 on:
   schedule:
-    # 24시간 10분마다 안전한 순차 수집 실행
-    - cron: '*/10 * * * *'
+    # 30분 간격으로 순차 수집
+    - cron: '7,37 * * * *'
 
   workflow_dispatch:
     inputs:
@@ -22,7 +22,7 @@ concurrency:
 jobs:
   sync-viewership:
     runs-on: ubuntu-latest
-    name: Sync SoopScope Viewership (Smooth Sequential)
+    name: Sync SoopScope Viewership (Sequential)
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
