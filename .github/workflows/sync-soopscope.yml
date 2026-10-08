@@ -1,6 +1,12 @@
 name: Periodic SoopScope Snapshot
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/lib/starCrewsData.ts'
+      - 'src/data/independentStreamers.ts'
   schedule:
     # 10분 간격으로 수집
     - cron: '*/10 * * * *'
