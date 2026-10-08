@@ -38,11 +38,11 @@ describe('calmmonData', () => {
 
   it('해당 월이 생일인 멤버에게 isBirthdayMonth가 true를 반환해야 한다', () => {
     // 주하랑 (10-08)
-    expect(isBirthdayMonth('10-08', '2026-10')).toBe(true);
-    expect(isBirthdayMonth('10-08', '2026-11')).toBe(false);
+    expect(isBirthdayMonth('fpahsdltu1', '2026-10')).toBe(true);
+    expect(isBirthdayMonth('fpahsdltu1', '2026-11')).toBe(false);
     // 김윤환 (06-13)
-    expect(isBirthdayMonth('06-13', '2026-06')).toBe(true);
-    expect(isBirthdayMonth('06-13', '2026-10')).toBe(false);
+    expect(isBirthdayMonth('brainzerg77', '2026-06')).toBe(true);
+    expect(isBirthdayMonth('brainzerg77', '2026-10')).toBe(false);
   });
 
   it('별풍선 탭 기준 남/여 정렬 및 합계/평균이 올바르게 계산되어야 한다', () => {
@@ -75,35 +75,45 @@ export interface CalmmonMemberMeta {
   nickname: string;
   gender: Gender;
   isBoss?: boolean;
-  birthday: string; // MM-DD
 }
 
 export const CALMMON_MEMBERS: CalmmonMemberMeta[] = [
   // 남자 (6명)
-  { soopId: 'brainzerg77', nickname: '김윤환', gender: 'male', isBoss: true, birthday: '06-13' },
-  { soopId: 'minchul', nickname: '김민철', gender: 'male', birthday: '12-10' },
-  { soopId: 'h78ert', nickname: '박준오', gender: 'male', birthday: '12-25' },
-  { soopId: 'jmc06170', nickname: '왜냐맨', gender: 'male', birthday: '06-17' },
-  { soopId: 'hoonykkk', nickname: '사테', gender: 'male', birthday: '03-12' },
-  { soopId: 'goodzerg', nickname: '배성흠', gender: 'male', birthday: '09-08' },
+  { soopId: 'brainzerg77', nickname: '김윤환', gender: 'male', isBoss: true },
+  { soopId: 'minchul', nickname: '김민철', gender: 'male' },
+  { soopId: 'h78ert', nickname: '박준오', gender: 'male' },
+  { soopId: 'jmc06170', nickname: '왜냐맨', gender: 'male' },
+  { soopId: 'hoonykkk', nickname: '사테', gender: 'male' },
+  { soopId: 'goodzerg', nickname: '배성흠', gender: 'male' },
   // 여자 (11명)
-  { soopId: 'freshtomato', nickname: '토마토', gender: 'female', birthday: '10-25' },
-  { soopId: 'seemin88', nickname: '비타밍', gender: 'female', birthday: '08-25' },
-  { soopId: 'wjswlgns09', nickname: '지두두', gender: 'female', birthday: '07-09' },
-  { soopId: '2meonjin', nickname: '먼진', gender: 'female', birthday: '11-20' },
-  { soopId: 'fpahsdltu1', nickname: '주하랑', gender: 'female', birthday: '10-08' },
-  { soopId: 'sksmsskdsl10', nickname: '낭니', gender: 'female', birthday: '08-10' },
-  { soopId: 'thelddl', nickname: '햇살', gender: 'female', birthday: '11-13' },
-  { soopId: 'rnaqpdrjf', nickname: '남덕선', gender: 'female', birthday: '04-20' },
-  { soopId: 'vldpfm2', nickname: '아리송이', gender: 'female', birthday: '03-24' },
-  { soopId: 'dlaguswl501', nickname: '임조이', gender: 'female', birthday: '05-01' },
-  { soopId: 'soju2022', nickname: '소주양', gender: 'female', birthday: '03-22' },
+  { soopId: 'freshtomato', nickname: '토마토', gender: 'female' },
+  { soopId: 'seemin88', nickname: '비타밍', gender: 'female' },
+  { soopId: 'wjswlgns09', nickname: '지두두', gender: 'female' },
+  { soopId: '2meonjin', nickname: '먼진', gender: 'female' },
+  { soopId: 'fpahsdltu1', nickname: '주하랑', gender: 'female' },
+  { soopId: 'sksmsskdsl10', nickname: '낭니', gender: 'female' },
+  { soopId: 'thelddl', nickname: '햇살', gender: 'female' },
+  { soopId: 'rnaqpdrjf', nickname: '남덕선', gender: 'female' },
+  { soopId: 'vldpfm2', nickname: '아리송이', gender: 'female' },
+  { soopId: 'dlaguswl501', nickname: '임조이', gender: 'female' },
+  { soopId: 'soju2022', nickname: '소주양', gender: 'female' },
 ];
 
-export function isBirthdayMonth(birthday: string, yearMonth: string): boolean {
-  if (!birthday || !yearMonth) return false;
-  const month = yearMonth.slice(5, 7); // '2026-10' -> '10'
-  const birthMonth = birthday.slice(0, 2); // '10-08' -> '10'
+// 멤버별 생일 매핑 ("MM-DD" 포맷, 언제든 추가/수정 가능)
+export const CALMMON_BIRTHDAYS: Record<string, string> = {
+  brainzerg77: '06-13', // 김윤환
+  minchul: '12-10',     // 김민철
+  h78ert: '06-24',      // 박준오
+  jmc06170: '06-17',    // 왜냐맨
+  freshtomato: '08-05', // 토마토
+  fpahsdltu1: '10-08',  // 주하랑 (10월 생일 🎂)
+};
+
+export function isBirthdayMonth(soopId: string, yearMonth: string): boolean {
+  const bday = CALMMON_BIRTHDAYS[soopId.toLowerCase()];
+  if (!bday || !yearMonth) return false;
+  const month = yearMonth.slice(5, 7);
+  const birthMonth = bday.slice(0, 2);
   return month === birthMonth;
 }
 
