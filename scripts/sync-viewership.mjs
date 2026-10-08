@@ -508,7 +508,8 @@ async function main() {
   }
 
   if (stoppedByLimit) {
-    const stopReason = failures.get(targetRoster.find((streamer) => failures.has(streamer.soopId.toLowerCase()))?.soopId.toLowerCase());
+    const stopSoopId = targetRoster.find((streamer) => failures.has(streamer.soopId.toLowerCase()))?.soopId.toLowerCase();
+    const stopReason = failures.get(stopSoopId);
     console.warn(`[SoopScope API] ${stopReason} received; stopping this run and keeping the existing snapshot unchanged.`);
     collectedRows.length = 0;
     for (const streamer of targetRoster) {
@@ -516,7 +517,10 @@ async function main() {
       if (existing) collectedRows.push(existing);
     }
     failures.clear();
-    for (const streamer of targetRoster) failures.set(streamer.soopId.toLowerCase(), `run_stopped_by_${stopReason}`);
+    for (const streamer of targetRoster) {
+      const soopId = streamer.soopId.toLowerCase();
+      failures.set(soopId, soopId === stopSoopId ? stopReason : `not_requested_after_${stopReason}`);
+    }
   }
 
   // 3. Shard 개별 결과 파일 저장 (--output=path.json)
@@ -566,6 +570,7 @@ async function main() {
     expectedShards: 1,
     failures,
   });
+  if (stoppedByLimit) process.exitCode = 1;
 }
 
 main().catch((error) => {
