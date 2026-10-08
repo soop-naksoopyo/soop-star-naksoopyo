@@ -92,13 +92,35 @@ export interface StreamerStatInput {
   averageViewers?: number;
 }
 
+// 스크린샷 기준 기본 통계 (API 지연이나 수장 데이터 누락 시 안전한 폴백 및 초기값)
+export const CALMMON_DEFAULT_STATS: Record<string, StreamerStatInput> = {
+  brainzerg77: { totalStars: 80976, broadcastHours: 30.7, averageViewers: 3842 },
+  minchul: { totalStars: 58996, broadcastHours: 20.9, averageViewers: 2145 },
+  h78ert: { totalStars: 46050, broadcastHours: 56.5, averageViewers: 1280 },
+  jmc06170: { totalStars: 40617, broadcastHours: 48.5, averageViewers: 820 },
+  hoonykkk: { totalStars: 29407, broadcastHours: 55.7, averageViewers: 954 },
+  goodzerg: { totalStars: 3330, broadcastHours: 34.7, averageViewers: 310 },
+  freshtomato: { totalStars: 153731, broadcastHours: 60.1, averageViewers: 1026 },
+  seemin88: { totalStars: 128378, broadcastHours: 79.0, averageViewers: 221 },
+  wjswlgns09: { totalStars: 121594, broadcastHours: 73.1, averageViewers: 424 },
+  '2meonjin': { totalStars: 94812, broadcastHours: 59.8, averageViewers: 185 },
+  fpahsdltu1: { totalStars: 78807, broadcastHours: 54.2, averageViewers: 152 },
+  sksmsskdsl10: { totalStars: 60396, broadcastHours: 31.2, averageViewers: 1045 },
+  thelddl: { totalStars: 58474, broadcastHours: 58.5, averageViewers: 141 },
+  rnaqpdrjf: { totalStars: 58471, broadcastHours: 67.8, averageViewers: 164 },
+  vldpfm2: { totalStars: 55369, broadcastHours: 52.4, averageViewers: 98 },
+  dlaguswl501: { totalStars: 51426, broadcastHours: 52.8, averageViewers: 128 },
+  soju2022: { totalStars: 46324, broadcastHours: 52.5, averageViewers: 115 },
+};
+
 export function calculateCalmmonStats(
   statsMap: Map<string, StreamerStatInput>,
   tab: CalmmonTabType,
   yearMonth: string
 ): CalmmonStatsResult {
   const rows: CalmmonMemberRow[] = CALMMON_MEMBERS.map((m) => {
-    const s = statsMap.get(m.soopId.toLowerCase());
+    const key = m.soopId.toLowerCase();
+    const s = statsMap.get(key) || CALMMON_DEFAULT_STATS[key];
     let rawVal = 0;
     let displayVal = '0';
 

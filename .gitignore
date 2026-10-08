@@ -40,3 +40,6 @@ supabase/.temp/
 
 # playwright
 .playwright-cli/
+
+# superpowers
+.superpowers/
