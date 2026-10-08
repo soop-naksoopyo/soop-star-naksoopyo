@@ -28,8 +28,9 @@ import {
   Database,
   SlidersHorizontal,
   Terminal,
+  TrendingUp,
 } from 'lucide-react';
-import { type SyncLogEntry, type FailedStreamerInfo } from '@/types/sync';
+import { type SyncLogEntry, type FailedStreamerInfo, type StreamerChangeInfo } from '@/types/sync';
 
 export default function SyncLogSecretPage() {
   const [logs, setLogs] = useState<SyncLogEntry[]>([]);
@@ -508,6 +509,9 @@ export default function SyncLogSecretPage() {
                             {log.status === 'success' ? (
                               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold">
                                 <CheckCircle2 className="w-3 h-3" /> 정상 완료
+                                {log.changedCount !== undefined && log.changedCount > 0 ? (
+                                  <span className="text-amber-300 font-semibold ml-0.5">({log.changedCount}명 변동)</span>
+                                ) : null}
                               </span>
                             ) : log.status === 'partial' ? (
                               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-bold">
@@ -580,13 +584,13 @@ export default function SyncLogSecretPage() {
 
                                 <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
                                   <div className="flex items-center gap-1.5 text-slate-400 text-[11px] font-medium">
-                                    <Database className="w-3.5 h-3.5 text-amber-400" />
-                                    동기화 스토리지
+                                    <TrendingUp className="w-3.5 h-3.5 text-amber-400" />
+                                    데이터 변동 감지
                                   </div>
-                                  <div className="mt-1.5 text-sm sm:text-base font-bold text-white">
-                                    이중 저장소 동기화
+                                  <div className="mt-1.5 text-sm sm:text-base font-bold text-amber-400 font-mono">
+                                    {log.changedCount !== undefined ? `${log.changedCount}명` : `${log.changes?.length ?? 0}명`}
                                   </div>
-                                  <div className="text-[10px] text-slate-500 mt-0.5">Supabase DB & Git Repo</div>
+                                  <div className="text-[10px] text-slate-500 mt-0.5">이전 수집 대비 수치 갱신</div>
                                 </div>
                               </div>
 
@@ -602,15 +606,15 @@ export default function SyncLogSecretPage() {
                                       <CheckCircle2 className="w-3 h-3 shrink-0" /> 1단계: 타겟 로스터 확정
                                     </div>
                                     <div className="text-slate-400 text-[10px] leading-relaxed">
-                                      14개 크루 228명 + 무소속 10명 = 총 {log.requestedCount}명 인덱싱 완료
+                                      14개 크루 + 무소속 = 총 {log.requestedCount}명 인덱싱 완료
                                     </div>
                                   </div>
                                   <div className="p-2.5 rounded bg-slate-900 border border-slate-800/80 space-y-1">
                                     <div className="text-emerald-400 font-bold flex items-center gap-1">
-                                      <CheckCircle2 className="w-3 h-3 shrink-0" /> 2단계: 10개 샤드 병렬 수집
+                                      <CheckCircle2 className="w-3 h-3 shrink-0" /> 2단계: Trackify 배치 수집
                                     </div>
                                     <div className="text-slate-400 text-[10px] leading-relaxed">
-                                      GitHub Actions Matrix Runner 10개로 분산 크롤링 수행
+                                      80명 단위 배치 API 호출 및 비공개 시트 폴백
                                     </div>
                                   </div>
                                   <div className="p-2.5 rounded bg-slate-900 border border-slate-800/80 space-y-1">
@@ -623,10 +627,10 @@ export default function SyncLogSecretPage() {
                                   </div>
                                   <div className="p-2.5 rounded bg-slate-900 border border-slate-800/80 space-y-1">
                                     <div className="text-emerald-400 font-bold flex items-center gap-1">
-                                      <CheckCircle2 className="w-3 h-3 shrink-0" /> 4단계: Supabase & Git 커밋
+                                      <CheckCircle2 className="w-3 h-3 shrink-0" /> 4단계: Supabase & Git 반영
                                     </div>
                                     <div className="text-slate-400 text-[10px] leading-relaxed">
-                                      soopscope_monthly_snapshots Upsert 및 Edge 캐시 갱신
+                                      soopscope_monthly_snapshots 및 변동 로그 갱신
                                     </div>
                                   </div>
                                 </div>
@@ -662,11 +666,67 @@ export default function SyncLogSecretPage() {
                                     </div>
                                   ) : (
                                     <div className="text-rose-400/80 text-[11px]">
-                                      일시적 네트워크 또는 숲스코프 응답 지연으로 인한 결측입니다. 다음 10분/30분 스케줄에서 자동 재시도됩니다.
+                                      일시적 네트워크 또는 응답 지연으로 인한 결측입니다. 다음 스케줄에서 자동 재시도됩니다.
                                     </div>
                                   )}
                                 </div>
                               )}
+
+                              {/* 3-1. 바뀐 데이터 실시간 변동 내역 (10000 -> 12000 등) */}
+                              {log.changes && log.changes.length > 0 ? (
+                                <div className="space-y-2.5 p-3.5 sm:p-4 rounded-lg bg-slate-950/80 border border-amber-500/30">
+                                  <div className="flex items-center justify-between text-xs font-bold text-amber-400">
+                                    <div className="flex items-center gap-2">
+                                      <TrendingUp className="w-4 h-4 text-amber-400 shrink-0" />
+                                      <span>수치 변동 감지 내역 ({log.changedCount || log.changes.length}명 갱신)</span>
+                                    </div>
+                                    <span className="text-[10px] text-slate-400 font-normal">이전 수집 대비 변경치</span>
+                                  </div>
+
+                                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 pt-1">
+                                    {log.changes.map((c: StreamerChangeInfo) => (
+                                      <div
+                                        key={c.soopId}
+                                        className="p-2.5 rounded-md bg-slate-900/90 border border-slate-800 text-[11px] flex flex-col gap-1.5"
+                                      >
+                                        <div className="flex items-center justify-between">
+                                          <span className="font-semibold text-slate-200">
+                                            {c.nickname}{' '}
+                                            <span className="text-slate-400 text-[10px]">({c.crewName || '무소속'})</span>
+                                          </span>
+                                          <span className="text-slate-500 font-mono text-[10px]">{c.soopId}</span>
+                                        </div>
+
+                                        <div className="flex items-center justify-between pt-1 border-t border-slate-800/80 text-[11px] font-mono">
+                                          <span className="text-slate-400 text-[10px]">별풍선:</span>
+                                          <span className="tabular-nums flex items-center gap-1">
+                                            <span className="text-slate-400">{c.prevStars.toLocaleString()}</span>
+                                            <span className="text-slate-500">➔</span>
+                                            <span className="text-amber-400 font-bold">{c.newStars.toLocaleString()}</span>
+                                            {c.diffStars > 0 && (
+                                              <span className="text-emerald-400 font-bold text-[10px]">(+{c.diffStars.toLocaleString()})</span>
+                                            )}
+                                          </span>
+                                        </div>
+
+                                        {(c.diffHours !== undefined && c.diffHours !== 0) && (
+                                          <div className="flex items-center justify-between text-[11px] font-mono">
+                                            <span className="text-slate-400 text-[10px]">방송시간:</span>
+                                            <span className="tabular-nums flex items-center gap-1">
+                                              <span className="text-slate-400">{c.prevHours}시간</span>
+                                              <span className="text-slate-500">➔</span>
+                                              <span className="text-blue-400 font-bold">{c.newHours}시간</span>
+                                              {c.diffHours > 0 && (
+                                                <span className="text-emerald-400 font-bold text-[10px]">(+{c.diffHours}h)</span>
+                                              )}
+                                            </span>
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ) : null}
 
                               {/* 4. 타임스탬프 & 비고 & 액션 도구 */}
                               <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] text-slate-400 pt-1">

@@ -5,6 +5,18 @@ export interface FailedStreamerInfo {
   reason?: string;
 }
 
+export interface StreamerChangeInfo {
+  soopId: string;
+  nickname: string;
+  crewName?: string;
+  prevStars: number;
+  newStars: number;
+  diffStars: number;
+  prevHours?: number;
+  newHours?: number;
+  diffHours?: number;
+}
+
 export interface SyncLogEntry {
   id: string;
   timestamp: string;
@@ -18,4 +30,6 @@ export interface SyncLogEntry {
   failedStreamers: FailedStreamerInfo[];
   durationSeconds?: number;
   note?: string;
+  changedCount?: number;
+  changes?: StreamerChangeInfo[];
 }

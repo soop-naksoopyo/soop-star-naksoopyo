@@ -192,6 +192,44 @@ async function saveAndSyncSnapshots({
   const streamers = Array.from(mergedMap.values()).filter((s) => rosterIds.has(s.soopId.toLowerCase()));
   console.log(`[Trackify Sync] Processing ${streamers.length}/${roster.length} streamers (newly fetched: ${newlyFetchedIds.size}) for ${yearMonth}`);
 
+  // 이전 스냅샷과 비교하여 수치가 변동된 스트리머 목록 산출
+  const previousStreamers = archives[yearMonth]?.streamers || [];
+  const prevMap = new Map(previousStreamers.map((s) => [s.soopId.toLowerCase(), s]));
+  const changes = [];
+
+  for (const s of streamers) {
+    const prev = prevMap.get(s.soopId.toLowerCase());
+    if (prev) {
+      const prevStars = prev.totalStars || 0;
+      const newStars = s.totalStars || 0;
+      const diffStars = newStars - prevStars;
+
+      const prevMinutes = prev.broadcastMinutes || 0;
+      const newMinutes = s.broadcastMinutes || 0;
+      const diffMinutes = newMinutes - prevMinutes;
+
+      const prevHours = Math.round((prevMinutes / 60) * 10) / 10;
+      const newHours = Math.round((newMinutes / 60) * 10) / 10;
+      const diffHours = Math.round((newHours - prevHours) * 10) / 10;
+
+      if (diffStars > 0 || diffMinutes > 0) {
+        changes.push({
+          soopId: s.soopId,
+          nickname: s.nickname,
+          crewName: s.crewName || '무소속',
+          prevStars,
+          newStars,
+          diffStars,
+          prevHours,
+          newHours,
+          diffHours,
+        });
+      }
+    }
+  }
+
+  changes.sort((a, b) => b.diffStars - a.diffStars || (b.diffHours || 0) - (a.diffHours || 0));
+
   if (newlyFetchedIds.size > 0) {
     archives[yearMonth] = {
       yearMonth,
@@ -272,6 +310,8 @@ async function saveAndSyncSnapshots({
       failedCount: effectiveFailedCount,
       failedStreamers: uncollectedStreamers.slice(0, 50),
       durationSeconds,
+      changedCount: changes.length,
+      changes: changes.slice(0, 50),
       note: Array.from(failures.values()).some((reason) => reason.includes('http_403'))
         ? `${yearMonth} Trackify API가 HTTP 403을 반환해 수집을 중단하고 기존 스냅샷을 유지함`
         : Array.from(failures.values()).some((reason) => reason.includes('http_429'))
@@ -279,8 +319,10 @@ async function saveAndSyncSnapshots({
           : newlyFetchedIds.size === 0
             ? `${yearMonth} Trackify 수집 실패 (0명 수집됨)`
             : newlyFetchedIds.size < roster.length
-              ? `${yearMonth} Trackify 부분 수집 (${newlyFetchedIds.size}/${roster.length}명 성공)`
-              : `${yearMonth} Trackify 전원 정상 수집 완료 (${newlyFetchedIds.size}명)`,
+              ? `${yearMonth} Trackify 부분 수집 (${newlyFetchedIds.size}/${roster.length}명 성공, ${changes.length}명 변동)`
+              : changes.length > 0
+                ? `${yearMonth} 전원 정상 수집 완료 (${newlyFetchedIds.size}명, ${changes.length}명 수치 갱신)`
+                : `${yearMonth} 전원 정상 수집 완료 (${newlyFetchedIds.size}명, 변동 없음)`,
     };
     runLogEntry = newLogEntry;
 
