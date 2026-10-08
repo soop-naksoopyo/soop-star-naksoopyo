@@ -129,6 +129,12 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
       "nickname": "엔돌핀♥",
       "totalStars": 19428,
       "broadcastHours": 26.4
+    },
+    {
+      "soopId": "forweourus",
+      "nickname": "이유란ㅇ",
+      "totalStars": 0,
+      "broadcastHours": 0
     }
   ],
   "2026-11": [
@@ -195,12 +201,6 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
     {
       "soopId": "dmsgkdn12",
       "nickname": "엔돌핀♥",
-      "totalStars": 0,
-      "broadcastHours": 0
-    },
-    {
-      "soopId": "forweourus",
-      "nickname": "이유란ㅇ",
       "totalStars": 0,
       "broadcastHours": 0
     }

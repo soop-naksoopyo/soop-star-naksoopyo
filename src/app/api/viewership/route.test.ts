@@ -77,9 +77,9 @@ it('uses the live SoopScope snapshot when Supabase is configured', async () => {
     averageViewers: 2758,
     crewName: '캄몬',
   });
-  expect(data.requestedCount).toBe(231);
+  expect(data.requestedCount).toBe(232);
   expect(data.fetchedCount).toBe(1);
-  expect(data.failedCount).toBe(230);
+  expect(data.failedCount).toBe(231);
   expect(data.streamers.map((streamer: { soopId: string }) => streamer.soopId)).toEqual([
     'freshtomato',
   ]);
@@ -173,5 +173,3 @@ it('retains past archived members (such as danu619) when Supabase rows exist for
   expect(response.status).toBe(200);
   expect(data.streamers.some((s: { soopId: string }) => s.soopId === 'danu619')).toBe(true);
 });
-
-
