@@ -35,7 +35,7 @@ export const CrewCard: React.FC<CrewCardProps> = ({ crewName, rank, members }) =
   return (
     <div
       id={`crew-card-${crewName}`}
-      className="bg-white rounded-xl border-2 border-slate-200/90 hover:border-slate-300 transition flex flex-col p-3 sm:p-3.5 shadow-sm scroll-mt-20"
+      className="bg-white rounded-xl border-2 border-slate-200/90 hover:border-slate-300 transition flex flex-col p-3 sm:p-3.5 shadow-sm scroll-mt-20 h-full"
     >
       {/* 카드 헤더: 스타크루명, 인원수, 요약 지표 */}
       <div className="flex items-start justify-between pb-2.5 border-b-2 border-slate-200 mb-2.5 gap-2">
@@ -82,7 +82,7 @@ export const CrewCard: React.FC<CrewCardProps> = ({ crewName, rank, members }) =
       </div>
 
       {/* 스트리머 멤버 1열 리스트 배치 */}
-      <div className="flex flex-col gap-1.5 content-start">
+      <div className="flex flex-col gap-1.5 content-start flex-1">
         {sortedMembers.length > 0 ? (
           sortedMembers.map((member, idx) => (
             <StreamerRow

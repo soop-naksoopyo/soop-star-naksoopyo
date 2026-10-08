@@ -221,7 +221,7 @@ const CrewView: React.FC<{ crews: ViewershipCrewSummary[] }> = ({ crews }) => (
   crews.length === 0 ? (
     <div className="rounded-xl border border-slate-200 bg-white py-12 text-center text-sm text-slate-400">표시할 스타크루 자료가 없습니다.</div>
   ) : (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 items-start">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
       {crews.map((crew, index) => (
         <ViewershipCrewCard key={crew.crewName} crew={crew} rank={index + 1} />
       ))}
@@ -280,8 +280,8 @@ const ViewershipCrewCard: React.FC<{ crew: ViewershipCrewSummary; rank: number }
         <span className="text-right">뷰어십</span>
       </div>
 
-      <div className="p-2 sm:p-2.5">
-        <div className="flex flex-col gap-1.5 content-start">
+      <div className="p-2 sm:p-2.5 flex-1 flex flex-col">
+        <div className="flex flex-col gap-1.5 content-start flex-1">
           {crew.members.map((streamer, index) => (
             <CompactStreamerRow key={streamer.soopId} rank={index + 1} streamer={streamer} />
           ))}
