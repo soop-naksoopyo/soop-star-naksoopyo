@@ -3,6 +3,20 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791446567756",
+    "timestamp": "2026-10-08T08:02:47.756Z",
+    "kstTime": "2026-10-08 17:02:47",
+    "yearMonth": "2026-10",
+    "trigger": "manual",
+    "status": "success",
+    "requestedCount": 238,
+    "fetchedCount": 238,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 3,
+    "note": "2026-10 Trackify 전원 정상 수집 완료 (238명)"
+  },
+  {
     "id": "run-1791446511721",
     "timestamp": "2026-10-08T08:01:51.721Z",
     "kstTime": "2026-10-08 17:01:51",
@@ -8506,19 +8520,5 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "failedStreamers": [],
     "durationSeconds": 87,
     "note": "10월 정기 스냅샷 갱신 — 100% 정상 완료"
-  },
-  {
-    "id": "run-37266255739",
-    "timestamp": "2026-10-05T05:07:54Z",
-    "kstTime": "2026-10-05 14:07:54",
-    "yearMonth": "2026-09",
-    "trigger": "manual",
-    "status": "success",
-    "requestedCount": 210,
-    "fetchedCount": 210,
-    "failedCount": 0,
-    "failedStreamers": [],
-    "durationSeconds": 124,
-    "note": "9월 뷰어십 최초 스냅샷 생성 — 100% 정상 완료"
   }
 ];
