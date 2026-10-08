@@ -66,9 +66,19 @@ Key requirements included:
 7. **Kim Yoon-hwan SOOP ID Correction (`brainzerg7`) & Real-time `/api/calmmon` Route**:
    - Corrected Kim Yoon-hwan's SOOP ID from typo `brainzerg77` to official `brainzerg7` in `CALMMON_MEMBERS`, `CALMMON_BIRTHDAYS`, and default stats.
    - Fixed avatar URL resolution to load his authentic SOOP profile photo without 404 fallback.
-   - Created dedicated Edge API route (`src/app/api/calmmon/route.ts`) that fetches live batch statistics directly from Trackify API (`https://www.trackify.kr/api/v1/p/soop/ranking/summary...`) for all 17 Calmmon members, dynamically populating real-time 별풍선 (`94,002`) and 방송시간 (`39.4h`) with graceful fallback.
+   - Created dedicated Edge API route (`src/app/api/calmmon/route.ts`) that fetches live batch statistics directly from Trackify API (`https://www.trackify.kr/api/v1/p/soop/ranking/summary...`) for all 17 Calmmon members, dynamically populating real-time 별풍선 (`94,002`) and 방송시간 (`39.5h`) with graceful fallback.
+
+8. **Database Persistence with Selective Visibility**:
+   - Included `brainzerg7` in `scripts/sync-viewership.mjs` so the 10-minute GitHub Actions crawler automatically pulls and stores his statistics into Supabase (`soopscope_monthly_snapshots`).
+   - Added `brainzerg7` to `VIEWERSHIP_EXCLUDED_SOOP_IDS` in `src/lib/viewership.ts`, ensuring he is strictly hidden from the main 뷰어십 (Viewership) leaderboard.
+   - Kept `OFFICIAL_STAR_CREWS` in `src/lib/starCrewsData.ts` at 16 members, ensuring his balloon points do not distort the official Star Crew battle scores on the main page (`/`).
+   - Kim Yoon-hwan's statistics remain exclusively visible on the dedicated Calmmon page (`/calm`).
 
 ## Verification
 - **Unit Tests**: `vitest run` passed all 48 test suites across 13 test files.
 - **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages.
-- **Live Visual Validation**: Verified via Playwright at 1280x900 resolution (`scrollHeight: 900 clientHeight: 900`). Confirmed Kim Yoon-hwan's official SOOP profile avatar rendering, live Trackify 별풍선 (`94,002`) and 방송시간 (`39.4시간`) displayed accurately with zero vertical scrolling.
+- **Live Visual Validation**: Verified via Playwright and API response inspection:
+  - `Is brainzerg7 in main viewership? false`
+  - `Is brainzerg7 in main star crew ranking? false`
+  - `Is brainzerg7 in calmmon API? true` (별풍선: `94,002`, 방송시간: `39.5시간`)
+  - Confirmed Kim Yoon-hwan's official SOOP profile avatar rendering on `/calm` with zero vertical scrolling.

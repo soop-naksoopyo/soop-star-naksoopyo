@@ -22,6 +22,7 @@ export const VIEWERSHIP_EXCLUDED_SOOP_IDS = new Set<string>([
   'tjdeosks',   // 김성대
   'daegalheo',  // 허유
   'cksgmldbs',  // 몽군
+  'brainzerg7', // 김윤환 (캄몬 전용 / 메인 뷰어십 및 별풍선 랭킹 제외)
 ]);
 
 export interface ViewershipMonthlySnapshot {

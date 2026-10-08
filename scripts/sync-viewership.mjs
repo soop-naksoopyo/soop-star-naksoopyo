@@ -77,6 +77,16 @@ function getRoster(yearMonth) {
     }
   }
 
+  // 캄몬 전용 수장(김윤환)도 DB 스냅샷 저장 대상에 포함 (메인 뷰어십/별풍선 랭킹에서는 제외 필터링됨)
+  if (!byId.has('brainzerg7')) {
+    byId.set('brainzerg7', {
+      soopId: 'brainzerg7',
+      nickname: '김윤환',
+      profileImageUrl: 'https://profile.img.sooplive.co.kr/LOGO/br/brainzerg7/brainzerg7.jpg',
+      crewName: '캄몬',
+    });
+  }
+
   return Array.from(byId.values());
 }
 
