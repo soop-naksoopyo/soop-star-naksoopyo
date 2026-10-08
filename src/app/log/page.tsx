@@ -46,6 +46,7 @@ export default function SyncLogSecretPage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showRawJsonMap, setShowRawJsonMap] = useState<Record<string, boolean>>({});
+  const [expandedChangesMap, setExpandedChangesMap] = useState<Record<string, boolean>>({});
 
   const fetchLogs = async () => {
     setIsLoading(true);
@@ -594,46 +595,16 @@ export default function SyncLogSecretPage() {
                                 </div>
                               </div>
 
-                              {/* 2. 4단계 수집 파이프라인 단계별 현황 */}
-                              <div className="rounded-lg bg-slate-950/70 border border-slate-800/80 p-3 sm:p-4">
-                                <div className="text-xs font-bold text-slate-300 mb-3 flex items-center gap-2">
-                                  <SlidersHorizontal className="w-3.5 h-3.5 text-emerald-400" />
-                                  수집 파이프라인 단계별 세부 현황
+                              {/* 2. 수집 파이프라인 요약 바 */}
+                              <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-lg bg-slate-950/70 border border-slate-800 text-[11px]">
+                                <div className="flex items-center gap-2 text-slate-400">
+                                  <SlidersHorizontal className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                                  <span className="font-semibold text-slate-300">수집 파이프라인:</span>
+                                  <span>14개 크루 인덱싱 ➔ Trackify 배치 API ➔ 정합성 검증 ➔ Supabase & Git 저장</span>
                                 </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5 text-[11px]">
-                                  <div className="p-2.5 rounded bg-slate-900 border border-slate-800/80 space-y-1">
-                                    <div className="text-emerald-400 font-bold flex items-center gap-1">
-                                      <CheckCircle2 className="w-3 h-3 shrink-0" /> 1단계: 타겟 로스터 확정
-                                    </div>
-                                    <div className="text-slate-400 text-[10px] leading-relaxed">
-                                      14개 크루 + 무소속 = 총 {log.requestedCount}명 인덱싱 완료
-                                    </div>
-                                  </div>
-                                  <div className="p-2.5 rounded bg-slate-900 border border-slate-800/80 space-y-1">
-                                    <div className="text-emerald-400 font-bold flex items-center gap-1">
-                                      <CheckCircle2 className="w-3 h-3 shrink-0" /> 2단계: Trackify 배치 수집
-                                    </div>
-                                    <div className="text-slate-400 text-[10px] leading-relaxed">
-                                      80명 단위 배치 API 호출 및 비공개 시트 폴백
-                                    </div>
-                                  </div>
-                                  <div className="p-2.5 rounded bg-slate-900 border border-slate-800/80 space-y-1">
-                                    <div className="text-emerald-400 font-bold flex items-center gap-1">
-                                      <CheckCircle2 className="w-3 h-3 shrink-0" /> 3단계: 지표 산출 & 정합성 검증
-                                    </div>
-                                    <div className="text-slate-400 text-[10px] leading-relaxed">
-                                      별풍선, 방송시간, 뷰어십(viewerShip = avg × min / 60) 산출
-                                    </div>
-                                  </div>
-                                  <div className="p-2.5 rounded bg-slate-900 border border-slate-800/80 space-y-1">
-                                    <div className="text-emerald-400 font-bold flex items-center gap-1">
-                                      <CheckCircle2 className="w-3 h-3 shrink-0" /> 4단계: Supabase & Git 반영
-                                    </div>
-                                    <div className="text-slate-400 text-[10px] leading-relaxed">
-                                      soopscope_monthly_snapshots 및 변동 로그 갱신
-                                    </div>
-                                  </div>
-                                </div>
+                                <span className="text-emerald-400 font-mono font-bold text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                                  전체 단계 완료
+                                </span>
                               </div>
 
                               {/* 3. 수집 결과 리포트 (성공 vs 실패) */}
@@ -672,61 +643,101 @@ export default function SyncLogSecretPage() {
                                 </div>
                               )}
 
-                              {/* 3-1. 바뀐 데이터 실시간 변동 내역 (10000 -> 12000 등) */}
-                              {log.changes && log.changes.length > 0 ? (
-                                <div className="space-y-2.5 p-3.5 sm:p-4 rounded-lg bg-slate-950/80 border border-amber-500/30">
-                                  <div className="flex items-center justify-between text-xs font-bold text-amber-400">
-                                    <div className="flex items-center gap-2">
-                                      <TrendingUp className="w-4 h-4 text-amber-400 shrink-0" />
-                                      <span>수치 변동 감지 내역 ({log.changedCount || log.changes.length}명 갱신)</span>
-                                    </div>
-                                    <span className="text-[10px] text-slate-400 font-normal">이전 수집 대비 변경치</span>
-                                  </div>
+                              {/* 3-1. 바뀐 데이터 실시간 변동 내역 요약 표 */}
+                              {log.changes && log.changes.length > 0 ? (() => {
+                                const isExpandedChanges = expandedChangesMap[log.id] ?? false;
+                                const totalDiffStars = log.changes.reduce((sum, c) => sum + (c.diffStars || 0), 0);
+                                const totalDiffHours = Math.round(log.changes.reduce((sum, c) => sum + (c.diffHours || 0), 0) * 10) / 10;
+                                const displayChanges = isExpandedChanges ? log.changes : log.changes.slice(0, 10);
+                                const hasMore = log.changes.length > 10;
 
-                                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 pt-1">
-                                    {log.changes.map((c: StreamerChangeInfo) => (
-                                      <div
-                                        key={c.soopId}
-                                        className="p-2.5 rounded-md bg-slate-900/90 border border-slate-800 text-[11px] flex flex-col gap-1.5"
-                                      >
-                                        <div className="flex items-center justify-between">
-                                          <span className="font-semibold text-slate-200">
-                                            {c.nickname}{' '}
-                                            <span className="text-slate-400 text-[10px]">({c.crewName || '무소속'})</span>
-                                          </span>
-                                          <span className="text-slate-500 font-mono text-[10px]">{c.soopId}</span>
-                                        </div>
-
-                                        <div className="flex items-center justify-between pt-1 border-t border-slate-800/80 text-[11px] font-mono">
-                                          <span className="text-slate-400 text-[10px]">별풍선:</span>
-                                          <span className="tabular-nums flex items-center gap-1">
-                                            <span className="text-slate-400">{c.prevStars.toLocaleString()}</span>
-                                            <span className="text-slate-500">➔</span>
-                                            <span className="text-amber-400 font-bold">{c.newStars.toLocaleString()}</span>
-                                            {c.diffStars > 0 && (
-                                              <span className="text-emerald-400 font-bold text-[10px]">(+{c.diffStars.toLocaleString()})</span>
-                                            )}
-                                          </span>
-                                        </div>
-
-                                        {(c.diffHours !== undefined && c.diffHours !== 0) && (
-                                          <div className="flex items-center justify-between text-[11px] font-mono">
-                                            <span className="text-slate-400 text-[10px]">방송시간:</span>
-                                            <span className="tabular-nums flex items-center gap-1">
-                                              <span className="text-slate-400">{c.prevHours}시간</span>
-                                              <span className="text-slate-500">➔</span>
-                                              <span className="text-blue-400 font-bold">{c.newHours}시간</span>
-                                              {c.diffHours > 0 && (
-                                                <span className="text-emerald-400 font-bold text-[10px]">(+{c.diffHours}h)</span>
-                                              )}
-                                            </span>
-                                          </div>
+                                return (
+                                  <div className="rounded-lg bg-slate-950 border border-amber-500/30 overflow-hidden">
+                                    {/* 상단 요약 헤더 바 */}
+                                    <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 bg-amber-500/10 border-b border-amber-500/20 text-xs">
+                                      <div className="flex items-center gap-2 font-bold text-amber-400">
+                                        <TrendingUp className="w-4 h-4 text-amber-400 shrink-0" />
+                                        <span>수치 변동 요약 ({log.changedCount || log.changes.length}명 감지)</span>
+                                      </div>
+                                      <div className="flex items-center gap-3 text-[11px] text-slate-300 font-mono">
+                                        <span>별풍선 총 증가: <strong className="text-amber-400">+{totalDiffStars.toLocaleString()}개</strong></span>
+                                        {totalDiffHours > 0 && (
+                                          <span>방송시간 총 증가: <strong className="text-blue-400">+{totalDiffHours}시간</strong></span>
                                         )}
                                       </div>
-                                    ))}
+                                    </div>
+
+                                    {/* 요약 표 */}
+                                    <div className="overflow-x-auto max-h-80 overflow-y-auto">
+                                      <table className="w-full text-left text-xs">
+                                        <thead className="bg-slate-900 text-slate-400 text-[10px] uppercase font-semibold border-b border-slate-800 sticky top-0 z-10">
+                                          <tr>
+                                            <th className="py-2 px-3 w-10 text-center">#</th>
+                                            <th className="py-2 px-3">크루</th>
+                                            <th className="py-2 px-3">스트리머</th>
+                                            <th className="py-2 px-3 text-right">별풍선 변동 (이전 ➔ 최신)</th>
+                                            <th className="py-2 px-3 text-right">증가량</th>
+                                            <th className="py-2 px-3 text-right">방송시간 변동</th>
+                                            <th className="py-2 px-3 text-right">시간 증가</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-800/60 font-mono text-[11px]">
+                                          {displayChanges.map((c: StreamerChangeInfo, idx: number) => (
+                                            <tr key={c.soopId} className="hover:bg-slate-900/60 transition">
+                                              <td className="py-2 px-3 text-center text-slate-500">{idx + 1}</td>
+                                              <td className="py-2 px-3 font-sans text-slate-300 whitespace-nowrap">
+                                                <span className="px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800 text-[10px] font-medium">
+                                                  {c.crewName || '무소속'}
+                                                </span>
+                                              </td>
+                                              <td className="py-2 px-3 font-sans font-medium text-slate-200 whitespace-nowrap">
+                                                <span>{c.nickname}</span>
+                                                <span className="text-slate-500 font-mono text-[10px] ml-1.5">({c.soopId})</span>
+                                              </td>
+                                              <td className="py-2 px-3 text-right tabular-nums text-slate-400 whitespace-nowrap">
+                                                <span>{c.prevStars.toLocaleString()}</span>
+                                                <span className="text-slate-600 mx-1">➔</span>
+                                                <span className="text-slate-200">{c.newStars.toLocaleString()}</span>
+                                              </td>
+                                              <td className="py-2 px-3 text-right tabular-nums font-bold text-amber-400 whitespace-nowrap">
+                                                {c.diffStars > 0 ? `+${c.diffStars.toLocaleString()}` : '-'}
+                                              </td>
+                                              <td className="py-2 px-3 text-right tabular-nums text-slate-400 whitespace-nowrap">
+                                                {c.prevHours !== undefined ? (
+                                                  <>
+                                                    <span>{c.prevHours}h</span>
+                                                    <span className="text-slate-600 mx-1">➔</span>
+                                                    <span className="text-slate-200">{c.newHours}h</span>
+                                                  </>
+                                                ) : '-'}
+                                              </td>
+                                              <td className="py-2 px-3 text-right tabular-nums font-bold text-blue-400 whitespace-nowrap">
+                                                {c.diffHours && c.diffHours > 0 ? `+${c.diffHours}h` : '-'}
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+
+                                    {/* 더보기 / 접기 토글 바 */}
+                                    {hasMore && (
+                                      <div className="p-2 bg-slate-900/80 border-t border-slate-800 text-center">
+                                        <button
+                                          onClick={() => setExpandedChangesMap((prev) => ({ ...prev, [log.id]: !prev[log.id] }))}
+                                          className="text-xs text-amber-400 hover:text-amber-300 font-medium inline-flex items-center gap-1 cursor-pointer transition"
+                                        >
+                                          {isExpandedChanges ? (
+                                            <>접기 (상위 10명만 요약 표시) <ChevronUp className="w-3.5 h-3.5" /></>
+                                          ) : (
+                                            <>전체 {log.changes.length}명 모두 보기 (+{log.changes.length - 10}명 더보기) <ChevronDown className="w-3.5 h-3.5" /></>
+                                          )}
+                                        </button>
+                                      </div>
+                                    )}
                                   </div>
-                                </div>
-                              ) : null}
+                                );
+                              })() : null}
 
                               {/* 4. 타임스탬프 & 비고 & 액션 도구 */}
                               <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] text-slate-400 pt-1">
