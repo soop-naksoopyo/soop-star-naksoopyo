@@ -52,7 +52,12 @@ Key requirements included:
    - Removed the `👀 뷰어십` tab button, leaving `🎈 별풍선`, `⏱️ 방송시간`, `⚔️ 스폰 판수 [준비중]`, `👑 후원 랭킹 [준비중]`.
    - Included 1-click clipboard summary export (`📋 요약 복사`).
 
+5. **Layout Widening & Interactive Month Navigation**:
+   - Expanded card layout to wide responsive container (`max-w-4xl lg:max-w-5xl`) with comfortable paddings and crisp typography.
+   - Removed cluttered text (`26년 10월 · 업데이트 · 출처`) and replaced the `/calm` badge with a clean `← 메인 대시보드` return button.
+   - Introduced interactive month navigator (`< YYYY년 MM월 >`), enabling seamless switching between months (e.g. October -> November, instantly shifting birthday `🎂` cake icons from Ju Harang to Haessal and Im Joy).
+
 ## Verification
 - **Unit Tests**: `vitest run` passed all 48 test suites (`src/test/calmmonData.test.ts`).
 - **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed via `wrangler pages deploy`.
-- **Live Visual Validation**: Checked `https://soop-star-naksoopyo.pages.dev/` (no Calmmon menu visible) and `https://soop-star-naksoopyo.pages.dev/calm` (4 tabs without viewership, Ju Harang cake emoji `🎂` rendered, real-time numbers populated).
+- **Live Visual Validation**: Checked `https://soop-star-naksoopyo.pages.dev/` (no Calmmon menu visible) and `https://soop-star-naksoopyo.pages.dev/calm` (clean wide card, month switcher working, dynamic cake emoji shift verified).
