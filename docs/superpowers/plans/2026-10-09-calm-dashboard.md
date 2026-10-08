@@ -99,14 +99,27 @@ export const CALMMON_MEMBERS: CalmmonMemberMeta[] = [
   { soopId: 'soju2022', nickname: '소주양', gender: 'female' },
 ];
 
-// 멤버별 생일 매핑 ("MM-DD" 포맷, 언제든 추가/수정 가능)
+// 캄몬스타즈 17명 전체 생일 매핑 ("MM-DD" 포맷)
 export const CALMMON_BIRTHDAYS: Record<string, string> = {
-  brainzerg77: '06-13', // 김윤환
-  minchul: '12-10',     // 김민철
-  h78ert: '06-24',      // 박준오
-  jmc06170: '06-17',    // 왜냐맨
-  freshtomato: '08-05', // 토마토
-  fpahsdltu1: '10-08',  // 주하랑 (10월 생일 🎂)
+  // 남자 (6명)
+  brainzerg77: '06-13', // 김윤환 (6월 13일)
+  minchul: '12-10',     // 김민철 (12월 10일)
+  h78ert: '06-24',      // 박준오 (6월 24일)
+  jmc06170: '06-17',    // 왜냐맨 (6월 17일)
+  hoonykkk: '07-16',    // 사테 (7월 16일)
+  goodzerg: '08-17',    // 배성흠 (8월 17일)
+  // 여자 (11명)
+  freshtomato: '08-05', // 토마토 (8월 5일)
+  seemin88: '01-20',    // 비타밍 (1월 20일)
+  wjswlgns09: '09-01',  // 지두두 (9월 1일)
+  '2meonjin': '12-01',  // 먼진 (12월 1일)
+  fpahsdltu1: '10-15',  // 주하랑 (10월 15일 - 10월 🎂)
+  sksmsskdsl10: '08-11',// 낭니 (8월 11일)
+  thelddl: '11-21',     // 햇살 (11월 21일)
+  rnaqpdrjf: '02-27',   // 남덕선 (2월 27일)
+  vldpfm2: '01-02',     // 아리송이 (1월 2일)
+  dlaguswl501: '11-11', // 임조이 (11월 11일)
+  soju2022: '02-22',    // 소주양 (2월 22일)
 };
 
 export function isBirthdayMonth(soopId: string, yearMonth: string): boolean {
