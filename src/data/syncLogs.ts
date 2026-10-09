@@ -3,6 +3,67 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791586469386",
+    "timestamp": "2026-10-09T22:54:29.386Z",
+    "kstTime": "2026-10-10 07:54:29",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "success",
+    "requestedCount": 241,
+    "fetchedCount": 241,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 4,
+    "changedCount": 4,
+    "changes": [
+      {
+        "soopId": "kuyol",
+        "nickname": "강구열",
+        "crewName": "드림즈",
+        "prevStars": 25476,
+        "newStars": 26076,
+        "diffStars": 600,
+        "prevHours": 54.3,
+        "newHours": 54.5,
+        "diffHours": 0.2
+      },
+      {
+        "soopId": "viwi05",
+        "nickname": "럭키위키",
+        "crewName": "드림즈",
+        "prevStars": 39810,
+        "newStars": 39810,
+        "diffStars": 0,
+        "prevHours": 80.3,
+        "newHours": 80.5,
+        "diffHours": 0.2
+      },
+      {
+        "soopId": "nada11200",
+        "nickname": "이윤열",
+        "crewName": "BGM",
+        "prevStars": 10186,
+        "newStars": 10186,
+        "diffStars": 0,
+        "prevHours": 49.7,
+        "newHours": 49.9,
+        "diffHours": 0.2
+      },
+      {
+        "soopId": "yjk011599",
+        "nickname": "나무늘봉순",
+        "crewName": "무소속",
+        "prevStars": 201931,
+        "newStars": 201931,
+        "diffStars": 0,
+        "prevHours": 97.3,
+        "newHours": 97.4,
+        "diffHours": 0.1
+      }
+    ],
+    "note": "2026-10 전원 정상 수집 완료 (241명, 4명 수치 갱신)"
+  },
+  {
     "id": "run-1791585367953",
     "timestamp": "2026-10-09T22:36:07.953Z",
     "kstTime": "2026-10-10 07:36:07",
@@ -52656,20 +52717,6 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "kstTime": "2026-10-07 11:10:32",
     "yearMonth": "2026-10",
     "trigger": "manual",
-    "status": "success",
-    "requestedCount": 237,
-    "fetchedCount": 237,
-    "failedCount": 0,
-    "failedStreamers": [],
-    "durationSeconds": 1,
-    "note": "2026-10 전원 정상 수집 완료 (237명)"
-  },
-  {
-    "id": "run-1791338786322",
-    "timestamp": "2026-10-07T02:06:26.322Z",
-    "kstTime": "2026-10-07 11:06:26",
-    "yearMonth": "2026-10",
-    "trigger": "schedule",
     "status": "success",
     "requestedCount": 237,
     "fetchedCount": 237,
