@@ -365,10 +365,6 @@ export function CalmmonCard({
               </button>
             </div>
           )}
-
-          <div className="px-3 py-1.5 text-center text-[10.5px] sm:text-xs text-slate-400 bg-slate-50/30 border-t border-slate-100">
-            💡 캄몬스타즈 17개 방송국 후원 데이터 기반 큰손 후원 랭킹 (TOP 100)
-          </div>
         </div>
       ) : (
         /* 기존 2-Column Grid Table (남자 / 여자) */
@@ -450,8 +446,8 @@ export function CalmmonCard({
           </div>
         </div>
       ) : (
-        <div className="px-4 py-3 bg-slate-50/80 border-t border-slate-100 text-center text-xs text-slate-500 font-medium">
-          💡 캄몬스타즈 17개 방송국 후원 데이터를 기반으로 산출된 큰손 후원 랭킹입니다.
+        <div className="px-4 py-2 bg-slate-50/70 border-t border-slate-100 text-center text-[11px] sm:text-xs text-slate-400 font-medium">
+          💡 캄몬스타즈 17개 방송국 후원 데이터 기반 큰손 후원 랭킹 (TOP 100)
         </div>
       )}
     </div>
