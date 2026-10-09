@@ -45,16 +45,6 @@ export function CalmmonCard({
   const rightStartRank = leftEndRank + 1;
   const rightEndRank = (safeDonorPage - 1) * donorPageSize + pageDonors.length;
 
-  const top100TotalStars = React.useMemo(() => {
-    return top100Donors.reduce((sum, d) => sum + (d.balloonCount || 0), 0);
-  }, [top100Donors]);
-
-  const top100AvgStars = React.useMemo(() => {
-    if (top100Donors.length === 0) return 0;
-    return Math.round(top100TotalStars / top100Donors.length);
-  }, [top100Donors, top100TotalStars]);
-
-  const top1Donor = top100Donors[0];
 
   const getColHeader = () => {
     switch (currentTab) {
@@ -405,7 +395,7 @@ export function CalmmonCard({
       )}
 
       {/* Bottom 3-Card Summary Stats */}
-      {currentTab !== 'donor' ? (
+      {currentTab !== 'donor' && (
         <div className="p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 grid grid-cols-3 gap-2.5 sm:gap-3.5 text-center">
           <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200/90 shadow-2xs">
             <div className="text-xs sm:text-[13px] font-semibold text-slate-500 flex items-center justify-center gap-1.5">
@@ -429,36 +419,6 @@ export function CalmmonCard({
             </div>
             <div className="text-base sm:text-lg md:text-xl font-black text-indigo-600 mt-1">
               {stats.totalAvgStr}
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 grid grid-cols-3 gap-2.5 sm:gap-3.5 text-center">
-          <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200/90 shadow-2xs">
-            <div className="text-xs sm:text-[13px] font-semibold text-pink-700 flex items-center justify-center gap-1.5">
-              <span>💎</span> TOP 100 총합
-            </div>
-            <div className="text-base sm:text-lg md:text-xl font-black text-pink-600 mt-1">
-              {top100TotalStars.toLocaleString()}개
-            </div>
-          </div>
-          <div className="bg-emerald-50/70 p-2.5 sm:p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
-            <div className="text-xs sm:text-[13px] font-semibold text-emerald-700 flex items-center justify-center gap-1.5">
-              <span>📊</span> 1인당 평균
-            </div>
-            <div className="text-base sm:text-lg md:text-xl font-black text-emerald-600 mt-1">
-              {top100AvgStars.toLocaleString()}개
-            </div>
-          </div>
-          <div className="bg-amber-50/70 p-2.5 sm:p-3 rounded-xl border border-amber-200/80 shadow-2xs">
-            <div className="text-xs sm:text-[13px] font-semibold text-amber-700 flex items-center justify-center gap-1.5">
-              <span>👑</span> 1위 후원자
-            </div>
-            <div
-              className="text-base sm:text-lg md:text-xl font-black text-amber-600 mt-1 truncate"
-              title={top1Donor ? `${top1Donor.userNick} (${top1Donor.balloonCount.toLocaleString()}개)` : ''}
-            >
-              {top1Donor ? `${top1Donor.balloonCount.toLocaleString()}개` : '-'}
             </div>
           </div>
         </div>
