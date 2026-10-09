@@ -137,21 +137,21 @@
     },
     {
       "rank": 16,
+      "userId": "fesias",
+      "userNick": "Calm우에스기",
+      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/fe/fesias/fesias.jpg",
+      "balloonCount": 20143,
+      "primaryStreamer": "김윤환",
+      "primaryStreamerId": "brainzerg7"
+    },
+    {
+      "rank": 17,
       "userId": "kimtu1030",
       "userNick": "마土신랑후보",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ki/kimtu1030/kimtu1030.jpg",
       "balloonCount": 19808,
       "primaryStreamer": "토마토",
       "primaryStreamerId": "freshtomato"
-    },
-    {
-      "rank": 17,
-      "userId": "fesias",
-      "userNick": "Calm우에스기",
-      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/fe/fesias/fesias.jpg",
-      "balloonCount": 18643,
-      "primaryStreamer": "김윤환",
-      "primaryStreamerId": "brainzerg7"
     },
     {
       "rank": 18,
@@ -203,7 +203,7 @@
       "userId": "ignigena",
       "userNick": "앨코홀릭",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ig/ignigena/ignigena.jpg",
-      "balloonCount": 14241,
+      "balloonCount": 14391,
       "primaryStreamer": "소주양",
       "primaryStreamerId": "soju2022"
     },
@@ -212,7 +212,7 @@
       "userId": "joyfulyama",
       "userNick": "채소유",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/jo/joyfulyama/joyfulyama.jpg",
-      "balloonCount": 13604,
+      "balloonCount": 13724,
       "primaryStreamer": "주하랑",
       "primaryStreamerId": "fpahsdltu1"
     },
