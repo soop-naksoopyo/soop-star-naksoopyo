@@ -90,6 +90,7 @@ export const CrewCard: React.FC<CrewCardProps> = ({ crewName, rank, members }) =
               rank={idx + 1}
               data={member}
               starProgress={maxStars > 0 ? (member.totalStars / maxStars) * 100 : 0}
+              priority={(rank || 99) <= 2 && idx < 5}
             />
           ))
         ) : (

@@ -46,7 +46,6 @@ export default function HomePage() {
   const [currentTab, setCurrentTab] = useState<TabType>('star');
   const [selectedStarMonth, setSelectedStarMonth] = useState(currentMonth);
   const previousCurrentMonth = React.useRef(currentMonth);
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [starCrews, setStarCrews] = useState(OFFICIAL_STAR_CREWS);
   const [independentStreamers, setIndependentStreamers] = useState<StreamerRowData[]>([]);
   const [historicalStarCrews, setHistoricalStarCrews] = useState<typeof OFFICIAL_STAR_CREWS | null>(
@@ -69,8 +68,6 @@ export default function HomePage() {
       }
     } catch (e) {
       console.error('Failed to fetch live stats', e);
-    } finally {
-      setIsInitialLoading(false);
     }
   };
 
@@ -183,17 +180,6 @@ export default function HomePage() {
 
   const topProductiveCrew = rankedCrews[0] || { crewName: '더블비', total: 0, avg: 0 };
   const topTotalCrew = [...rankedCrews].sort((a, b) => b.total - a.total)[0] || topProductiveCrew;
-
-  if (isInitialLoading) {
-    return (
-      <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#f8fafc] text-slate-900 pt-5 pb-16 px-3 sm:px-6 flex flex-col items-center selection:bg-emerald-100 selection:text-emerald-900">
-        <Header />
-        <div className="w-full max-w-7xl 2xl:max-w-[1600px] flex flex-1 items-center justify-center" role="status" aria-label="스냅샷 불러오는 중">
-          <Settings className="h-9 w-9 animate-spin text-emerald-500" strokeWidth={1.75} />
-        </div>
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#f8fafc] text-slate-900 pt-5 pb-16 px-3 sm:px-6 flex flex-col items-center selection:bg-emerald-100 selection:text-emerald-900">

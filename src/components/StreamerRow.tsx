@@ -14,9 +14,10 @@ interface StreamerRowProps {
   rank: number;
   data: StreamerRowData;
   starProgress: number;
+  priority?: boolean;
 }
 
-export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgress }) => {
+export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgress, priority = false }) => {
   const { soopId, nickname, profileImageUrl, totalStars, broadcastHours, collectionStatus } = data;
   const channelUrl = `https://ch.sooplive.co.kr/${soopId}`;
   const defaultAvatar = `https://profile.img.sooplive.co.kr/LOGO/${soopId.slice(0, 2)}/${soopId}/${soopId}.jpg`;
@@ -48,8 +49,8 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
           alt={nickname}
           width={24}
           height={24}
-          loading={rank <= 10 ? 'eager' : 'lazy'}
-          fetchPriority={rank <= 5 ? 'high' : 'auto'}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
           decoding="async"
           onError={(e) => {
             (e.target as HTMLImageElement).src =
