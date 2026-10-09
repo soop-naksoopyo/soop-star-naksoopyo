@@ -207,7 +207,7 @@ export default function HomePage() {
       )}
 
       {currentTab === 'star' && (
-        <div className="w-full max-w-7xl 2xl:max-w-[1720px] flex flex-col gap-6">
+        <div className="w-full max-w-7xl 2xl:max-w-[1720px] flex flex-col gap-4">
           {isHistoricalLoading ? (
             <div className="flex min-h-52 items-center justify-center gap-3 text-sm text-slate-500" role="status">
               <Settings className="h-6 w-6 animate-spin text-emerald-500" strokeWidth={1.75} />

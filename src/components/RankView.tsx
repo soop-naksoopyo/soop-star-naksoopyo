@@ -189,22 +189,22 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
       </div>
 
       {/* 컬럼 헤더 */}
-      <div className="flex items-center justify-between px-2.5 sm:px-3 py-2 text-xs text-slate-600 font-semibold border-b-2 border-slate-200 bg-slate-50/80 rounded-t-lg mb-1">
+      <div className="flex items-center justify-between px-2 sm:px-3 py-2 text-xs text-slate-600 font-semibold border-b-2 border-slate-200 bg-slate-50/80 rounded-t-lg mb-1">
         {/* 데스크톱/모바일 좌측 스트리머 */}
-        <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-1 min-w-0 pr-1">
           <span className="w-4 sm:w-6 text-center shrink-0">#</span>
           <span className="truncate">스트리머</span>
         </div>
 
         {/* 모바일/데스크톱 소속 엠블럼 열 */}
-        <div className="w-10 shrink-0 text-center sm:w-16">
+        <div className="w-8 shrink-0 text-center sm:w-16">
           <span>소속</span>
         </div>
 
         {/* 모바일: 2열 헤더 */}
-        <div className="flex sm:hidden items-center gap-2 text-right shrink-0">
-          <span className="w-[70px] text-right">별풍선</span>
-          <span className="w-[76px] text-right">방송시간</span>
+        <div className="flex sm:hidden items-center gap-1.5 text-right shrink-0">
+          <span className="w-[56px] text-right">별풍선</span>
+          <span className="w-[50px] text-right">방송</span>
         </div>
 
         {/* 데스크톱: 2열 헤더 */}
@@ -234,14 +234,14 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
           return (
             <div
               key={`${streamer.soopId}-${idx}`}
-              className={`group flex items-center justify-between py-2 sm:py-2.5 px-2.5 sm:px-3 rounded-lg transition text-sm hover:bg-slate-50/80 ${tierStyle.rowBgClass}`}
+              className={`group flex items-center justify-between py-2 sm:py-2.5 px-2 sm:px-3 rounded-lg transition text-sm hover:bg-slate-50/80 ${tierStyle.rowBgClass}`}
             >
               {/* 왼쪽: 순위, 아바타, 닉네임, ID */}
-              <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-3 flex-1 min-w-0 pr-1">
                 <span
                   className={`w-4 sm:w-6 text-center font-mono font-bold shrink-0 ${
                     rank === 1
-                      ? 'text-rose-600 text-sm sm:text-base'
+                      ? 'text-rose-600 text-xs sm:text-base'
                       : rank === 2
                       ? 'text-slate-700 text-xs sm:text-sm'
                       : rank === 3
@@ -260,7 +260,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
                   loading="eager"
                   decoding="auto"
                   onError={(e) => handleAvatarError(e, streamer.soopId, streamer.profileImageUrl)}
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-slate-200 shrink-0 bg-slate-100"
+                  className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover border border-slate-200 shrink-0 bg-slate-100"
                 />
 
                 <div className="min-w-0 flex-1">
@@ -270,7 +270,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
                       href={channelUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="truncate font-semibold text-slate-900 transition group-hover:text-emerald-600 text-[12px]"
+                      className="truncate font-semibold text-slate-900 transition group-hover:text-emerald-600 text-[12.5px]"
                       title={`${streamer.nickname} (${streamer.soopId}) 방송국 바로가기`}
                     >
                       {streamer.nickname}
@@ -294,19 +294,19 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
               </div>
 
               {/* 모바일/데스크톱 소속 엠블럼 열 */}
-              <div className="flex w-10 shrink-0 items-center justify-center sm:w-16">
+              <div className="flex w-8 shrink-0 items-center justify-center sm:w-16">
                 <CrewAffiliation crewName={streamer.crewName} emptyLabel="-" desktopEmptyLabel="-" />
               </div>
 
               {/* 모바일 화면 (sm 미만): 2열 컴팩트 레이아웃 */}
-              <div className="flex sm:hidden items-center gap-2 text-right shrink-0">
-                <div className="w-[70px] text-right">
-                  <div className="font-bold text-amber-800 tabular-nums text-xs whitespace-nowrap">
+              <div className="flex sm:hidden items-center gap-1.5 text-right shrink-0">
+                <div className="w-[56px] text-right">
+                  <div className="font-bold text-amber-800 font-mono tabular-nums text-xs whitespace-nowrap">
                     {formatStars(streamer.totalStars)}
                   </div>
                 </div>
-                <div className="w-[76px] text-right">
-                  <div className="font-bold text-emerald-800 tabular-nums text-xs whitespace-nowrap">
+                <div className="w-[50px] text-right">
+                  <div className="font-semibold text-emerald-800 font-mono tabular-nums text-[11px] whitespace-nowrap">
                     {formattedHours}
                   </div>
                 </div>
@@ -325,7 +325,6 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
                     {formattedHours}
                   </div>
                 </div>
-
               </div>
             </div>
           );
