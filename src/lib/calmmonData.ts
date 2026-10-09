@@ -92,27 +92,49 @@ export interface StreamerStatInput {
   broadcastHours?: number;
   averageViewers?: number;
   isLive?: boolean;
+  matchCount?: number;
 }
 
-// 스크린샷 및 Trackify 실시간 연동 기준 기본 통계 (안전한 폴백 및 초기값)
+// 2026년 9월 마감 확정 통계 (별풍선, 방송시간, Eloboard 스폰 판수)
+export const CALMMON_SEPTEMBER_STATS: Record<string, StreamerStatInput> = {
+  brainzerg7: { totalStars: 289027, broadcastHours: 93.9, averageViewers: 7580, matchCount: 4 },
+  minchul: { totalStars: 194572, broadcastHours: 110.0, averageViewers: 532, matchCount: 80 },
+  h78ert: { totalStars: 47977, broadcastHours: 113.2, averageViewers: 92, matchCount: 4 },
+  jmc06170: { totalStars: 11600, broadcastHours: 66.4, averageViewers: 46, matchCount: 0 },
+  hoonykkk: { totalStars: 92455, broadcastHours: 214.5, averageViewers: 37, matchCount: 0 },
+  goodzerg: { totalStars: 28231, broadcastHours: 133.8, averageViewers: 34, matchCount: 2 },
+  freshtomato: { totalStars: 454717, broadcastHours: 124.5, averageViewers: 1718, matchCount: 9 },
+  seemin88: { totalStars: 384597, broadcastHours: 272.2, averageViewers: 226, matchCount: 21 },
+  wjswlgns09: { totalStars: 575856, broadcastHours: 172.5, averageViewers: 633, matchCount: 3 },
+  '2meonjin': { totalStars: 297051, broadcastHours: 143.5, averageViewers: 247, matchCount: 32 },
+  fpahsdltu1: { totalStars: 283927, broadcastHours: 129.8, averageViewers: 349, matchCount: 17 },
+  sksmsskdsl10: { totalStars: 408627, broadcastHours: 131.5, averageViewers: 396, matchCount: 22 },
+  thelddl: { totalStars: 99543, broadcastHours: 135.3, averageViewers: 118, matchCount: 0 },
+  rnaqpdrjf: { totalStars: 168635, broadcastHours: 119.5, averageViewers: 190, matchCount: 6 },
+  vldpfm2: { totalStars: 100901, broadcastHours: 121.1, averageViewers: 107, matchCount: 7 },
+  dlaguswl501: { totalStars: 114025, broadcastHours: 103.6, averageViewers: 405, matchCount: 6 },
+  soju2022: { totalStars: 132198, broadcastHours: 143.6, averageViewers: 124, matchCount: 32 },
+};
+
+// 2026년 10월 기본 통계 (별풍선, 방송시간, Eloboard 스폰 판수 기본값)
 export const CALMMON_DEFAULT_STATS: Record<string, StreamerStatInput> = {
-  brainzerg7: { totalStars: 94002, broadcastHours: 39.4, averageViewers: 4963 },
-  minchul: { totalStars: 63299, broadcastHours: 24.8, averageViewers: 2145 },
-  h78ert: { totalStars: 57926, broadcastHours: 65.1, averageViewers: 1280 },
-  jmc06170: { totalStars: 53290, broadcastHours: 57.9, averageViewers: 820 },
-  hoonykkk: { totalStars: 33009, broadcastHours: 63.0, averageViewers: 954 },
-  goodzerg: { totalStars: 4332, broadcastHours: 38.5, averageViewers: 310 },
-  freshtomato: { totalStars: 223750, broadcastHours: 68.5, averageViewers: 1026 },
-  seemin88: { totalStars: 141891, broadcastHours: 90.5, averageViewers: 221 },
-  wjswlgns09: { totalStars: 131273, broadcastHours: 82.6, averageViewers: 424 },
-  '2meonjin': { totalStars: 94812, broadcastHours: 59.8, averageViewers: 185 },
-  sksmsskdsl10: { totalStars: 90585, broadcastHours: 41.0, averageViewers: 1045 },
-  fpahsdltu1: { totalStars: 88913, broadcastHours: 63.2, averageViewers: 152 },
-  thelddl: { totalStars: 80487, broadcastHours: 68.0, averageViewers: 141 },
-  dlaguswl501: { totalStars: 68647, broadcastHours: 61.3, averageViewers: 128 },
-  vldpfm2: { totalStars: 62478, broadcastHours: 61.5, averageViewers: 98 },
-  rnaqpdrjf: { totalStars: 58471, broadcastHours: 67.8, averageViewers: 164 },
-  soju2022: { totalStars: 51552, broadcastHours: 60.4, averageViewers: 115 },
+  brainzerg7: { totalStars: 94012, broadcastHours: 41.9, averageViewers: 4819, matchCount: 1 },
+  minchul: { totalStars: 63299, broadcastHours: 24.8, averageViewers: 459, matchCount: 17 },
+  h78ert: { totalStars: 57926, broadcastHours: 65.1, averageViewers: 48, matchCount: 5 },
+  jmc06170: { totalStars: 53290, broadcastHours: 57.9, averageViewers: 36, matchCount: 0 },
+  hoonykkk: { totalStars: 33009, broadcastHours: 64.6, averageViewers: 24, matchCount: 0 },
+  goodzerg: { totalStars: 4332, broadcastHours: 38.5, averageViewers: 28, matchCount: 1 },
+  freshtomato: { totalStars: 223750, broadcastHours: 68.5, averageViewers: 1008, matchCount: 16 },
+  seemin88: { totalStars: 143378, broadcastHours: 93.3, averageViewers: 208, matchCount: 24 },
+  wjswlgns09: { totalStars: 131594, broadcastHours: 85.2, averageViewers: 402, matchCount: 8 },
+  '2meonjin': { totalStars: 94812, broadcastHours: 59.8, averageViewers: 164, matchCount: 18 },
+  sksmsskdsl10: { totalStars: 90585, broadcastHours: 41.0, averageViewers: 921, matchCount: 15 },
+  fpahsdltu1: { totalStars: 88913, broadcastHours: 63.2, averageViewers: 223, matchCount: 16 },
+  thelddl: { totalStars: 80508, broadcastHours: 71.0, averageViewers: 72, matchCount: 4 },
+  dlaguswl501: { totalStars: 68647, broadcastHours: 61.3, averageViewers: 280, matchCount: 32 },
+  vldpfm2: { totalStars: 62488, broadcastHours: 64.0, averageViewers: 50, matchCount: 7 },
+  rnaqpdrjf: { totalStars: 58471, broadcastHours: 67.8, averageViewers: 122, matchCount: 5 },
+  soju2022: { totalStars: 54378, broadcastHours: 63.3, averageViewers: 88, matchCount: 11 },
 };
 
 export function calculateCalmmonStats(
@@ -120,9 +142,11 @@ export function calculateCalmmonStats(
   tab: CalmmonTabType,
   yearMonth: string
 ): CalmmonStatsResult {
+  const defaultFallback = yearMonth === '2026-09' ? CALMMON_SEPTEMBER_STATS : CALMMON_DEFAULT_STATS;
+
   const rows: CalmmonMemberRow[] = CALMMON_MEMBERS.map((m) => {
     const key = m.soopId.toLowerCase();
-    const s = statsMap.get(key) || CALMMON_DEFAULT_STATS[key];
+    const s = statsMap.get(key) || defaultFallback[key];
     let rawVal = 0;
     let displayVal = '0';
 
@@ -132,8 +156,11 @@ export function calculateCalmmonStats(
     } else if (tab === 'time') {
       rawVal = s?.broadcastHours || 0;
       displayVal = `${rawVal.toFixed(1)}시간`;
+    } else if (tab === 'spon') {
+      rawVal = s?.matchCount || 0;
+      displayVal = `${rawVal}판`;
     } else {
-      // spon, donor 등 빈 데이터 처리
+      // donor 등 빈 데이터 처리
       rawVal = 0;
       displayVal = '-';
     }
@@ -174,9 +201,7 @@ export function calculateCalmmonStats(
   const femaleAvg = female.length ? Math.round(femaleSum / female.length) : 0;
   const totalAvg = totalCount ? Math.round(totalSum / totalCount) : 0;
 
-  const unit = tab === 'star' ? '개' : tab === 'time' ? '시간' : '';
-  
-  if (tab === 'spon' || tab === 'donor') {
+  if (tab === 'donor') {
     return {
       male,
       female,
@@ -189,14 +214,16 @@ export function calculateCalmmonStats(
     };
   }
 
+  const unit = tab === 'star' ? '개' : tab === 'time' ? '시간' : '판';
+
   return {
     male,
     female,
     totalSum,
     totalSumStr: `${tab === 'time' ? totalSum.toFixed(1) : totalSum.toLocaleString()}${unit}`,
     femaleAvg,
-    femaleAvgStr: `${tab === 'time' ? femaleAvg.toFixed(1) : femaleAvg.toLocaleString()}${unit}`,
+    femaleAvgStr: `${tab === 'time' || tab === 'spon' ? (femaleSum / (female.length || 1)).toFixed(1) : femaleAvg.toLocaleString()}${unit}`,
     totalAvg,
-    totalAvgStr: `${tab === 'time' ? totalAvg.toFixed(1) : totalAvg.toLocaleString()}${unit}`,
+    totalAvgStr: `${tab === 'time' || tab === 'spon' ? (totalSum / (totalCount || 1)).toFixed(1) : totalAvg.toLocaleString()}${unit}`,
   };
 }

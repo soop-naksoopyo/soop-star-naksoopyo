@@ -50,11 +50,31 @@ describe('calmmonData', () => {
     expect(result.male.find((m) => m.soopId === 'brainzerg7')?.tierBadge).toBe('boss');
   });
 
-  it('스폰 및 후원 탭은 준비 중 상태로 비워져서 반환되어야 한다', () => {
+  it('스폰 판수 탭 기준 경기수가 올바르게 집계되고 정렬되어야 한다', () => {
     const mockStatsMap = new Map();
     const sponResult = calculateCalmmonStats(mockStatsMap, 'spon', '2026-10');
-    expect(sponResult.totalSumStr).toBe('준비 중');
-    expect(sponResult.male[0].displayVal).toBe('-');
+    expect(sponResult.totalSum).toBeGreaterThan(0);
+    expect(sponResult.totalSumStr).toContain('판');
+    expect(sponResult.female[0].displayVal).toContain('판');
+
+    // donor 탭은 준비 중 상태여야 함
+    const donorResult = calculateCalmmonStats(mockStatsMap, 'donor', '2026-10');
+    expect(donorResult.totalSumStr).toBe('준비 중');
+    expect(donorResult.male[0].displayVal).toBe('-');
+  });
+
+  it('2026년 9월 조회 시 9월 마감 통계(CALMMON_SEPTEMBER_STATS)가 폴백으로 적용되어야 한다', () => {
+    const emptyMap = new Map();
+    const septResult = calculateCalmmonStats(emptyMap, 'spon', '2026-09');
+    // 9월 김민철은 80판
+    const minchulRow = septResult.male.find((m) => m.soopId === 'minchul');
+    expect(minchulRow?.rawVal).toBe(80);
+    expect(minchulRow?.displayVal).toBe('80판');
+
+    // 9월 별풍선 김윤환 289,027개
+    const starResult = calculateCalmmonStats(emptyMap, 'star', '2026-09');
+    const bossRow = starResult.male.find((m) => m.soopId === 'brainzerg7');
+    expect(bossRow?.rawVal).toBe(289027);
   });
 
   it('isLive 필드가 true인 경우 멤버 행의 isLive가 true로 전달되어야 한다', () => {

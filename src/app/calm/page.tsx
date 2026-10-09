@@ -10,8 +10,15 @@ import {
 } from '@/lib/calmmonData';
 import { getCurrentMonthDate } from '@/lib/month';
 
-// 현재 캄몬 데이터가 유효하게 존재하는 월 목록 (9월 등 과거 또는 11월 등 미래 데이터 없음 방지)
-const AVAILABLE_CALMMON_MONTHS = ['2026-10'];
+// 현재 캄몬 데이터가 유효하게 존재하는 월 목록 (2026-09 아카이브 및 2026-10 현재)
+function getAvailableCalmmonMonths(): string[] {
+  const currentYM = getCurrentMonthDate().slice(0, 7);
+  const base = ['2026-09', '2026-10'];
+  if (currentYM > '2026-10' && !base.includes(currentYM)) {
+    base.push(currentYM);
+  }
+  return base;
+}
 
 function getPrevMonthKey(ym: string): string {
   const [y, m] = ym.split('-').map(Number);
@@ -26,9 +33,10 @@ function getNextMonthKey(ym: string): string {
 }
 
 export default function CalmmonPage() {
+  const availableMonths = getAvailableCalmmonMonths();
   const currentYearMonth = getCurrentMonthDate().slice(0, 7);
   const [selectedMonth, setSelectedMonth] = useState<string>(
-    AVAILABLE_CALMMON_MONTHS.includes(currentYearMonth) ? currentYearMonth : AVAILABLE_CALMMON_MONTHS[0]
+    availableMonths.includes(currentYearMonth) ? currentYearMonth : availableMonths[availableMonths.length - 1]
   );
   const [currentTab, setCurrentTab] = useState<CalmmonTabType>('star');
   const [statsMap, setStatsMap] = useState<Map<string, StreamerStatInput>>(new Map());
@@ -38,12 +46,12 @@ export default function CalmmonPage() {
   const prevMonthKey = getPrevMonthKey(selectedMonth);
   const nextMonthKey = getNextMonthKey(selectedMonth);
 
-  const canGoPrev = AVAILABLE_CALMMON_MONTHS.includes(prevMonthKey);
-  const canGoNext = AVAILABLE_CALMMON_MONTHS.includes(nextMonthKey);
+  const canGoPrev = availableMonths.includes(prevMonthKey);
+  const canGoNext = availableMonths.includes(nextMonthKey);
 
   const fetchStats = async () => {
     try {
-      // 1. 캄몬 전용 API 우선 호출 (Trackify 실시간 수집 + 김윤환 brainzerg7 포함 17인 전원)
+      // 1. 캄몬 전용 API 우선 호출 (Trackify 실시간 수집 + Eloboard 스폰 판수)
       const calmRes = await fetch(`/api/calmmon?month=${selectedMonth}`);
       const newMap = new Map<string, StreamerStatInput>();
 
@@ -53,7 +61,9 @@ export default function CalmmonPage() {
           for (const [id, stat] of Object.entries(calmData.stats)) {
             newMap.set(id.toLowerCase(), stat as StreamerStatInput);
           }
-          if (calmData.timestamp) {
+          if (selectedMonth === '2026-09') {
+            setLastUpdatedText('2026.09.30 23:59 마감 확정');
+          } else if (calmData.timestamp) {
             const d = new Date(calmData.timestamp);
             setLastUpdatedText(`${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`);
           }

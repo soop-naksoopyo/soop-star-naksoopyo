@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -226,6 +227,13 @@ async function main() {
   saveToArchiveDataTs(snapshot);
   saveCrewArchiveFileIfApplicable(targetMonth, crews);
   await saveToSupabaseIfConfigured(snapshot);
+
+  try {
+    console.log(`[Archive] Finalizing Calmmon Eloboard matches for ${targetMonth}...`);
+    execSync(`node scripts/sync-calmmon-matches.mjs "${targetMonth}"`, { stdio: 'inherit', cwd: rootDir });
+  } catch (e) {
+    console.warn('[Archive] Could not sync calmmon matches:', e.message);
+  }
 
   console.log(`\n🎉 Monthly Archive for ${targetMonth} Completed Successfully!\n`);
 }

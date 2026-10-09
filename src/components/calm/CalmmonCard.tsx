@@ -157,16 +157,7 @@ export function CalmmonCard({
                 : 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
             }`}
           >
-            ⚔️ 스폰 판수{' '}
-            <span
-              className={`text-[9px] px-1 py-0.2 rounded ml-0.5 ${
-                currentTab === 'spon'
-                  ? 'bg-amber-700 text-white'
-                  : 'bg-amber-200 text-amber-800'
-              }`}
-            >
-              준비중
-            </span>
+            ⚔️ 스폰 판수
           </button>
           <button
             onClick={() => onTabChange('donor')}
@@ -215,10 +206,10 @@ export function CalmmonCard({
         </div>
       </div>
 
-      {/* Empty State Banner for spon and donor */}
-      {(currentTab === 'spon' || currentTab === 'donor') && (
-        <div className="p-3 mx-4 mb-3 bg-amber-50 border border-amber-200 rounded-xl text-center text-xs sm:text-sm text-amber-800">
-          💡 {currentTab === 'spon' ? '스폰 판수(Elo 전적)' : '캄몬 큰손 후원 랭킹'} 데이터는 현재 연동 준비 중입니다.
+      {/* Empty State Banner for donor */}
+      {currentTab === 'donor' && (
+        <div className="p-3 mx-4 mb-3 bg-pink-50 border border-pink-200 rounded-xl text-center text-xs sm:text-sm text-pink-800">
+          💡 <strong>캄몬 큰손 후원 랭킹</strong> 데이터는 현재 연동 준비 중입니다.
         </div>
       )}
 
@@ -226,7 +217,7 @@ export function CalmmonCard({
       <div className="p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 grid grid-cols-3 gap-2.5 sm:gap-3.5 text-center">
         <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200/90 shadow-2xs">
           <div className="text-xs sm:text-[13px] font-semibold text-slate-500 flex items-center justify-center gap-1.5">
-            <span>🪙</span> 전체 합계
+            <span>{currentTab === 'spon' ? '⚔️' : currentTab === 'time' ? '⏱️' : '🪙'}</span> 전체 합계
           </div>
           <div className="text-base sm:text-lg md:text-xl font-black text-slate-900 mt-1">
             {stats.totalSumStr}
