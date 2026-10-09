@@ -122,7 +122,7 @@
       "userId": "jobs4864",
       "userNick": "알리알라쑝",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/jo/jobs4864/jobs4864.jpg",
-      "balloonCount": 28103,
+      "balloonCount": 29545,
       "primaryStreamer": "비타밍",
       "primaryStreamerId": "seemin88"
     },
@@ -374,12 +374,21 @@
       "userId": "hojin132",
       "userNick": "까막눈김윤환",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ho/hojin132/hojin132.jpg",
-      "balloonCount": 9857,
+      "balloonCount": 9862,
       "primaryStreamer": "낭니",
       "primaryStreamerId": "sksmsskdsl10"
     },
     {
       "rank": 43,
+      "userId": "dudgns9225",
+      "userNick": "로또체스1",
+      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/du/dudgns9225/dudgns9225.jpg",
+      "balloonCount": 9738,
+      "primaryStreamer": "주하랑",
+      "primaryStreamerId": "fpahsdltu1"
+    },
+    {
+      "rank": 44,
       "userId": "protman",
       "userNick": "Calm_낭만2",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/pr/protman/protman.jpg",
@@ -388,7 +397,7 @@
       "primaryStreamerId": "brainzerg7"
     },
     {
-      "rank": 44,
+      "rank": 45,
       "userId": "down8325",
       "userNick": "갈치폭격하랑",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/do/down8325/down8325.jpg",
@@ -397,7 +406,7 @@
       "primaryStreamerId": "fpahsdltu1"
     },
     {
-      "rank": 45,
+      "rank": 46,
       "userId": "flwkem89",
       "userNick": "꼭두각시♥",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/fl/flwkem89/flwkem89.jpg",
@@ -406,7 +415,7 @@
       "primaryStreamerId": "brainzerg7"
     },
     {
-      "rank": 46,
+      "rank": 47,
       "userId": "lonarave",
       "userNick": "오랜ㄴr무",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/lo/lonarave/lonarave.jpg",
@@ -415,7 +424,7 @@
       "primaryStreamerId": "thelddl"
     },
     {
-      "rank": 47,
+      "rank": 48,
       "userId": "cupioo",
       "userNick": "곰사냥꾼윤환",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/cu/cupioo/cupioo.jpg",
@@ -424,22 +433,13 @@
       "primaryStreamerId": "sksmsskdsl10"
     },
     {
-      "rank": 48,
+      "rank": 49,
       "userId": "dlrkfka0327",
       "userNick": "Calm_윈도",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/dl/dlrkfka0327/dlrkfka0327.jpg",
       "balloonCount": 8524,
       "primaryStreamer": "토마토",
       "primaryStreamerId": "freshtomato"
-    },
-    {
-      "rank": 49,
-      "userId": "dudgns9225",
-      "userNick": "로또체스1",
-      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/du/dudgns9225/dudgns9225.jpg",
-      "balloonCount": 8153,
-      "primaryStreamer": "주하랑",
-      "primaryStreamerId": "fpahsdltu1"
     },
     {
       "rank": 50,
@@ -749,6 +749,15 @@
     },
     {
       "rank": 84,
+      "userId": "magung",
+      "userNick": "Calm_더부룩",
+      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ma/magung/magung.jpg",
+      "balloonCount": 4570,
+      "primaryStreamer": "김민철",
+      "primaryStreamerId": "minchul"
+    },
+    {
+      "rank": 85,
       "userId": "hsgw3344",
       "userNick": "가가고거",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/hs/hsgw3344/hsgw3344.jpg",
@@ -757,7 +766,7 @@
       "primaryStreamerId": "seemin88"
     },
     {
-      "rank": 85,
+      "rank": 86,
       "userId": "wer1920",
       "userNick": "조류우",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/we/wer1920/wer1920.jpg",
@@ -766,7 +775,7 @@
       "primaryStreamerId": "h78ert"
     },
     {
-      "rank": 86,
+      "rank": 87,
       "userId": "siu00424",
       "userNick": "븨이으응신♥",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/si/siu00424/siu00424.jpg",
@@ -775,22 +784,13 @@
       "primaryStreamerId": "sksmsskdsl10"
     },
     {
-      "rank": 87,
+      "rank": 88,
       "userId": "mis1113",
       "userNick": "seoul__",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/mi/mis1113/mis1113.jpg",
       "balloonCount": 4284,
       "primaryStreamer": "낭니",
       "primaryStreamerId": "sksmsskdsl10"
-    },
-    {
-      "rank": 88,
-      "userId": "magung",
-      "userNick": "Calm_더부룩",
-      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ma/magung/magung.jpg",
-      "balloonCount": 4263,
-      "primaryStreamer": "김민철",
-      "primaryStreamerId": "minchul"
     },
     {
       "rank": 89,
