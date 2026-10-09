@@ -64,6 +64,15 @@ Implemented an automated Playwright workflow in `scripts/ygosu_post.py`, capture
    - Triggers on `cron: '0 5,9,13,17 * * *'` (KST 기준 14:00, 18:00, 22:00, 02:00 / 일 4회) 및 `workflow_dispatch` (수동 실행).
    - 데이터 변동이 적은 새벽/아침(04~12시)을 제외하고, 주요 방송 활동 시간대에 집중 등록.
    - Reads secrets (`YGOSU_ID`, `YGOSU_PW`) securely.
+4. **캄몬스타즈 전용 스타감옥 20시 일 1회 스케줄러 (`.github/workflows/ygosu-calmmon-post.yml` & `scripts/capture_calmmon.js`)**:
+   - Triggers on `cron: '0 11 * * *'` (KST 기준 매일 20:00 / 일 1회) 및 `workflow_dispatch` 수동 실행 지원.
+   - 캄몬스타즈 카드의 4개 탭을 고해상도(Retina 2x)로 개별 캡처:
+     - `01_calm_star.png` (별풍선 순위)
+     - `02_calm_time.png` (방송시간 순위)
+     - `03_calm_spon.png` (스폰 판수 순위)
+     - `04_calm_donor.png` (후원 랭킹 TOP 20)
+   - 제목 프리셋: `[MM/DD 20시 기준] 캄몬스타즈 별풍선·방송시간·스폰·후원 랭킹 현황` 자동 생성.
+   - 대상 게시판: `pan_prison` (스타감옥) 단독 게시.
 
 ## Verification
 - GitHub Actions run `#37813717650` executed end-to-end on Ubuntu runner in 2m 06s.
@@ -74,3 +83,7 @@ Implemented an automated Playwright workflow in `scripts/ygosu_post.py`, capture
 - Visual appearance confirmed via screenshot artifacts:
   - `pan_prison_board_verified.png` & `starbbs_board_verified.png` (게시판 목록 최신글 확인)
   - `pan_prison_post_detail.png` & `starbbs_post_detail.png` (4개 랭킹 이미지 순서 및 레이아웃 정상 표시)
+- **캄몬스타즈 워크플로우 등록 검증**:
+  - `gh workflow list`: `Daily Calmmon Post (Star Prison 20:00 KST)` ID `379301500` active 상태 정상 등록 확인.
+  - `node scripts/capture_calmmon.js`: 4개 탭 캡처 정상 동작 검증 완료.
+
