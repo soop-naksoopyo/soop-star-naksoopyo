@@ -35,7 +35,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "예슬",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/dp/dptmfl1258/dptmfl1258.jpg",
         "totalStars": 124436,
-        "broadcastHours": 37.9
+        "broadcastHours": 38.2
       },
       {
         "soopId": "jiinii000",
@@ -69,8 +69,8 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "soopId": "jungym0116",
         "nickname": "아링",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/ju/jungym0116/jungym0116.jpg",
-        "totalStars": 60849,
-        "broadcastHours": 58
+        "totalStars": 61031,
+        "broadcastHours": 58.3
       },
       {
         "soopId": "kysvic2",
@@ -117,7 +117,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "유즈",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/yu/yuzzzz/yuzzzz.jpg",
         "totalStars": 80130,
-        "broadcastHours": 94.9
+        "broadcastHours": 95.3
       },
       {
         "soopId": "diniowo",
@@ -166,7 +166,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "냥냥코기",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/co/corgi1102/corgi1102.jpg",
         "totalStars": 37846,
-        "broadcastHours": 91.9
+        "broadcastHours": 92
       },
       {
         "soopId": "ksmo54",
@@ -399,8 +399,8 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "soopId": "goni2677",
         "nickname": "내가먼지",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/go/goni2677/goni2677.jpg",
-        "totalStars": 72357,
-        "broadcastHours": 75.3
+        "totalStars": 73814,
+        "broadcastHours": 75.6
       },
       {
         "soopId": "skygkrtn",
@@ -533,7 +533,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "히리캉",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/gp/gpfl5473/gpfl5473.jpg",
         "totalStars": 45126,
-        "broadcastHours": 68.5
+        "broadcastHours": 68.7
       },
       {
         "soopId": "skdidkfl",
@@ -760,14 +760,14 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "요구리",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/ch/chuwari13/chuwari13.jpg",
         "totalStars": 28859,
-        "broadcastHours": 41.1
+        "broadcastHours": 41.4
       },
       {
         "soopId": "fidfidfid",
         "nickname": "박쭈이",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/fi/fidfidfid/fidfidfid.jpg",
         "totalStars": 45919,
-        "broadcastHours": 58.3
+        "broadcastHours": 58.7
       },
       {
         "soopId": "qndnd12",
@@ -931,7 +931,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "허유",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/da/daegalheo/daegalheo.jpg",
         "totalStars": 31838,
-        "broadcastHours": 81.3
+        "broadcastHours": 81.7
       },
       {
         "soopId": "byebye22",
@@ -1055,7 +1055,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "뽀누나",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/hy/hy4985/hy4985.jpg",
         "totalStars": 18542,
-        "broadcastHours": 104.8
+        "broadcastHours": 105.1
       },
       {
         "soopId": "bumsoo552",
@@ -1427,7 +1427,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "정소이",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/li/lily0104/lily0104.jpg",
         "totalStars": 23549,
-        "broadcastHours": 69.6
+        "broadcastHours": 69.9
       },
       {
         "soopId": "zealot0846",
@@ -1530,7 +1530,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "또봉순",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/si/simcheong23/simcheong23.jpg",
         "totalStars": 23547,
-        "broadcastHours": 42.3
+        "broadcastHours": 42.7
       },
       {
         "soopId": "della2440",
@@ -1654,14 +1654,14 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "시라소니aa",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/pa/parkbano/parkbano.jpg",
         "totalStars": 1928,
-        "broadcastHours": 24.9
+        "broadcastHours": 25.3
       },
       {
         "soopId": "yyh3397",
         "nickname": "[거지]렘레미",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/yy/yyh3397/yyh3397.jpg",
         "totalStars": 46088,
-        "broadcastHours": 59.7
+        "broadcastHours": 60
       },
       {
         "soopId": "ode0411",
