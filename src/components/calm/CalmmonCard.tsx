@@ -61,7 +61,10 @@ export function CalmmonCard({
             <img
               src={defaultAvatar}
               alt={item.nickname}
-              loading="lazy"
+              width={28}
+              height={28}
+              loading="eager"
+              fetchPriority="high"
               decoding="async"
               onError={(e) => {
                 (e.target as HTMLImageElement).src =

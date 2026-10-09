@@ -254,13 +254,16 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
                 <img
                   src={streamer.profileImageUrl || defaultAvatar}
                   alt={streamer.nickname}
-                  loading="lazy"
+                  width={32}
+                  height={32}
+                  loading={rank <= 10 ? 'eager' : 'lazy'}
+                  fetchPriority={rank <= 5 ? 'high' : 'auto'}
                   decoding="async"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =
                       'https://res.sooplive.co.kr/images/user/thumb_user.gif';
                   }}
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-slate-200 shrink-0"
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-slate-200 shrink-0 bg-slate-100"
                 />
 
                 <div className="min-w-0 flex-1">

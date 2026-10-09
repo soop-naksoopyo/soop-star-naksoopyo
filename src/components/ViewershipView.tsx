@@ -385,7 +385,7 @@ const CompactStreamerRow: React.FC<{ rank: number; streamer: ViewershipStreamerS
       >
         {rank}
       </span>
-      <StreamerAvatar streamer={streamer} size="small" />
+      <StreamerAvatar streamer={streamer} size="small" priority={rank <= 10} />
       <a href={`https://ch.sooplive.co.kr/${streamer.soopId}`} target="_blank" rel="noopener noreferrer" className="truncate text-xs font-semibold text-slate-800 hover:text-emerald-700 min-w-0 flex-1">{streamer.nickname}</a>
       {streamer.collectionStatus === 'unavailable' && <span className="shrink-0 text-[9px] text-slate-400" title="SoopScope에서 시청 지표를 제공하지 않습니다.">조회 불가</span>}
     </div>
@@ -409,7 +409,7 @@ const IndividualRow: React.FC<{ rank: number; streamer: ViewershipStreamerSnapsh
         <span className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${rankBadgeClass}`}>
           {rank}
         </span>
-        <StreamerAvatar streamer={streamer} />
+        <StreamerAvatar streamer={streamer} priority={rank <= 10} />
         <div className="flex min-w-0 items-center gap-1.5">
           <a href={`https://ch.sooplive.co.kr/${streamer.soopId}`} target="_blank" rel="noopener noreferrer" className="truncate text-xs font-semibold text-slate-900 hover:text-emerald-700 sm:text-sm">{streamer.nickname}</a>
           {streamer.collectionStatus === 'unavailable' && <span className="shrink-0 text-[9px] text-slate-400" title="SoopScope에서 시청 지표를 제공하지 않습니다.">조회 불가</span>}
@@ -424,13 +424,16 @@ const IndividualRow: React.FC<{ rank: number; streamer: ViewershipStreamerSnapsh
   );
 };
 
-const StreamerAvatar: React.FC<{ streamer: ViewershipStreamerSnapshot; size?: 'small' | 'normal' }> = ({ streamer, size = 'normal' }) => (
+const StreamerAvatar: React.FC<{ streamer: ViewershipStreamerSnapshot; size?: 'small' | 'normal'; priority?: boolean }> = ({ streamer, size = 'normal', priority = false }) => (
   <img
-    src={streamer.profileImageUrl || `https://profile.img.sooplive.co.kr/LOGO/${streamer.soopId.slice(0, 2)}/${streamer.soopId}/${streamer.soopId}.jpg`}
+    src={streamer.profileImageUrl || `https://profile.img.sooplive.co.kr/LOGO/${streamer.soopId.slice(0, 2).toLowerCase()}/${streamer.soopId.toLowerCase()}/${streamer.soopId.toLowerCase()}.jpg`}
     alt={streamer.nickname}
-    loading="lazy"
+    width={size === 'small' ? 28 : 32}
+    height={size === 'small' ? 28 : 32}
+    loading={priority ? 'eager' : 'lazy'}
+    fetchPriority={priority ? 'high' : 'auto'}
     decoding="async"
     onError={(event) => { (event.target as HTMLImageElement).src = 'https://res.sooplive.co.kr/images/user/thumb_user.gif'; }}
-    className={`${size === 'small' ? 'h-7 w-7' : 'h-8 w-8'} shrink-0 rounded-full border border-slate-200 object-cover`}
+    className={`${size === 'small' ? 'h-7 w-7' : 'h-8 w-8'} shrink-0 rounded-full border border-slate-200 object-cover bg-slate-100`}
   />
 );
