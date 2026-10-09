@@ -26,6 +26,12 @@ export function CalmmonCard({
   stats,
   donors = [],
 }: CalmmonCardProps) {
+  const [donorPage, setDonorPage] = React.useState(1);
+  const donorPageSize = 20;
+  const totalDonorPages = Math.max(1, Math.ceil((donors?.length || 0) / donorPageSize));
+  const safeDonorPage = Math.min(Math.max(1, donorPage), totalDonorPages);
+  const pagedDonors = donors.slice((safeDonorPage - 1) * donorPageSize, safeDonorPage * donorPageSize);
+
   const getColHeader = () => {
     switch (currentTab) {
       case 'star': return '별풍선';
@@ -180,16 +186,23 @@ export function CalmmonCard({
         /* 시청자(큰손) 후원 랭킹 전용 뷰 */
         <div className="border-t border-slate-100 p-2 sm:p-4">
           <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200 px-2 sm:px-3">
-            <span>후원자 (시청자)</span>
+            <div className="flex items-center gap-2">
+              <span>후원자 (시청자)</span>
+              {donors.length > 0 && (
+                <span className="text-[10px] sm:text-xs font-semibold bg-pink-50 text-pink-700 px-2 py-0.5 rounded-full border border-pink-200/70">
+                  {(safeDonorPage - 1) * donorPageSize + 1}~{Math.min(safeDonorPage * donorPageSize, donors.length)}위 (총 {donors.length}명)
+                </span>
+              )}
+            </div>
             <div className="flex items-center gap-3 sm:gap-6">
               <span className="hidden sm:inline">주 후원 멤버</span>
               <span>후원 별풍선</span>
             </div>
           </div>
 
-          {donors && donors.length > 0 ? (
+          {pagedDonors && pagedDonors.length > 0 ? (
             <div className="divide-y divide-slate-100 mt-1 space-y-1">
-              {donors.map((donor) => {
+              {pagedDonors.map((donor) => {
                 const isTop1 = donor.rank === 1;
                 const isTop2 = donor.rank === 2;
                 const isTop3 = donor.rank === 3;
@@ -256,9 +269,27 @@ export function CalmmonCard({
 
                     <div className="flex items-center gap-2 sm:gap-4 shrink-0">
                       {donor.primaryStreamer && (
-                        <span className="hidden sm:inline-flex items-center text-[11px] font-semibold bg-pink-50 text-pink-700 border border-pink-200/80 px-2 py-0.5 rounded-full">
-                          주후원: {donor.primaryStreamer}
-                        </span>
+                        <div
+                          title={`주 후원: ${donor.primaryStreamer}`}
+                          className="flex items-center gap-1 sm:gap-1.5 bg-pink-50 text-pink-700 border border-pink-200/80 px-1.5 sm:px-2 py-0.5 rounded-full select-none shrink-0"
+                        >
+                          {donor.primaryStreamerId ? (
+                            <img
+                              src={getStaticAvatarUrl(donor.primaryStreamerId)}
+                              alt={donor.primaryStreamer}
+                              width={18}
+                              height={18}
+                              loading="lazy"
+                              onError={(e) => handleAvatarError(e, donor.primaryStreamerId!)}
+                              className="w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full object-cover shrink-0 border border-pink-300 shadow-2xs"
+                            />
+                          ) : (
+                            <span className="w-1.5 h-1.5 rounded-full bg-pink-500 shrink-0" />
+                          )}
+                          <span className="hidden sm:inline text-[11px] font-bold">
+                            {donor.primaryStreamer}
+                          </span>
+                        </div>
                       )}
                       <span className={valColor}>
                         {donor.balloonCount > 0 ? `${donor.balloonCount.toLocaleString()}개` : '-'}
@@ -271,6 +302,44 @@ export function CalmmonCard({
           ) : (
             <div className="p-8 text-center text-slate-400 text-sm">
               후원자 데이터가 없습니다.
+            </div>
+          )}
+
+          {/* Pagination Controls */}
+          {totalDonorPages > 1 && (
+            <div className="flex items-center justify-between border-t border-slate-100 pt-3 mt-2 px-1">
+              <button
+                type="button"
+                onClick={() => setDonorPage((p) => Math.max(1, p - 1))}
+                disabled={safeDonorPage <= 1}
+                className="px-2.5 py-1 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
+              >
+                ◀ 이전
+              </button>
+              <div className="flex items-center gap-1 overflow-x-auto max-w-[200px] sm:max-w-none py-0.5 px-1 scrollbar-none">
+                {Array.from({ length: totalDonorPages }, (_, i) => i + 1).map((num) => (
+                  <button
+                    key={num}
+                    type="button"
+                    onClick={() => setDonorPage(num)}
+                    className={`w-7 h-7 sm:w-8 sm:h-8 text-xs font-black rounded-lg transition cursor-pointer shrink-0 ${
+                      safeDonorPage === num
+                        ? 'bg-pink-600 text-white shadow-xs'
+                        : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    {num}
+                  </button>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => setDonorPage((p) => Math.min(totalDonorPages, p + 1))}
+                disabled={safeDonorPage >= totalDonorPages}
+                className="px-2.5 py-1 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
+              >
+                다음 ▶
+              </button>
             </div>
           )}
         </div>

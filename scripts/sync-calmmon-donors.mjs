@@ -41,8 +41,10 @@ export async function fetchMonthDonorsForCalmmon(yearMonth) {
 
   const donorAgg = new Map();
 
+  const NICK_TO_ID = new Map(CALMMON_MEMBERS.map((m) => [m.nickname, m.soopId]));
+
   for (const member of CALMMON_MEMBERS) {
-    const url = `https://www.trackify.kr/api/v1/p/soop/streamer/${member.soopId}/donors?from=${from}&to=${to}&top=50`;
+    const url = `https://www.trackify.kr/api/v1/p/soop/streamer/${member.soopId}/donors?from=${from}&to=${to}&top=100`;
     try {
       const res = await fetch(url, {
         headers: {
@@ -83,28 +85,32 @@ export async function fetchMonthDonorsForCalmmon(yearMonth) {
 
   const list = Array.from(donorAgg.values()).map((d) => {
     const primary = Object.entries(d.byStreamer).sort((a, b) => b[1] - a[1])[0];
+    const primaryNick = primary ? primary[0] : '캄몬';
+    const primaryId = NICK_TO_ID.get(primaryNick);
     return {
       userId: d.userId,
       userNick: d.userNick,
       profileImage: d.profileImage,
       balloonCount: d.balloonCount,
-      primaryStreamer: primary ? primary[0] : '캄몬',
+      primaryStreamer: primaryNick,
+      primaryStreamerId: primaryId,
     };
   });
 
   list.sort((a, b) => b.balloonCount - a.balloonCount);
 
-  const top20 = list.slice(0, 20).map((d, idx) => ({
+  // TOP 200 donors
+  const top200 = list.slice(0, 200).map((d, idx) => ({
     rank: idx + 1,
     ...d,
   }));
 
-  console.log(`[Donor Sync] ${yearMonth} TOP 5 Donors:`);
-  top20.slice(0, 5).forEach((d) => {
+  console.log(`[Donor Sync] ${yearMonth} TOP 5 (Total ${top200.length} donors):`);
+  top200.slice(0, 5).forEach((d) => {
     console.log(`  #${d.rank} ${d.userNick} (${d.userId}): ${d.balloonCount.toLocaleString()}개 (주후원: ${d.primaryStreamer})`);
   });
 
-  return top20;
+  return top200;
 }
 
 export async function syncCalmmonDonors(targetMonth = '2026-10') {

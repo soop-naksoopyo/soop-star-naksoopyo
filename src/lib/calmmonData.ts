@@ -8,6 +8,7 @@ export interface CalmmonDonorRow {
   profileImage: string | null;
   balloonCount: number;
   primaryStreamer: string;
+  primaryStreamerId?: string;
   donationCount?: number;
 }
 
