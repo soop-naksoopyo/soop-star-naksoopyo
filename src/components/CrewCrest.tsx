@@ -142,7 +142,8 @@ const CrewCrestImage: React.FC<CrewCrestProps> = ({
           alt={`${crewName} 마크`}
           className="w-full h-full object-contain"
           onError={handleImgError}
-          loading="lazy"
+          loading="eager"
+          decoding="auto"
         />
       </div>
     );

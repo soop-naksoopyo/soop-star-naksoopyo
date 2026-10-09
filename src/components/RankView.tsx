@@ -257,9 +257,8 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
                   alt={streamer.nickname}
                   width={32}
                   height={32}
-                  loading={rank <= 10 ? 'eager' : 'lazy'}
-                  fetchPriority={rank <= 5 ? 'high' : 'auto'}
-                  decoding="async"
+                  loading="eager"
+                  decoding="auto"
                   onError={(e) => handleAvatarError(e, streamer.soopId, streamer.profileImageUrl)}
                   className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-slate-200 shrink-0 bg-slate-100"
                 />

@@ -49,9 +49,8 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
           alt={nickname}
           width={24}
           height={24}
-          loading={priority ? 'eager' : 'lazy'}
-          fetchPriority={priority ? 'high' : 'auto'}
-          decoding="async"
+          loading="eager"
+          decoding="auto"
           onError={(e) => handleAvatarError(e, soopId, profileImageUrl)}
           className="w-6 h-6 rounded-full object-cover border border-slate-200 shrink-0 bg-slate-100"
         />

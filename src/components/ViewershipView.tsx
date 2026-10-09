@@ -425,15 +425,14 @@ const IndividualRow: React.FC<{ rank: number; streamer: ViewershipStreamerSnapsh
   );
 };
 
-const StreamerAvatar: React.FC<{ streamer: ViewershipStreamerSnapshot; size?: 'small' | 'normal'; priority?: boolean }> = ({ streamer, size = 'normal', priority = false }) => (
+const StreamerAvatar: React.FC<{ streamer: ViewershipStreamerSnapshot; size?: 'small' | 'normal'; priority?: boolean }> = ({ streamer, size = 'normal' }) => (
   <img
     src={getStaticAvatarUrl(streamer.soopId)}
     alt={streamer.nickname}
     width={size === 'small' ? 28 : 32}
     height={size === 'small' ? 28 : 32}
-    loading={priority ? 'eager' : 'lazy'}
-    fetchPriority={priority ? 'high' : 'auto'}
-    decoding="async"
+    loading="eager"
+    decoding="auto"
     onError={(event) => handleAvatarError(event, streamer.soopId, streamer.profileImageUrl)}
     className={`${size === 'small' ? 'h-7 w-7' : 'h-8 w-8'} shrink-0 rounded-full border border-slate-200 object-cover bg-slate-100`}
   />
