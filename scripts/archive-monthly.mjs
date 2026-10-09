@@ -235,6 +235,13 @@ async function main() {
     console.warn('[Archive] Could not sync calmmon matches:', e.message);
   }
 
+  try {
+    console.log(`[Archive] Finalizing Calmmon Top Donors for ${targetMonth}...`);
+    execSync(`node scripts/sync-calmmon-donors.mjs "${targetMonth}"`, { stdio: 'inherit', cwd: rootDir });
+  } catch (e) {
+    console.warn('[Archive] Could not sync calmmon donors:', e.message);
+  }
+
   console.log(`\n🎉 Monthly Archive for ${targetMonth} Completed Successfully!\n`);
 }
 

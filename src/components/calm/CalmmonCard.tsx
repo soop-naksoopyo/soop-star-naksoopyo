@@ -7,6 +7,7 @@ import {
   type CalmmonTabType,
   type CalmmonStatsResult,
   type CalmmonMemberRow,
+  type CalmmonDonorRow,
 } from '@/lib/calmmonData';
 
 interface CalmmonCardProps {
@@ -16,12 +17,14 @@ interface CalmmonCardProps {
   currentDateText: string;
   sourceText?: string;
   isLiveLoading?: boolean;
+  donors?: CalmmonDonorRow[];
 }
 
 export function CalmmonCard({
   currentTab,
   onTabChange,
   stats,
+  donors = [],
 }: CalmmonCardProps) {
   const getColHeader = () => {
     switch (currentTab) {
@@ -167,101 +170,194 @@ export function CalmmonCard({
                 : 'bg-pink-50 text-pink-700 border-pink-200 hover:bg-pink-100'
             }`}
           >
-            👑 후원 랭킹{' '}
-            <span
-              className={`text-[9px] px-1 py-0.2 rounded ml-0.5 ${
-                currentTab === 'donor'
-                  ? 'bg-pink-700 text-white'
-                  : 'bg-pink-200 text-pink-800'
-              }`}
-            >
-              준비중
-            </span>
+            👑 후원 랭킹
           </button>
         </div>
       </div>
 
-      {/* 2-Column Grid Table */}
-      <div className="grid grid-cols-2 divide-x divide-slate-100 border-t border-slate-100">
-        {/* 남자 컬럼 (6명) */}
-        <div className="p-2 sm:p-4.5">
-          <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
-            <span>남자 (6명)</span>
-            <span>{getColHeader()}</span>
+      {/* Main Content Area */}
+      {currentTab === 'donor' ? (
+        /* 시청자(큰손) 후원 랭킹 전용 뷰 */
+        <div className="border-t border-slate-100 p-2 sm:p-4">
+          <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200 px-2 sm:px-3">
+            <span>후원자 (시청자)</span>
+            <div className="flex items-center gap-3 sm:gap-6">
+              <span className="hidden sm:inline">주 후원 멤버</span>
+              <span>후원 별풍선</span>
+            </div>
           </div>
-          <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
-            {stats.male.map(renderMemberRow)}
-          </div>
-        </div>
 
-        {/* 여자 컬럼 (11명) */}
-        <div className="p-2 sm:p-4.5">
-          <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
-            <span>여자 (11명)</span>
-            <span>{getColHeader()}</span>
-          </div>
-          <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
-            {stats.female.map(renderMemberRow)}
-          </div>
-        </div>
-      </div>
+          {donors && donors.length > 0 ? (
+            <div className="divide-y divide-slate-100 mt-1 space-y-1">
+              {donors.map((donor) => {
+                const isTop1 = donor.rank === 1;
+                const isTop2 = donor.rank === 2;
+                const isTop3 = donor.rank === 3;
 
-      {/* Empty State Banner for donor */}
-      {currentTab === 'donor' && (
-        <div className="p-3 mx-4 mb-3 bg-pink-50 border border-pink-200 rounded-xl text-center text-xs sm:text-sm text-pink-800">
-          💡 <strong>캄몬 큰손 후원 랭킹</strong> 데이터는 현재 연동 준비 중입니다.
+                let rowStyle = 'hover:bg-slate-50 transition px-2 sm:px-3 py-2 flex items-center justify-between rounded-xl';
+                let rankBadge = (
+                  <span className="w-6 text-center text-xs font-bold text-slate-400 shrink-0">
+                    {donor.rank}
+                  </span>
+                );
+                let valColor = 'text-[13px] sm:text-sm font-black text-pink-600';
+
+                if (isTop1) {
+                  rowStyle = 'bg-amber-50/80 border-l-[3px] border-amber-500 px-2 sm:px-3 py-2 flex items-center justify-between rounded-r-xl shadow-2xs';
+                  rankBadge = <span className="w-6 text-center text-base shrink-0">👑</span>;
+                  valColor = 'text-[14px] sm:text-base font-black text-amber-600';
+                } else if (isTop2) {
+                  rowStyle = 'bg-slate-50/80 border-l-[3px] border-slate-400 px-2 sm:px-3 py-2 flex items-center justify-between rounded-r-xl shadow-2xs';
+                  rankBadge = <span className="w-6 text-center text-base shrink-0">🥈</span>;
+                  valColor = 'text-[13px] sm:text-sm font-black text-slate-700';
+                } else if (isTop3) {
+                  rowStyle = 'bg-amber-50/40 border-l-[3px] border-amber-700 px-2 sm:px-3 py-2 flex items-center justify-between rounded-r-xl shadow-2xs';
+                  rankBadge = <span className="w-6 text-center text-base shrink-0">🥉</span>;
+                  valColor = 'text-[13px] sm:text-sm font-black text-amber-800';
+                }
+
+                const avatarSrc = donor.profileImage || `https://profile.img.sooplive.co.kr/LOGO/${donor.userId.slice(0, 2)}/${donor.userId}/${donor.userId}.jpg`;
+
+                return (
+                  <div key={donor.userId} className={rowStyle}>
+                    <div className="flex items-center gap-2 sm:gap-3 min-w-0 pr-2">
+                      {rankBadge}
+                      <div className="relative shrink-0 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 shadow-2xs overflow-hidden">
+                        <span className="absolute inset-0 flex items-center justify-center text-[11px] font-bold text-slate-400 bg-slate-100 select-none">
+                          {donor.userNick.slice(0, 1)}
+                        </span>
+                        <img
+                          src={avatarSrc}
+                          alt={donor.userNick}
+                          width={32}
+                          height={32}
+                          loading="eager"
+                          className="relative z-10 w-full h-full rounded-full object-cover shrink-0"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[13px] sm:text-sm font-bold text-slate-900 truncate">
+                          {donor.userNick}
+                        </span>
+                        <a
+                          href={`https://ch.sooplive.co.kr/${donor.userId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[11px] text-slate-400 hover:text-slate-600 truncate -mt-0.5"
+                          title={`${donor.userNick} SOOP 방송국 바로가기`}
+                        >
+                          @{donor.userId}
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                      {donor.primaryStreamer && (
+                        <span className="hidden sm:inline-flex items-center text-[11px] font-semibold bg-pink-50 text-pink-700 border border-pink-200/80 px-2 py-0.5 rounded-full">
+                          주후원: {donor.primaryStreamer}
+                        </span>
+                      )}
+                      <span className={valColor}>
+                        {donor.balloonCount > 0 ? `${donor.balloonCount.toLocaleString()}개` : '-'}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="p-8 text-center text-slate-400 text-sm">
+              후원자 데이터가 없습니다.
+            </div>
+          )}
+        </div>
+      ) : (
+        /* 기존 2-Column Grid Table (남자 / 여자) */
+        <div className="grid grid-cols-2 divide-x divide-slate-100 border-t border-slate-100">
+          {/* 남자 컬럼 (6명) */}
+          <div className="p-2 sm:p-4.5">
+            <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
+              <span>남자 (6명)</span>
+              <span>{getColHeader()}</span>
+            </div>
+            <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
+              {stats.male.map(renderMemberRow)}
+            </div>
+          </div>
+
+          {/* 여자 컬럼 (11명) */}
+          <div className="p-2 sm:p-4.5">
+            <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
+              <span>여자 (11명)</span>
+              <span>{getColHeader()}</span>
+            </div>
+            <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
+              {stats.female.map(renderMemberRow)}
+            </div>
+          </div>
         </div>
       )}
 
-      {/* Bottom 3-Card Summary Stats */}
-      <div className="p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 grid grid-cols-3 gap-2.5 sm:gap-3.5 text-center">
-        <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="text-xs sm:text-[13px] font-semibold text-slate-500 flex items-center justify-center gap-1.5">
-            <span>{currentTab === 'spon' ? '⚔️' : currentTab === 'time' ? '⏱️' : '🪙'}</span> 전체 합계
+      {/* Bottom 3-Card Summary Stats (후원 랭킹 탭에서는 완전히 제외) */}
+      {currentTab !== 'donor' && (
+        <div className="p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 grid grid-cols-3 gap-2.5 sm:gap-3.5 text-center">
+          <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200/90 shadow-2xs">
+            <div className="text-xs sm:text-[13px] font-semibold text-slate-500 flex items-center justify-center gap-1.5">
+              <span>{currentTab === 'spon' ? '⚔️' : currentTab === 'time' ? '⏱️' : '🪙'}</span> 전체 합계
+            </div>
+            <div className="text-base sm:text-lg md:text-xl font-black text-slate-900 mt-1">
+              {stats.totalSumStr}
+            </div>
           </div>
-          <div className="text-base sm:text-lg md:text-xl font-black text-slate-900 mt-1">
-            {stats.totalSumStr}
+          <div className="bg-emerald-50/70 p-2.5 sm:p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
+            <div className="text-xs sm:text-[13px] font-semibold text-emerald-700 flex items-center justify-center gap-1.5">
+              <span>♀</span> 여자 평균
+            </div>
+            <div className="text-base sm:text-lg md:text-xl font-black text-emerald-600 mt-1">
+              {stats.femaleAvgStr}
+            </div>
+          </div>
+          <div className="bg-indigo-50/70 p-2.5 sm:p-3 rounded-xl border border-indigo-200/80 shadow-2xs">
+            <div className="text-xs sm:text-[13px] font-semibold text-indigo-700 flex items-center justify-center gap-1.5">
+              <span>📊</span> 전체 평균
+            </div>
+            <div className="text-base sm:text-lg md:text-xl font-black text-indigo-600 mt-1">
+              {stats.totalAvgStr}
+            </div>
           </div>
         </div>
-        <div className="bg-emerald-50/70 p-2.5 sm:p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
-          <div className="text-xs sm:text-[13px] font-semibold text-emerald-700 flex items-center justify-center gap-1.5">
-            <span>♀</span> 여자 평균
-          </div>
-          <div className="text-base sm:text-lg md:text-xl font-black text-emerald-600 mt-1">
-            {stats.femaleAvgStr}
-          </div>
-        </div>
-        <div className="bg-indigo-50/70 p-2.5 sm:p-3 rounded-xl border border-indigo-200/80 shadow-2xs">
-          <div className="text-xs sm:text-[13px] font-semibold text-indigo-700 flex items-center justify-center gap-1.5">
-            <span>📊</span> 전체 평균
-          </div>
-          <div className="text-base sm:text-lg md:text-xl font-black text-indigo-600 mt-1">
-            {stats.totalAvgStr}
-          </div>
-        </div>
-      </div>
+      )}
 
-      {/* Bottom Legend */}
-      <div className="px-4 py-2 bg-white border-t border-slate-100 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500 font-medium">
-        <div className="flex items-center gap-1.5 font-bold text-sky-700">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#00c7ff] ring-2 ring-sky-200 shadow-2xs" /> 방송 중 (ON)
+      {/* Bottom Legend or Footer */}
+      {currentTab !== 'donor' ? (
+        <div className="px-4 py-2 bg-white border-t border-slate-100 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-500 font-medium">
+          <div className="flex items-center gap-1.5 font-bold text-sky-700">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#00c7ff] ring-2 ring-sky-200 shadow-2xs" /> 방송 중 (ON)
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="w-2.5 h-2.5 rounded-xs bg-blue-600" /> 상위 1%
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="w-2.5 h-2.5 rounded-xs bg-emerald-500" /> 상위 5%
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="w-2.5 h-2.5 rounded-xs bg-amber-500" /> 상위 10%
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="w-2.5 h-2.5 rounded-xs bg-rose-500" /> 수장/전력외
+          </div>
+          <div className="flex items-center gap-1">
+            <span>🎂</span> 이번 달 생일
+          </div>
         </div>
-        <div className="flex items-center gap-1">
-          <span className="w-2.5 h-2.5 rounded-xs bg-blue-600" /> 상위 1%
+      ) : (
+        <div className="px-4 py-3 bg-slate-50/80 border-t border-slate-100 text-center text-xs text-slate-500 font-medium">
+          💡 캄몬스타즈 17개 방송국 후원 데이터를 기반으로 산출된 큰손 후원 랭킹입니다.
         </div>
-        <div className="flex items-center gap-1">
-          <span className="w-2.5 h-2.5 rounded-xs bg-emerald-500" /> 상위 5%
-        </div>
-        <div className="flex items-center gap-1">
-          <span className="w-2.5 h-2.5 rounded-xs bg-amber-500" /> 상위 10%
-        </div>
-        <div className="flex items-center gap-1">
-          <span className="w-2.5 h-2.5 rounded-xs bg-rose-500" /> 수장/전력외
-        </div>
-        <div className="flex items-center gap-1">
-          <span>🎂</span> 이번 달 생일
-        </div>
-      </div>
+      )}
     </div>
   );
 }

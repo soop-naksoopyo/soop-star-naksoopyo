@@ -7,6 +7,7 @@ import {
   type CalmmonTabType,
   calculateCalmmonStats,
   type StreamerStatInput,
+  type CalmmonDonorRow,
 } from '@/lib/calmmonData';
 import { getCurrentMonthDate } from '@/lib/month';
 
@@ -40,6 +41,7 @@ export default function CalmmonPage() {
   );
   const [currentTab, setCurrentTab] = useState<CalmmonTabType>('star');
   const [statsMap, setStatsMap] = useState<Map<string, StreamerStatInput>>(new Map());
+  const [donors, setDonors] = useState<CalmmonDonorRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdatedText, setLastUpdatedText] = useState('실시간');
 
@@ -60,6 +62,9 @@ export default function CalmmonPage() {
         if (calmData.success && calmData.stats) {
           for (const [id, stat] of Object.entries(calmData.stats)) {
             newMap.set(id.toLowerCase(), stat as StreamerStatInput);
+          }
+          if (Array.isArray(calmData.donors)) {
+            setDonors(calmData.donors);
           }
           if (selectedMonth === '2026-09') {
             setLastUpdatedText('2026.09.30 23:59 마감 확정');
@@ -170,6 +175,7 @@ export default function CalmmonPage() {
           currentTab={currentTab}
           onTabChange={setCurrentTab}
           stats={statsResult}
+          donors={donors}
           currentDateText={`${selectedMonth.slice(0, 4)}년 ${Number(selectedMonth.slice(5))}월`}
           isLiveLoading={isLoading}
         />

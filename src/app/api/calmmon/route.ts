@@ -4,8 +4,10 @@ import {
   CALMMON_DEFAULT_STATS,
   CALMMON_SEPTEMBER_STATS,
   type StreamerStatInput,
+  type CalmmonDonorRow,
 } from '@/lib/calmmonData';
 import calmmonMatches from '@/data/calmmonMatches.json';
+import calmmonDonors from '@/data/calmmonDonors.json';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
@@ -15,6 +17,7 @@ const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const yearMonth = searchParams.get('month') || '2026-10';
+  const donorsByMonth = (calmmonDonors as Record<string, CalmmonDonorRow[]>)[yearMonth] || [];
 
   // 2026년 9월 마감 확정 아카이브 데이터 즉시 반환
   if (yearMonth === '2026-09') {
@@ -25,6 +28,7 @@ export async function GET(request: Request) {
         timestamp: '2026-09-30T23:59:59.000Z',
         source: 'archive_confirmed',
         stats: CALMMON_SEPTEMBER_STATS,
+        donors: donorsByMonth,
       },
       {
         headers: {
@@ -95,6 +99,7 @@ export async function GET(request: Request) {
       timestamp: new Date().toISOString(),
       source: fetchSuccess ? 'trackify_live' : 'calmmon_defaults',
       stats: resultMap,
+      donors: donorsByMonth,
     },
     {
       headers: {

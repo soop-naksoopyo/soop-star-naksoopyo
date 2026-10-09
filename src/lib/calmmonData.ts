@@ -1,6 +1,16 @@
 export type Gender = 'male' | 'female';
 export type CalmmonTabType = 'star' | 'time' | 'spon' | 'donor';
 
+export interface CalmmonDonorRow {
+  rank: number;
+  userId: string;
+  userNick: string;
+  profileImage: string | null;
+  balloonCount: number;
+  primaryStreamer: string;
+  donationCount?: number;
+}
+
 export interface CalmmonMemberMeta {
   soopId: string;
   nickname: string;
