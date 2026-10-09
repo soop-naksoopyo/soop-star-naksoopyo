@@ -56,8 +56,8 @@ export function CalmmonCard({
 
     return (
       <div key={item.soopId} className={rowBg}>
-        <div className="flex items-center gap-2 min-w-0 pr-1.5">
-          <div className="relative shrink-0 flex items-center justify-center">
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1 sm:pr-1.5">
+          <div className="relative shrink-0 w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center">
             <img
               src={defaultAvatar}
               alt={item.nickname}
@@ -67,7 +67,7 @@ export function CalmmonCard({
                 (e.target as HTMLImageElement).src =
                   'https://res.sooplive.co.kr/images/user/thumb_user.gif';
               }}
-              className={`w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-full object-cover shrink-0 bg-slate-100 transition shadow-2xs ${
+              className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover shrink-0 bg-slate-100 transition shadow-2xs ${
                 item.isLive
                   ? 'ring-2 ring-[#00c7ff] border-2 border-white'
                   : 'border border-slate-200'
@@ -76,7 +76,7 @@ export function CalmmonCard({
             {item.isLive && (
               <span
                 title="SOOP 생방송 진행 중"
-                className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#00c7ff] ring-2 ring-white shadow-2xs"
+                className="absolute -bottom-0.5 -right-0.5 w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#00c7ff] ring-2 ring-white shadow-2xs"
               />
             )}
           </div>
