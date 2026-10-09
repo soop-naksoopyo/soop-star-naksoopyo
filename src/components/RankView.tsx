@@ -227,6 +227,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
           const rank = startIndex + idx + 1;
           const channelUrl = `https://ch.sooplive.co.kr/${streamer.soopId}`;
           const defaultAvatar = `https://profile.img.sooplive.co.kr/LOGO/${streamer.soopId.slice(0, 2)}/${streamer.soopId}/${streamer.soopId}.jpg`;
+          const avatarSrc = `/api/avatar?id=${encodeURIComponent(streamer.soopId.toLowerCase())}`;
           const tierStyle = getStarTierStyle(streamer.totalStars);
           const formattedHours = `${Number(streamer.broadcastHours || 0).toFixed(1)}시간`;
 
@@ -252,7 +253,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
                 </span>
 
                 <img
-                  src={streamer.profileImageUrl || defaultAvatar}
+                  src={avatarSrc}
                   alt={streamer.nickname}
                   width={32}
                   height={32}
@@ -261,7 +262,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
                   decoding="async"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =
-                      'https://res.sooplive.co.kr/images/user/thumb_user.gif';
+                      streamer.profileImageUrl || defaultAvatar;
                   }}
                   className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-slate-200 shrink-0 bg-slate-100"
                 />

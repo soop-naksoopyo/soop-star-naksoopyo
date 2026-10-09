@@ -52,7 +52,7 @@ export function CalmmonCard({
       valColor = 'text-[13px] sm:text-sm font-bold text-amber-600';
     }
 
-    const defaultAvatar = `https://profile.img.sooplive.co.kr/LOGO/${item.soopId.slice(0, 2).toLowerCase()}/${item.soopId.toLowerCase()}/${item.soopId.toLowerCase()}.jpg`;
+    const defaultAvatar = `/api/avatar?id=${encodeURIComponent(item.soopId.toLowerCase())}`;
 
     return (
       <div key={item.soopId} className={rowBg}>

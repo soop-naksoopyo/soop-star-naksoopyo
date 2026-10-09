@@ -20,6 +20,7 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
   const { soopId, nickname, profileImageUrl, totalStars, broadcastHours, collectionStatus } = data;
   const channelUrl = `https://ch.sooplive.co.kr/${soopId}`;
   const defaultAvatar = `https://profile.img.sooplive.co.kr/LOGO/${soopId.slice(0, 2)}/${soopId}/${soopId}.jpg`;
+  const avatarSrc = `/api/avatar?id=${encodeURIComponent(soopId.toLowerCase())}`;
   const tierStyle = getStarTierStyle(totalStars);
 
   return (
@@ -43,7 +44,7 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
         </span>
 
         <img
-          src={profileImageUrl || defaultAvatar}
+          src={avatarSrc}
           alt={nickname}
           width={24}
           height={24}
@@ -52,7 +53,7 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
           decoding="async"
           onError={(e) => {
             (e.target as HTMLImageElement).src =
-              'https://res.sooplive.co.kr/images/user/thumb_user.gif';
+              profileImageUrl || defaultAvatar;
           }}
           className="w-6 h-6 rounded-full object-cover border border-slate-200 shrink-0 bg-slate-100"
         />
