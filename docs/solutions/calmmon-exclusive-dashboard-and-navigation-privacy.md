@@ -80,7 +80,13 @@ Key requirements included:
    - Inactive streamers retain the clean default avatar frame without visual clutter.
    - Added an indicator item (`● 방송 중 (ON)`) in SOOP cyan to the bottom legend.
 
+10. **Comfortable UI Scaling (Enlarged Avatar & Layout)**:
+   - Following user feedback that the compact view was overly compressed, expanded the card container width from `max-w-2xl` to `max-w-3xl` (~768px).
+   - Enlarged profile avatars from `w-5 h-5` (20px) to `w-6.5 h-6.5 sm:w-7 sm:h-7` (28px) with subtle shadow.
+   - Scaled up member nicknames to `text-[13px] sm:text-sm font-bold` and balloon/hour statistics to `text-[13px] sm:text-sm font-extrabold`.
+   - Increased table cell spacing and padding (`p-3 sm:p-4.5`), and enlarged the bottom summary card typography for enhanced legibility.
+
 ## Verification
 - **Unit Tests**: `vitest run` passed all 49 test suites across 13 test files.
-- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages.
-- **Live Visual Validation**: Verified via Playwright at 1280x900 resolution (`scrollHeight: 900 clientHeight: 900`). Confirmed active live streamers (김윤환, 사테, 비타밍, 지두두, 햇살, 아리송이, 소주양) show the vibrant SOOP cyan live ring and dot, while offline members remain clean and standard.
+- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages (`cb5010be`).
+- **Live Visual Validation**: Verified via Playwright at 1280x900 resolution (`calm_enlarged_verified.png`). Confirmed enlarged avatars, vibrant cyan indicators, enhanced readability across 17 members, and clean layout integrity.
