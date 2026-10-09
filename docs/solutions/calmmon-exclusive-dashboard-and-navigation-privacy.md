@@ -90,7 +90,14 @@ Key requirements included:
    - Synchronized live Trackify statistics (15,106 별풍선, 18.4 방송시간, 1,047 뷰어십) into `src/data/viewershipSnapshots.ts`.
    - Updated unit tests (`matchedCount: 241`, `requestedCount: 235`) and deployed to production.
 
+12. **Pure Standalone Private View & Dedicated Favicon (`/calm`)**:
+   - Removed the top global `<Header />` ("SOOP 스타크루 대시보드") and the return button (`← 메인 대시보드`) to make the page completely isolated and private.
+   - Positioned the month navigator (`< YYYY년 MM월 >`) cleanly at the top-right above the card.
+   - Created `src/app/calm/layout.tsx` and a dynamic `useEffect` to assign the official Monstarz 캄몬 emblem (`/crests/26.png`) as the dedicated favicon and set document title to "캄몬스타즈 대시보드".
+
 ## Verification
 - **Unit Tests**: `vitest run` passed all 49 test suites across 13 test files.
-- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages.
-- **Live Visual Validation**: Verified via Playwright at mobile iPhone resolution (390x844: `calm_mobile_perfect.png`) and desktop (1280x900: `dm_crew_card_exact.png`). Confirmed perfectly proportioned avatars, full nickname visibility, and DM crew card reflecting 12 members including 예린.
+- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages (`ec3a857c`).
+- **Live Visual Validation**: Verified via Playwright:
+  - Desktop: `calm_standalone_desktop.png` (Title: "캄몬스타즈 대시보드", Favicon: `/crests/26.png`).
+  - Mobile: `calm_standalone_mobile.png` (Completely standalone, ultra-clean headerless card layout).
