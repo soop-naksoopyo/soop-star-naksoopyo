@@ -173,6 +173,15 @@
     },
     {
       "rank": 20,
+      "userId": "ignigena",
+      "userNick": "앨코홀릭",
+      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ig/ignigena/ignigena.jpg",
+      "balloonCount": 15805,
+      "primaryStreamer": "소주양",
+      "primaryStreamerId": "soju2022"
+    },
+    {
+      "rank": 21,
       "userId": "kkim104104",
       "userNick": "JD_막해",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/kk/kkim104104/kkim104104.jpg",
@@ -181,7 +190,7 @@
       "primaryStreamerId": "sksmsskdsl10"
     },
     {
-      "rank": 21,
+      "rank": 22,
       "userId": "tkddjvkfl",
       "userNick": "꼬마+_+",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/tk/tkddjvkfl/tkddjvkfl.jpg",
@@ -190,22 +199,13 @@
       "primaryStreamerId": "2meonjin"
     },
     {
-      "rank": 22,
+      "rank": 23,
       "userId": "puc741",
       "userNick": "헤이즈!",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/pu/puc741/puc741.jpg",
       "balloonCount": 15465,
       "primaryStreamer": "김윤환",
       "primaryStreamerId": "brainzerg7"
-    },
-    {
-      "rank": 23,
-      "userId": "ignigena",
-      "userNick": "앨코홀릭",
-      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ig/ignigena/ignigena.jpg",
-      "balloonCount": 14391,
-      "primaryStreamer": "소주양",
-      "primaryStreamerId": "soju2022"
     },
     {
       "rank": 24,
@@ -302,7 +302,7 @@
       "userId": "hojin132",
       "userNick": "까막눈김윤환",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ho/hojin132/hojin132.jpg",
-      "balloonCount": 9822,
+      "balloonCount": 9842,
       "primaryStreamer": "낭니",
       "primaryStreamerId": "sksmsskdsl10"
     },
@@ -356,7 +356,7 @@
       "userId": "tlqwkrk019",
       "userNick": "두두레미파",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/tl/tlqwkrk019/tlqwkrk019.jpg",
-      "balloonCount": 7939,
+      "balloonCount": 8090,
       "primaryStreamer": "지두두",
       "primaryStreamerId": "wjswlgns09"
     },
