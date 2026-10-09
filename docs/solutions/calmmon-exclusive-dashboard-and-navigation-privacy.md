@@ -80,13 +80,17 @@ Key requirements included:
    - Inactive streamers retain the clean default avatar frame without visual clutter.
    - Added an indicator item (`● 방송 중 (ON)`) in SOOP cyan to the bottom legend.
 
-10. **Comfortable UI Scaling (Enlarged Avatar & Layout)**:
+10. **Comfortable UI Scaling & Mobile Overflow Prevention**:
    - Following user feedback that the compact view was overly compressed, expanded the card container width from `max-w-2xl` to `max-w-3xl` (~768px).
-   - Enlarged profile avatars from `w-5 h-5` (20px) to `w-6.5 h-6.5 sm:w-7 sm:h-7` (28px) with subtle shadow.
-   - Scaled up member nicknames to `text-[13px] sm:text-sm font-bold` and balloon/hour statistics to `text-[13px] sm:text-sm font-extrabold`.
-   - Increased table cell spacing and padding (`p-3 sm:p-4.5`), and enlarged the bottom summary card typography for enhanced legibility.
+   - Enlarged profile avatars to `w-6 h-6 sm:w-7 sm:h-7` (24px on mobile, 28px on desktop).
+   - **Root Cause & Fix for Mobile Avatar Blowout**: The experimental utility class `w-6.5 h-6.5` was invalid in standard Tailwind CSS, resulting in no width/height CSS on mobile viewports (<640px). This caused avatars to render at intrinsic dimensions (300px+ giant circles). Fixed by constraining both the container and image to explicit `w-6 h-6 sm:w-7 sm:h-7` and adjusting row padding (`px-2 sm:px-2.5`) to prevent Korean nickname truncation.
+
+11. **DM Crew Roster Expansion (예린 `jam0ng`)**:
+   - Added `jam0ng` (예린) to DM crew in `src/lib/starCrewsData.ts`.
+   - Synchronized live Trackify statistics (15,106 별풍선, 18.4 방송시간, 1,047 뷰어십) into `src/data/viewershipSnapshots.ts`.
+   - Updated unit tests (`matchedCount: 241`, `requestedCount: 235`) and deployed to production.
 
 ## Verification
 - **Unit Tests**: `vitest run` passed all 49 test suites across 13 test files.
-- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages (`cb5010be`).
-- **Live Visual Validation**: Verified via Playwright at 1280x900 resolution (`calm_enlarged_verified.png`). Confirmed enlarged avatars, vibrant cyan indicators, enhanced readability across 17 members, and clean layout integrity.
+- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages.
+- **Live Visual Validation**: Verified via Playwright at mobile iPhone resolution (390x844: `calm_mobile_perfect.png`) and desktop (1280x900: `dm_crew_card_exact.png`). Confirmed perfectly proportioned avatars, full nickname visibility, and DM crew card reflecting 12 members including 예린.
