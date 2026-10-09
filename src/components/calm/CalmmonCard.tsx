@@ -27,49 +27,17 @@ export function CalmmonCard({
   donors = [],
 }: CalmmonCardProps) {
   const top100Donors = React.useMemo(() => (donors || []).slice(0, 100), [donors]);
-  const [selectedStreamer, setSelectedStreamer] = React.useState<string>('all');
   const [donorPage, setDonorPage] = React.useState(1);
   const donorPageSize = 20;
 
-  // 100명 데이터 기반 주 후원 스트리머 목록 및 통계(인원 수, 후원 별풍 합계)
-  const streamerOptions = React.useMemo(() => {
-    const map = new Map<string, { count: number; totalBalloons: number }>();
-    top100Donors.forEach((d) => {
-      const name = d.primaryStreamer || '기타';
-      const cur = map.get(name) || { count: 0, totalBalloons: 0 };
-      map.set(name, {
-        count: cur.count + 1,
-        totalBalloons: cur.totalBalloons + (d.balloonCount || 0),
-      });
-    });
-    return Array.from(map.entries()).sort((a, b) => b[1].totalBalloons - a[1].totalBalloons);
-  }, [top100Donors]);
-
-  // 필터링된 후원자 목록
-  const filteredDonors = React.useMemo(() => {
-    if (selectedStreamer === 'all') return top100Donors;
-    return top100Donors.filter((d) => (d.primaryStreamer || '기타') === selectedStreamer);
-  }, [top100Donors, selectedStreamer]);
-
-  // 선택된 스트리머의 요약 통계 (인원 수, 총 별풍선 수)
-  const selectedStreamerSummary = React.useMemo(() => {
-    if (selectedStreamer === 'all') {
-      const totalBalloons = top100Donors.reduce((acc, d) => acc + (d.balloonCount || 0), 0);
-      return { count: top100Donors.length, totalBalloons };
-    }
-    const count = filteredDonors.length;
-    const totalBalloons = filteredDonors.reduce((acc, d) => acc + (d.balloonCount || 0), 0);
-    return { count, totalBalloons };
-  }, [selectedStreamer, top100Donors, filteredDonors]);
-
-  const totalDonorPages = Math.max(1, Math.ceil(filteredDonors.length / donorPageSize));
+  const totalDonorPages = Math.max(1, Math.ceil(top100Donors.length / donorPageSize));
   const safeDonorPage = Math.min(Math.max(1, donorPage), totalDonorPages);
 
   React.useEffect(() => {
     setDonorPage(1);
-  }, [currentTab, selectedStreamer]);
+  }, [currentTab]);
 
-  const pageDonors = filteredDonors.slice((safeDonorPage - 1) * donorPageSize, safeDonorPage * donorPageSize);
+  const pageDonors = top100Donors.slice((safeDonorPage - 1) * donorPageSize, safeDonorPage * donorPageSize);
   const leftDonors = pageDonors.slice(0, 10);
   const rightDonors = pageDonors.slice(10, 20);
 
@@ -167,41 +135,41 @@ export function CalmmonCard({
     const isTop2 = donor.rank === 2;
     const isTop3 = donor.rank === 3;
 
-    let rowBg = 'hover:bg-slate-50 transition px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center justify-between rounded-lg';
-    let valColor = 'text-[13px] sm:text-sm font-extrabold text-slate-800';
+    let rowBg = 'hover:bg-slate-50 transition px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-lg';
+    let valColor = 'text-xs sm:text-sm font-extrabold text-slate-800';
 
     if (isTop1) {
-      rowBg = 'bg-amber-50/70 border-l-[3px] border-amber-500 px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center justify-between rounded-r-lg shadow-2xs';
-      valColor = 'text-[13px] sm:text-sm font-black text-amber-600';
+      rowBg = 'bg-amber-50/70 border-l-[3px] border-amber-500 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg shadow-2xs';
+      valColor = 'text-xs sm:text-sm font-black text-amber-600';
     } else if (isTop2) {
-      rowBg = 'bg-slate-50/80 border-l-[3px] border-slate-400 px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center justify-between rounded-r-lg shadow-2xs';
-      valColor = 'text-[13px] sm:text-sm font-black text-slate-700';
+      rowBg = 'bg-slate-50/80 border-l-[3px] border-slate-400 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg shadow-2xs';
+      valColor = 'text-xs sm:text-sm font-black text-slate-700';
     } else if (isTop3) {
-      rowBg = 'bg-amber-50/40 border-l-[3px] border-amber-700 px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center justify-between rounded-r-lg shadow-2xs';
-      valColor = 'text-[13px] sm:text-sm font-black text-amber-800';
+      rowBg = 'bg-amber-50/40 border-l-[3px] border-amber-700 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg shadow-2xs';
+      valColor = 'text-xs sm:text-sm font-black text-amber-800';
     }
 
     const avatarSrc = donor.profileImage || `https://profile.img.sooplive.co.kr/LOGO/${donor.userId.slice(0, 2)}/${donor.userId}/${donor.userId}.jpg`;
 
     return (
       <div key={donor.userId} className={rowBg}>
-        <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0 pr-2 flex-1">
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1 sm:pr-1.5 flex-1">
           <span className="w-5 sm:w-6 text-center text-xs sm:text-sm font-bold shrink-0 select-none">
             {isTop1 ? '👑' : isTop2 ? '🥈' : isTop3 ? '🥉' : (
               <span className="text-slate-400 font-bold">{donor.rank}</span>
             )}
           </span>
-          <div className="relative shrink-0 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 shadow-2xs overflow-hidden">
-            <span className="absolute inset-0 flex items-center justify-center text-[10px] sm:text-xs font-bold text-slate-400 bg-slate-100 select-none">
+          <div className="relative shrink-0 w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 shadow-2xs overflow-hidden">
+            <span className="absolute inset-0 flex items-center justify-center text-[9px] sm:text-[10px] font-bold text-slate-400 bg-slate-100 select-none">
               {donor.userNick.slice(0, 1)}
             </span>
             <img
               src={avatarSrc}
               alt={donor.userNick}
-              width={32}
-              height={32}
+              width={28}
+              height={28}
               loading="lazy"
-              className="relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover shrink-0"
+              className="relative z-10 w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover shrink-0"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = 'none';
               }}
@@ -213,25 +181,25 @@ export function CalmmonCard({
               target="_blank"
               rel="noopener noreferrer"
               title={`${donor.userNick} (@${donor.userId})`}
-              className="text-[13px] sm:text-sm font-bold text-slate-900 hover:text-blue-600 truncate hover:underline"
+              className="text-[12px] sm:text-[13px] font-bold text-slate-900 hover:text-blue-600 truncate hover:underline"
             >
               {donor.userNick}
             </a>
             {donor.primaryStreamer && (
               <div
                 title={`주 후원: ${donor.primaryStreamer}`}
-                className="flex items-center gap-1 mt-0.5 text-[11px] text-slate-500 font-medium select-none"
+                className="flex items-center gap-1 text-[10px] text-slate-500 font-medium select-none"
               >
-                <span className="text-slate-400 text-[10px]">주후원:</span>
+                <span className="text-slate-400 text-[9px]">주후원:</span>
                 {donor.primaryStreamerId ? (
                   <img
                     src={getStaticAvatarUrl(donor.primaryStreamerId)}
                     alt={donor.primaryStreamer}
-                    width={14}
-                    height={14}
+                    width={12}
+                    height={12}
                     loading="lazy"
                     onError={(e) => handleAvatarError(e, donor.primaryStreamerId!)}
-                    className="w-3.5 h-3.5 rounded-full object-cover shrink-0 border border-slate-300 shadow-2xs"
+                    className="w-3 h-3 rounded-full object-cover shrink-0 border border-slate-300 shadow-2xs"
                   />
                 ) : null}
                 <span className="font-semibold text-slate-700">
@@ -265,9 +233,7 @@ export function CalmmonCard({
               <h2 className="text-base sm:text-lg font-black text-slate-900 tracking-tight">캄몬스타즈</h2>
               {currentTab === 'donor' ? (
                 <span className="text-[10px] sm:text-xs font-semibold bg-pink-50 text-pink-700 px-2 py-0.5 rounded-full border border-pink-200/70">
-                  {selectedStreamer === 'all'
-                    ? `후원 랭킹 · TOP 100 (${safeDonorPage}/${totalDonorPages}P)`
-                    : `${selectedStreamer} 후원 (${safeDonorPage}/${totalDonorPages}P)`}
+                  후원 랭킹 · TOP 100 ({safeDonorPage}/{totalDonorPages}P)
                 </span>
               ) : (
                 <span className="text-[10px] sm:text-xs font-semibold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200/70">
@@ -327,47 +293,9 @@ export function CalmmonCard({
       {currentTab === 'donor' ? (
         /* 시청자(큰손) 후원 랭킹 전용 뷰: 방송시간/스폰 판수처럼 2열(2줄) 컴팩트 그리드 */
         <div className="border-t border-slate-100">
-          {/* 주 후원 멤버 필터 셀렉트 박스 & 개수 통계 바 */}
-          <div className="flex flex-wrap items-center justify-between gap-2 px-3 sm:px-4 py-2 bg-slate-50 border-b border-slate-100">
-            <div className="flex items-center gap-1.5">
-              <label htmlFor="streamer-filter" className="text-xs font-bold text-slate-500 shrink-0 select-none">
-                주 후원 멤버:
-              </label>
-              <select
-                id="streamer-filter"
-                value={selectedStreamer}
-                onChange={(e) => {
-                  setSelectedStreamer(e.target.value);
-                  setDonorPage(1);
-                }}
-                className="text-xs font-bold bg-white border border-slate-300 text-slate-800 rounded-lg px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-2xs cursor-pointer"
-              >
-                <option value="all">전체 멤버 ({top100Donors.length}명)</option>
-                {streamerOptions.map(([name, data]) => (
-                  <option key={name} value={name}>
-                    {name} ({data.count}명)
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* 선택된 스트리머의 인원 수 및 별풍선 합계 표시 */}
-            <div className="text-xs font-bold text-slate-600 bg-white border border-slate-200/90 px-2.5 py-1 rounded-lg shadow-2xs flex items-center gap-1.5">
-              {selectedStreamer === 'all' ? (
-                <span>
-                  전체 후원자 <strong className="text-pink-600 font-black">{selectedStreamerSummary.count}명</strong> · <span className="text-amber-600 font-extrabold">{selectedStreamerSummary.totalBalloons.toLocaleString()}개</span>
-                </span>
-              ) : (
-                <span>
-                  <strong className="text-pink-600 font-black">{selectedStreamer}</strong> 후원자 <strong className="text-slate-900 font-black">{selectedStreamerSummary.count}명</strong> · <span className="text-amber-600 font-extrabold">{selectedStreamerSummary.totalBalloons.toLocaleString()}개</span>
-                </span>
-              )}
-            </div>
-          </div>
-
-          {filteredDonors.length === 0 ? (
+          {top100Donors.length === 0 ? (
             <div className="p-8 text-center text-slate-400 text-sm">
-              {selectedStreamer === 'all' ? '후원자 데이터가 없습니다.' : `${selectedStreamer}의 주 후원자 데이터가 없습니다.`}
+              후원자 데이터가 없습니다.
             </div>
           ) : (
             <>

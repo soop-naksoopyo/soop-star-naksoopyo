@@ -17,7 +17,7 @@ export const ArchiveView: React.FC<ArchiveViewProps> = ({ selectedMonth }) => {
   const currentSummary = currentArchive.summary;
 
   return (
-    <div className="w-full max-w-7xl 2xl:max-w-[1600px] flex flex-col gap-6">
+    <div className="w-full max-w-7xl 2xl:max-w-[1720px] flex flex-col gap-6">
       {/* 2. 선택된 월 요약 지표 (KPI) */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
         <div className="bg-white border border-slate-200/90 rounded-xl p-3.5 sm:p-4 shadow-xs">

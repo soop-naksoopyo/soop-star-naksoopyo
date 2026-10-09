@@ -17,7 +17,7 @@ export const ViewershipHeroStats: React.FC<ViewershipHeroStatsProps> = ({ topCre
   const primaryTopTotal = topTotalCrew || topCrew;
 
   return (
-    <div className="grid w-full max-w-7xl grid-cols-2 gap-3 mb-5 lg:grid-cols-3 2xl:max-w-[1600px]">
+    <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
       <div className="rounded-xl border border-slate-200/90 bg-white p-3.5 shadow-xs transition hover:border-slate-300 hover:shadow-sm sm:p-4">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-slate-500">1위 스타크루</span>

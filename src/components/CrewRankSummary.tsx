@@ -148,7 +148,7 @@ export const CrewRankSummary: React.FC<CrewRankSummaryProps> = ({
   );
 
   return (
-    <section className="w-full max-w-7xl 2xl:max-w-[1600px] flex flex-col gap-4 mb-6">
+    <section className="w-full flex flex-col gap-4 mb-6">
       {/* 섹션 타이틀: 스타크루 랭킹 */}
       <div className="flex items-center justify-between pb-1 border-b border-slate-200">
         <div className="flex items-center gap-2">

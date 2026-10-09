@@ -124,7 +124,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
   const visibleStreamers = filtered.slice(startIndex, startIndex + PAGE_SIZE);
 
   return (
-    <div className="w-full max-w-7xl 2xl:max-w-[1600px] bg-white rounded-xl border-2 border-slate-200 shadow-sm p-3 sm:p-5">
+    <div className="w-full max-w-7xl 2xl:max-w-[1720px] bg-white rounded-xl border-2 border-slate-200 shadow-sm p-3 sm:p-5">
       {/* 랭킹 뷰 상단 컨트롤 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b-2 border-slate-200 mb-3">
         <div>
