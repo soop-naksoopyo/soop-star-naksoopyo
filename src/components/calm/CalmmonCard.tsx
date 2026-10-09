@@ -33,22 +33,22 @@ export function CalmmonCard({
   };
 
   const renderMemberRow = (item: CalmmonMemberRow) => {
-    let rowBg = 'hover:bg-slate-50 transition px-2.5 py-1.5 flex items-center justify-between rounded-lg';
+    let rowBg = 'hover:bg-slate-50 transition px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-lg';
     let nameColor = 'text-[13px] sm:text-sm font-bold text-slate-800';
     let valColor = 'text-[13px] sm:text-sm font-extrabold text-slate-700';
 
     if (item.tierBadge === 'boss' || item.isBoss) {
-      rowBg = 'bg-rose-50/80 border-l-[3px] border-rose-500 px-2.5 py-1.5 flex items-center justify-between rounded-r-lg shadow-2xs';
+      rowBg = 'bg-rose-50/80 border-l-[3px] border-rose-500 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg shadow-2xs';
       nameColor = 'text-[13px] sm:text-sm font-bold text-slate-900';
       valColor = 'text-[13px] sm:text-sm font-black text-rose-600';
     } else if (item.tierBadge === 'top1') {
-      rowBg = 'border-l-[3px] border-blue-600 px-2.5 py-1.5 flex items-center justify-between rounded-r-lg';
+      rowBg = 'border-l-[3px] border-blue-600 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg';
       valColor = 'text-[13px] sm:text-sm font-black text-blue-600';
     } else if (item.tierBadge === 'top5') {
-      rowBg = 'border-l-[3px] border-emerald-500 px-2.5 py-1.5 flex items-center justify-between rounded-r-lg';
+      rowBg = 'border-l-[3px] border-emerald-500 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg';
       valColor = 'text-[13px] sm:text-sm font-extrabold text-emerald-600';
     } else if (item.tierBadge === 'top10') {
-      rowBg = 'border-l-[3px] border-amber-500 px-2.5 py-1.5 flex items-center justify-between rounded-r-lg';
+      rowBg = 'border-l-[3px] border-amber-500 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg';
       valColor = 'text-[13px] sm:text-sm font-bold text-amber-600';
     }
 
@@ -90,7 +90,7 @@ export function CalmmonCard({
             <span className={nameColor}>{item.nickname}</span>
           </a>
           {item.isBoss && (
-            <span className="text-[10px] bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded font-bold shrink-0">
+            <span className="text-[9px] sm:text-[10px] bg-rose-100 text-rose-700 px-1 sm:px-1.5 py-0.2 sm:py-0.5 rounded font-bold shrink-0">
               수장
             </span>
           )}
@@ -192,7 +192,7 @@ export function CalmmonCard({
       {/* 2-Column Grid Table */}
       <div className="grid grid-cols-2 divide-x divide-slate-100 border-t border-slate-100">
         {/* 남자 컬럼 (6명) */}
-        <div className="p-3 sm:p-4.5">
+        <div className="p-2 sm:p-4.5">
           <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
             <span>남자 (6명)</span>
             <span>{getColHeader()}</span>
@@ -203,7 +203,7 @@ export function CalmmonCard({
         </div>
 
         {/* 여자 컬럼 (11명) */}
-        <div className="p-3 sm:p-4.5">
+        <div className="p-2 sm:p-4.5">
           <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
             <span>여자 (11명)</span>
             <span>{getColHeader()}</span>
