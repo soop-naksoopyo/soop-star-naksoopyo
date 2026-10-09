@@ -65,21 +65,21 @@
     },
     {
       "rank": 8,
+      "userId": "naiconnect",
+      "userNick": "susu@",
+      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/na/naiconnect/naiconnect.jpg",
+      "balloonCount": 40370,
+      "primaryStreamer": "햇살",
+      "primaryStreamerId": "thelddl"
+    },
+    {
+      "rank": 9,
       "userId": "wonsang1580",
       "userNick": "도도새주양이",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/wo/wonsang1580/wonsang1580.jpg",
       "balloonCount": 39728,
       "primaryStreamer": "지두두",
       "primaryStreamerId": "wjswlgns09"
-    },
-    {
-      "rank": 9,
-      "userId": "naiconnect",
-      "userNick": "susu@",
-      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/na/naiconnect/naiconnect.jpg",
-      "balloonCount": 39370,
-      "primaryStreamer": "햇살",
-      "primaryStreamerId": "thelddl"
     },
     {
       "rank": 10,
@@ -668,15 +668,6 @@
     },
     {
       "rank": 75,
-      "userId": "sam0988",
-      "userNick": "윤지궁디팡팡",
-      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/sa/sam0988/sam0988.jpg",
-      "balloonCount": 5092,
-      "primaryStreamer": "박준오",
-      "primaryStreamerId": "h78ert"
-    },
-    {
-      "rank": 76,
       "userId": "ump1232",
       "userNick": "Action구경꾼",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/um/ump1232/ump1232.jpg",
@@ -685,7 +676,7 @@
       "primaryStreamerId": "vldpfm2"
     },
     {
-      "rank": 77,
+      "rank": 76,
       "userId": "fox11241",
       "userNick": "#woorinangni",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/fo/fox11241/fox11241.jpg",
@@ -694,7 +685,7 @@
       "primaryStreamerId": "hoonykkk"
     },
     {
-      "rank": 78,
+      "rank": 77,
       "userId": "scs3234",
       "userNick": "짭견이",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/sc/scs3234/scs3234.jpg",
@@ -703,7 +694,7 @@
       "primaryStreamerId": "minchul"
     },
     {
-      "rank": 79,
+      "rank": 78,
       "userId": "ash1994",
       "userNick": "뿌우피",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/as/ash1994/ash1994.jpg",
@@ -712,7 +703,7 @@
       "primaryStreamerId": "freshtomato"
     },
     {
-      "rank": 80,
+      "rank": 79,
       "userId": "kanggun55",
       "userNick": "불꽃저그핫산",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ka/kanggun55/kanggun55.jpg",
@@ -721,7 +712,7 @@
       "primaryStreamerId": "minchul"
     },
     {
-      "rank": 81,
+      "rank": 80,
       "userId": "uko00159",
       "userNick": "김윤환찢지",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/uk/uko00159/uko00159.jpg",
@@ -730,7 +721,7 @@
       "primaryStreamerId": "wjswlgns09"
     },
     {
-      "rank": 82,
+      "rank": 81,
       "userId": "josung83",
       "userNick": "뱃살조이",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/jo/josung83/josung83.jpg",
@@ -739,13 +730,22 @@
       "primaryStreamerId": "dlaguswl501"
     },
     {
-      "rank": 83,
+      "rank": 82,
       "userId": "caraslayer",
       "userNick": "삼멀아리송이",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ca/caraslayer/caraslayer.jpg",
       "balloonCount": 4797,
       "primaryStreamer": "아리송이",
       "primaryStreamerId": "vldpfm2"
+    },
+    {
+      "rank": 83,
+      "userId": "sam0988",
+      "userNick": "윤지궁디팡팡",
+      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/sa/sam0988/sam0988.jpg",
+      "balloonCount": 4759,
+      "primaryStreamer": "박준오",
+      "primaryStreamerId": "h78ert"
     },
     {
       "rank": 84,
