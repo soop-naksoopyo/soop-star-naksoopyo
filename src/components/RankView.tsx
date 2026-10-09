@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { StreamerRowData } from './StreamerRow';
 import { formatStars, getStarTierStyle, STAR_TIER_LEGEND } from '@/lib/calculator';
+import { getStaticAvatarUrl, handleAvatarError } from '@/lib/avatar';
 import { CrewAffiliation } from './CrewAffiliation';
 import { Trophy, ArrowUpRight, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -226,8 +227,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
         ) : visibleStreamers.map((streamer, idx) => {
           const rank = startIndex + idx + 1;
           const channelUrl = `https://ch.sooplive.co.kr/${streamer.soopId}`;
-          const defaultAvatar = `https://profile.img.sooplive.co.kr/LOGO/${streamer.soopId.slice(0, 2)}/${streamer.soopId}/${streamer.soopId}.jpg`;
-          const avatarSrc = `/api/avatar?id=${encodeURIComponent(streamer.soopId.toLowerCase())}`;
+          const avatarSrc = getStaticAvatarUrl(streamer.soopId);
           const tierStyle = getStarTierStyle(streamer.totalStars);
           const formattedHours = `${Number(streamer.broadcastHours || 0).toFixed(1)}시간`;
 
@@ -260,10 +260,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
                   loading={rank <= 10 ? 'eager' : 'lazy'}
                   fetchPriority={rank <= 5 ? 'high' : 'auto'}
                   decoding="async"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      streamer.profileImageUrl || defaultAvatar;
-                  }}
+                  onError={(e) => handleAvatarError(e, streamer.soopId, streamer.profileImageUrl)}
                   className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-slate-200 shrink-0 bg-slate-100"
                 />
 

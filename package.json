@@ -10,7 +10,10 @@
     "test": "vitest run",
     "pages:build": "node scripts/build.js",
     "deploy": "npm run pages:build && wrangler pages deploy .vercel/output/static --project-name soop-star-naksoopyo",
-    "archive:month": "node scripts/archive-monthly.mjs"
+    "archive:month": "node scripts/archive-monthly.mjs",
+    "sync:assets": "node scripts/sync-avatars.mjs",
+    "sync:avatars": "node scripts/sync-avatars.mjs --avatars",
+    "sync:crests": "node scripts/sync-avatars.mjs --crests"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",

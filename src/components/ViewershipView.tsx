@@ -9,6 +9,7 @@ import { RankingSectionHeader } from '@/components/RankingSectionHeader';
 import { ViewershipHeroStats } from '@/components/ViewershipHeroStats';
 import type { ViewershipCrewSummary, ViewershipMonthlySnapshot, ViewershipStreamerSnapshot } from '@/lib/viewership';
 import { summarizeViewershipCrews } from '@/lib/viewership';
+import { getStaticAvatarUrl, handleAvatarError } from '@/lib/avatar';
 
 const PAGE_SIZE = 50;
 
@@ -426,18 +427,14 @@ const IndividualRow: React.FC<{ rank: number; streamer: ViewershipStreamerSnapsh
 
 const StreamerAvatar: React.FC<{ streamer: ViewershipStreamerSnapshot; size?: 'small' | 'normal'; priority?: boolean }> = ({ streamer, size = 'normal', priority = false }) => (
   <img
-    src={`/api/avatar?id=${encodeURIComponent(streamer.soopId.toLowerCase())}`}
+    src={getStaticAvatarUrl(streamer.soopId)}
     alt={streamer.nickname}
     width={size === 'small' ? 28 : 32}
     height={size === 'small' ? 28 : 32}
     loading={priority ? 'eager' : 'lazy'}
     fetchPriority={priority ? 'high' : 'auto'}
     decoding="async"
-    onError={(event) => {
-      (event.target as HTMLImageElement).src =
-        streamer.profileImageUrl ||
-        `https://profile.img.sooplive.co.kr/LOGO/${streamer.soopId.slice(0, 2).toLowerCase()}/${streamer.soopId.toLowerCase()}/${streamer.soopId.toLowerCase()}.jpg`;
-    }}
+    onError={(event) => handleAvatarError(event, streamer.soopId, streamer.profileImageUrl)}
     className={`${size === 'small' ? 'h-7 w-7' : 'h-8 w-8'} shrink-0 rounded-full border border-slate-200 object-cover bg-slate-100`}
   />
 );

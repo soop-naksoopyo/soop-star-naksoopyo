@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { CrewCrest } from '@/components/CrewCrest';
+import { getStaticAvatarUrl, handleAvatarError } from '@/lib/avatar';
 import {
   type CalmmonTabType,
   type CalmmonStatsResult,
@@ -52,7 +53,7 @@ export function CalmmonCard({
       valColor = 'text-[13px] sm:text-sm font-bold text-amber-600';
     }
 
-    const defaultAvatar = `/api/avatar?id=${encodeURIComponent(item.soopId.toLowerCase())}`;
+    const defaultAvatar = getStaticAvatarUrl(item.soopId);
 
     return (
       <div key={item.soopId} className={rowBg}>
@@ -66,10 +67,7 @@ export function CalmmonCard({
               loading="eager"
               fetchPriority="high"
               decoding="async"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src =
-                  'https://res.sooplive.co.kr/images/user/thumb_user.gif';
-              }}
+              onError={(e) => handleAvatarError(e, item.soopId)}
               className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover shrink-0 bg-slate-100 transition shadow-2xs ${
                 item.isLive
                   ? 'ring-2 ring-[#00c7ff] border-2 border-white'

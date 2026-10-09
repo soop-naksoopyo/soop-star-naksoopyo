@@ -87,7 +87,12 @@ export const CREW_EMBLEM_MAP: Record<
   },
   광준: { bgColor: '#6C8A5A', shortName: '광준' },
   극락회: { bgColor: '#6C8A5A', shortName: '극락', shape: 'rounded' },
-  소병대: { bgColor: '#7C5CFF', shortName: '소병' },
+  소병대: {
+    localPath: '/crests/90.png',
+    remoteUrl: 'https://eloboard.co.kr/static/colleges/90_8507a5e5.png',
+    bgColor: '#7C5CFF',
+    shortName: '소병',
+  },
 };
 
 interface CrewCrestProps {

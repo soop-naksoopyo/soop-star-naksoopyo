@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatStars, formatHours, getStarTierStyle } from '@/lib/calculator';
+import { getStaticAvatarUrl, handleAvatarError } from '@/lib/avatar';
 
 export interface StreamerRowData {
   soopId: string;
@@ -20,8 +21,7 @@ interface StreamerRowProps {
 export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgress, priority = false }) => {
   const { soopId, nickname, profileImageUrl, totalStars, broadcastHours, collectionStatus } = data;
   const channelUrl = `https://ch.sooplive.co.kr/${soopId}`;
-  const defaultAvatar = `https://profile.img.sooplive.co.kr/LOGO/${soopId.slice(0, 2)}/${soopId}/${soopId}.jpg`;
-  const avatarSrc = `/api/avatar?id=${encodeURIComponent(soopId.toLowerCase())}`;
+  const avatarSrc = getStaticAvatarUrl(soopId);
   const tierStyle = getStarTierStyle(totalStars);
 
   return (
@@ -52,10 +52,7 @@ export const StreamerRow: React.FC<StreamerRowProps> = ({ rank, data, starProgre
           loading={priority ? 'eager' : 'lazy'}
           fetchPriority={priority ? 'high' : 'auto'}
           decoding="async"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src =
-              profileImageUrl || defaultAvatar;
-          }}
+          onError={(e) => handleAvatarError(e, soopId, profileImageUrl)}
           className="w-6 h-6 rounded-full object-cover border border-slate-200 shrink-0 bg-slate-100"
         />
 

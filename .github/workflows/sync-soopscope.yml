@@ -54,6 +54,7 @@ jobs:
             TARGET_MONTH=$(TZ="Asia/Seoul" date +'%Y-%m')
           fi
           node scripts/sync-viewership.mjs "$TARGET_MONTH"
+          node scripts/sync-avatars.mjs
 
       - name: Commit and Push Changes If Updated
         if: always()
@@ -61,8 +62,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          if ! git diff --quiet src/data/viewershipSnapshots.ts src/lib/starCrewsData.ts; then
-            git add src/data/ src/lib/starCrewsData.ts
+          if ! git diff --quiet src/data/viewershipSnapshots.ts src/lib/starCrewsData.ts public/avatars public/crests; then
+            git add src/data/ src/lib/starCrewsData.ts public/avatars/ public/crests/
             TIMESTAMP=$(TZ="Asia/Seoul" date +'%Y-%m-%d %H:%M:%S')
             TARGET_STR="${{ inputs.target_month }}"
             if [ -z "$TARGET_STR" ]; then
