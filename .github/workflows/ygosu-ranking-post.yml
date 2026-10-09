@@ -2,9 +2,9 @@ name: Periodic Ygosu Ranking Post
 
 on:
   schedule:
-    # 골든타임 4시간 주기 (KST 기준 14:00, 18:00, 22:00, 02:00 / 일 4회)
-    # UTC 기준: 05:00, 09:00, 13:00, 17:00 -> 0 5,9,13,17 * * *
-    - cron: '0 5,9,13,17 * * *'
+    # 하루 2회 (오후 17:00 KST, 새벽 01:00 KST)
+    # UTC 기준: 08:00, 16:00 -> 0 8,16 * * *
+    - cron: '0 8,16 * * *'
   workflow_dispatch:
     inputs:
       board:
