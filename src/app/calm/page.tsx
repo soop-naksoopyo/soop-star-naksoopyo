@@ -1,9 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Header } from '@/components/Header';
 import { CalmmonCard } from '@/components/calm/CalmmonCard';
 import {
   type CalmmonTabType,
@@ -100,23 +98,33 @@ export default function CalmmonPage() {
     return () => clearInterval(interval);
   }, [selectedMonth]);
 
+  useEffect(() => {
+    document.title = '캄몬스타즈 대시보드';
+    let link = document.querySelector("link[rel*='icon']") as HTMLLinkElement | null;
+    const prevIcon = link?.href;
+    if (link) {
+      link.href = '/crests/26.png';
+    } else {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      link.href = '/crests/26.png';
+      document.head.appendChild(link);
+    }
+
+    return () => {
+      if (link && prevIcon) {
+        link.href = prevIcon;
+      }
+    };
+  }, []);
+
   const statsResult = calculateCalmmonStats(statsMap, currentTab, selectedMonth);
 
   return (
-    <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#f8fafc] text-slate-900 pt-3 pb-8 px-3 sm:px-6 flex flex-col items-center">
-      <Header />
-
+    <main className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#f8fafc] text-slate-900 pt-6 sm:pt-10 pb-12 px-3 sm:px-6 flex flex-col items-center">
       <div className="w-full max-w-3xl py-2.5">
-        {/* 상단 네비게이션 및 월 넘김 네비게이터 */}
-        <div className="flex items-center justify-between mb-2.5">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-blue-600 transition bg-white border border-slate-200 px-3.5 py-1.5 rounded-lg shadow-2xs hover:bg-slate-50"
-          >
-            <span>←</span> 메인 대시보드
-          </Link>
-
-          {/* 월 넘김 네비게이터 */}
+        {/* 월 넘김 네비게이터 */}
+        <div className="flex items-center justify-end mb-2.5">
           <div className="flex items-center gap-1 bg-white border border-slate-200/90 rounded-full px-2 py-1 shadow-2xs">
             <button
               type="button"
