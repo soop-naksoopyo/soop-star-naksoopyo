@@ -62,17 +62,21 @@ def main():
     parser.add_argument("--board", default=os.environ.get("YGOSU_BOARD", "pan_prison,starbbs"), help="게시판 아이디 (쉼표로 복수 지정 가능, 기본값: pan_prison,starbbs)")
     parser.add_argument("--title", default=os.environ.get("POST_TITLE", "auto"), help="글 제목 ('auto' 시 현재 KST 시간 기반 자동 생성)")
     parser.add_argument("--content", default=os.environ.get("POST_CONTENT", ""), help="글 본문 (기본값: 내용 없음, 사진만 첨부)")
+    parser.add_argument("--images", default="", help="첨부할 이미지 경로 목록 (쉼표 구분, 기본값: public/captures 4장)")
     parser.add_argument("--auto-submit", action="store_true", help="작성 후 자동으로 완료/등록 버튼 클릭")
     parser.add_argument("--headless", action="store_true", help="헤드리스 모드로 실행")
 
     args = parser.parse_args()
 
     # 자동 제목 생성 (auto 지정 시)
+    from datetime import datetime, timezone, timedelta
+    kst = timezone(timedelta(hours=9))
+    now_kst = datetime.now(kst)
+
     if not args.title or args.title.strip() == "auto":
-        from datetime import datetime, timezone, timedelta
-        kst = timezone(timedelta(hours=9))
-        now_kst = datetime.now(kst)
         args.title = f"[{now_kst.strftime('%m/%d %H시 기준')}] 스타크루 별풍선 & 뷰어십 랭킹 / 개인 TOP 10"
+    elif args.title.strip() == "calmmon":
+        args.title = f"[{now_kst.strftime('%m/%d %H시 기준')}] 캄몬스타즈 별풍선·방송시간·스폰·후원 랭킹 현황"
 
     # 대상 게시판 리스트 파싱
     boards = [b.strip() for b in args.board.split(",") if b.strip()]
@@ -80,18 +84,22 @@ def main():
         boards = ["pan_prison", "starbbs"]
     print(f"🎯 대상 게시판 목록: {boards}")
 
-    # 첨부할 캡처 이미지 경로 (사용자 요청 순서: 별풍크루 -> 뷰어십크루 -> 별풍개인 -> 뷰어십개인)
+    # 첨부할 캡처 이미지 경로
     project_root = Path(__file__).resolve().parent.parent
     captures_dir = project_root / "public" / "captures"
-    image_files = [
-        captures_dir / "01_star_crew_ranking.png",          # 1. 별풍선 크루 순위
-        captures_dir / "03_viewership_crew_ranking.png",     # 2. 뷰어십 크루 순위 (명단 제외)
-        captures_dir / "02_star_individual_top10.png",      # 3. 별풍선 개인 top10
-        captures_dir / "04_viewership_individual_top10.png", # 4. 뷰어십 개인 top10
-    ]
+
+    if args.images and args.images.strip():
+        image_files = [Path(img.strip()) if Path(img.strip()).is_absolute() else (project_root / img.strip()) for img in args.images.split(",") if img.strip()]
+    else:
+        image_files = [
+            captures_dir / "01_star_crew_ranking.png",          # 1. 별풍선 크루 순위
+            captures_dir / "03_viewership_crew_ranking.png",     # 2. 뷰어십 크루 순위 (명단 제외)
+            captures_dir / "02_star_individual_top10.png",      # 3. 별풍선 개인 top10
+            captures_dir / "04_viewership_individual_top10.png", # 4. 뷰어십 개인 top10
+        ]
 
     valid_images = [str(f.resolve()) for f in image_files if f.exists()]
-    print(f"📦 첨부 이미지 4장 확인:\n" + "\n".join([f"  {i+1}. {Path(f).name}" for i, f in enumerate(valid_images)]))
+    print(f"📦 첨부 이미지 {len(valid_images)}장 확인:\n" + "\n".join([f"  {i+1}. {Path(f).name}" for i, f in enumerate(valid_images)]))
 
     print("\n🚀 Playwright 브라우저를 시작합니다...")
     with sync_playwright() as p:

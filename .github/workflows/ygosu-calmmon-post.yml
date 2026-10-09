@@ -1,0 +1,69 @@
+name: Daily Calmmon Post (Star Prison 20:00 KST)
+
+on:
+  schedule:
+    # 매일 20:00 KST (한국 시간 밤 8시) 1회 실행
+    # UTC 기준 11:00 -> 0 11 * * *
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+    inputs:
+      board:
+        description: '게시판 코드 (기본값: pan_prison [스타감옥])'
+        required: false
+        default: 'pan_prison'
+      title:
+        description: '게시글 제목 (기본값 "calmmon": [MM/DD 20시 기준] 캄몬스타즈 별풍선·방송시간·스폰·후원 랭킹 현황 자동 생성)'
+        required: false
+        default: 'calmmon'
+
+concurrency:
+  group: ygosu-calmmon-post
+  cancel-in-progress: false
+
+jobs:
+  post-calmmon:
+    runs-on: ubuntu-latest
+    name: Capture Calmmon Cards & Post to Star Prison
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Playwright & Chromium
+        run: |
+          pip install playwright
+          npx playwright install --with-deps chromium
+          python -m playwright install chromium
+
+      - name: Capture Calmmon 4 Tabs Screenshots
+        run: |
+          node scripts/capture_calmmon.js "https://soop-star-naksoopyo.pages.dev"
+
+      - name: Publish Post to Ygosu Star Prison
+        env:
+          YGOSU_ID: ${{ secrets.YGOSU_ID }}
+          YGOSU_PW: ${{ secrets.YGOSU_PW }}
+          YGOSU_BOARD: ${{ inputs.board || 'pan_prison' }}
+          POST_TITLE: ${{ inputs.title || 'calmmon' }}
+        run: |
+          python3 scripts/ygosu_post.py \
+            --id "$YGOSU_ID" \
+            --pw "$YGOSU_PW" \
+            --board "$YGOSU_BOARD" \
+            --title "$POST_TITLE" \
+            --images "public/captures/calm/01_calm_star.png,public/captures/calm/02_calm_time.png,public/captures/calm/03_calm_spon.png,public/captures/calm/04_calm_donor.png" \
+            --auto-submit \
+            --headless
