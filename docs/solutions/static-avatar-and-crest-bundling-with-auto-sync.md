@@ -52,10 +52,20 @@ When users refreshed the dashboard or browsed on mobile Safari, streamer avatar 
   - `npm run sync:crests`: Scans eloboard for university crests and downloads missing emblems to `public/crests/`.
   - `npm run sync:assets`: Executes both avatar and crest synchronization.
 
-### 4. CI/CD GitHub Actions Integration
-- Updated `.github/workflows/sync-soopscope.yml`:
-  - Automatically runs `node scripts/sync-avatars.mjs` during the 10-minute snapshot sync.
-  - Automatically commits and pushes newly downloaded files in `public/avatars/` and `public/crests/` whenever a new streamer or crest is detected.
+### 5. Cloudflare Pages Immutable Cache Headers (`public/_headers`)
+- Configured Cloudflare Pages static header injection in `public/_headers` and `scripts/build.js`:
+  ```
+  /avatars/*
+    Cache-Control: public, max-age=31536000, immutable
+  /crests/*
+    Cache-Control: public, max-age=31536000, immutable
+  ```
+- Replaced Cloudflare's default `max-age=0, must-revalidate` (which forced mobile Safari to make 200 conditional HTTP roundtrips on every refresh) with permanent `immutable` caching.
+
+### 6. Elimination of Mobile Safari Scroll Pop-In (Eager Loading Across All Cards)
+- Previously, offscreen streamers used `loading="lazy"` which caused mobile Safari to pause and pop in images 200-500ms after scrolling into view.
+- Since the total payload of all 228 member avatars is only ~570KB (served over multiplexed HTTP/2 in ~150ms), switched all streamer rows and crests to `loading="eager"` with `decoding="auto"`.
+- Results: By the time the user scrolls, all images are already in browser memory, eliminating scroll pop-in completely.
 
 ## Verification
 - **Unit Tests**: `vitest run` passed all 15 test files (56 tests), including `src/lib/avatar.test.ts`.
