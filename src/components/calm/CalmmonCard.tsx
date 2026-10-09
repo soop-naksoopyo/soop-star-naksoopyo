@@ -204,7 +204,7 @@ export function CalmmonCard({
               ) : (
                 <span className="w-1.5 h-1.5 rounded-full bg-pink-500 shrink-0" />
               )}
-              <span className="hidden md:inline text-[11px] font-bold">
+              <span className="text-[11px] font-bold">
                 {donor.primaryStreamer}
               </span>
             </div>
@@ -298,35 +298,52 @@ export function CalmmonCard({
               후원자 데이터가 없습니다.
             </div>
           ) : (
-            <div className="grid grid-cols-2 divide-x divide-slate-100">
-              {/* 왼쪽 컬럼 (앞 10명) */}
-              <div className="p-2 sm:p-4.5">
-                <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
-                  <span>{leftStartRank}~{leftEndRank}위</span>
-                  <div className="flex items-center gap-2 sm:gap-4">
-                    <span className="hidden md:inline">주 후원 멤버</span>
+            <>
+              {/* 모바일 1열 뷰: 풀 너비로 닉네임, 스트리머 이름, 별풍선이 짤림 없이 선명하게 표시 */}
+              <div className="block md:hidden p-2.5">
+                <div className="flex justify-between items-center text-xs font-bold text-slate-400 pb-2 border-b border-slate-200 px-1">
+                  <span>{(safeDonorPage - 1) * donorPageSize + 1}~{(safeDonorPage - 1) * donorPageSize + pageDonors.length}위</span>
+                  <div className="flex items-center gap-3">
+                    <span>주 후원 멤버</span>
                     <span>{getColHeader()}</span>
                   </div>
                 </div>
                 <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
-                  {leftDonors.map(renderDonorRow)}
+                  {pageDonors.map(renderDonorRow)}
                 </div>
               </div>
 
-              {/* 오른쪽 컬럼 (뒤 10명) */}
-              <div className="p-2 sm:p-4.5">
-                <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
-                  <span>{rightStartRank}~{rightEndRank}위</span>
-                  <div className="flex items-center gap-2 sm:gap-4">
-                    <span className="hidden md:inline">주 후원 멤버</span>
-                    <span>{getColHeader()}</span>
+              {/* 데스크톱 2열 컴팩트 그리드: 좌10명 / 우10명 규격 유지 */}
+              <div className="hidden md:grid md:grid-cols-2 divide-x divide-slate-100">
+                {/* 왼쪽 컬럼 (앞 10명) */}
+                <div className="p-4.5">
+                  <div className="flex justify-between items-center text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
+                    <span>{leftStartRank}~{leftEndRank}위</span>
+                    <div className="flex items-center gap-4">
+                      <span>주 후원 멤버</span>
+                      <span>{getColHeader()}</span>
+                    </div>
+                  </div>
+                  <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
+                    {leftDonors.map(renderDonorRow)}
                   </div>
                 </div>
-                <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
-                  {rightDonors.map(renderDonorRow)}
+
+                {/* 오른쪽 컬럼 (뒤 10명) */}
+                <div className="p-4.5">
+                  <div className="flex justify-between items-center text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
+                    <span>{rightStartRank}~{rightEndRank}위</span>
+                    <div className="flex items-center gap-4">
+                      <span>주 후원 멤버</span>
+                      <span>{getColHeader()}</span>
+                    </div>
+                  </div>
+                  <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
+                    {rightDonors.map(renderDonorRow)}
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
 
           {/* Pagination Controls */}
@@ -394,8 +411,8 @@ export function CalmmonCard({
         </div>
       )}
 
-      {/* Bottom 3-Card Summary Stats */}
-      {currentTab !== 'donor' && (
+      {/* Bottom 3-Card Summary Stats (후원 랭킹은 데스크톱에서 스폰 판수 높이와 1:1 일치시키기 위한 스페이서 유지) */}
+      {currentTab !== 'donor' ? (
         <div className="p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 grid grid-cols-3 gap-2.5 sm:gap-3.5 text-center">
           <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200/90 shadow-2xs">
             <div className="text-xs sm:text-[13px] font-semibold text-slate-500 flex items-center justify-center gap-1.5">
@@ -422,6 +439,8 @@ export function CalmmonCard({
             </div>
           </div>
         </div>
+      ) : (
+        <div className="hidden md:block p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 h-[97px]" />
       )}
 
       {/* Bottom Legend or Footer */}
