@@ -3,6 +3,144 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791578172075",
+    "timestamp": "2026-10-09T20:36:12.075Z",
+    "kstTime": "2026-10-10 05:36:12",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "success",
+    "requestedCount": 241,
+    "fetchedCount": 241,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 4,
+    "changedCount": 11,
+    "changes": [
+      {
+        "soopId": "yjk011599",
+        "nickname": "나무늘봉순",
+        "crewName": "무소속",
+        "prevStars": 190039,
+        "newStars": 200446,
+        "diffStars": 10407,
+        "prevHours": 94.8,
+        "newHours": 95.3,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "zalalz",
+        "nickname": "조은",
+        "crewName": "무소속",
+        "prevStars": 49906,
+        "newStars": 59141,
+        "diffStars": 9235,
+        "prevHours": 24.4,
+        "newHours": 24.9,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "qhkrwns12",
+        "nickname": "미동미동",
+        "crewName": "DM",
+        "prevStars": 25136,
+        "newStars": 25236,
+        "diffStars": 100,
+        "prevHours": 71.7,
+        "newHours": 72.2,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "peros777",
+        "nickname": "박성균",
+        "crewName": "뉴캣슬",
+        "prevStars": 81098,
+        "newStars": 81148,
+        "diffStars": 50,
+        "prevHours": 69.6,
+        "newHours": 69.9,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "viwi05",
+        "nickname": "럭키위키",
+        "crewName": "드림즈",
+        "prevStars": 38483,
+        "newStars": 38486,
+        "diffStars": 3,
+        "prevHours": 77.8,
+        "newHours": 78.3,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "shj06170",
+        "nickname": "얌쭈",
+        "crewName": "와플대",
+        "prevStars": 18365,
+        "newStars": 18368,
+        "diffStars": 3,
+        "prevHours": 50.3,
+        "newHours": 50.8,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "kuyol",
+        "nickname": "강구열",
+        "crewName": "드림즈",
+        "prevStars": 25328,
+        "newStars": 25328,
+        "diffStars": 0,
+        "prevHours": 51.8,
+        "newHours": 52.3,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "djdbstn",
+        "nickname": "어윤수",
+        "crewName": "드림즈",
+        "prevStars": 20652,
+        "newStars": 20652,
+        "diffStars": 0,
+        "prevHours": 29.4,
+        "newHours": 29.9,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "zealot0846",
+        "nickname": "원선재",
+        "crewName": "DM",
+        "prevStars": 6358,
+        "newStars": 6358,
+        "diffStars": 0,
+        "prevHours": 71.1,
+        "newHours": 71.6,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "lily0104",
+        "nickname": "정소이",
+        "crewName": "DM",
+        "prevStars": 27140,
+        "newStars": 27140,
+        "diffStars": 0,
+        "prevHours": 79.9,
+        "newHours": 80.4,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "brainzerg7",
+        "nickname": "김윤환",
+        "crewName": "캄몬",
+        "prevStars": 118694,
+        "newStars": 118694,
+        "diffStars": 0,
+        "prevHours": 52.1,
+        "newHours": 52.4,
+        "diffHours": 0.3
+      }
+    ],
+    "note": "2026-10 전원 정상 수집 완료 (241명, 11명 수치 갱신)"
+  },
+  {
     "id": "run-1791576765442",
     "timestamp": "2026-10-09T20:12:45.442Z",
     "kstTime": "2026-10-10 05:12:45",
@@ -53865,19 +54003,5 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     ],
     "durationSeconds": 90,
     "note": "2026-10 수집 실패 (0명 수집됨, SoopScope 차단 등)"
-  },
-  {
-    "id": "run-manual-calibration-minchul",
-    "timestamp": "2026-10-07T00:30:00.000Z",
-    "kstTime": "2026-10-07 09:30:00",
-    "yearMonth": "2026-10",
-    "trigger": "manual",
-    "status": "partial",
-    "requestedCount": 237,
-    "fetchedCount": 1,
-    "failedCount": 236,
-    "failedStreamers": [],
-    "durationSeconds": 5,
-    "note": "철벽김민철 10월 별풍선(53,200) 및 방송시간(6.8h) 긴급 수치 보정 반영 (SoopScope 403 차단 이슈 대응)"
   }
 ];
