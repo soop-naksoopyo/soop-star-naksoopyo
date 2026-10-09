@@ -67,26 +67,26 @@ export const INDEPENDENT_STREAMERS_BY_MONTH: Record<string, StreamerRowData[]> =
     {
       "soopId": "xodud1898",
       "nickname": "태영♥",
-      "totalStars": 149479,
-      "broadcastHours": 69
+      "totalStars": 149482,
+      "broadcastHours": 69.3
     },
     {
       "soopId": "yochba0402",
       "nickname": "졈니",
       "totalStars": 199763,
-      "broadcastHours": 44.8
+      "broadcastHours": 45.1
     },
     {
       "soopId": "yjk011599",
       "nickname": "나무늘봉순",
       "totalStars": 190039,
-      "broadcastHours": 93.1
+      "broadcastHours": 93.4
     },
     {
       "soopId": "zalalz",
       "nickname": "조은",
-      "totalStars": 49797,
-      "broadcastHours": 22.8
+      "totalStars": 49906,
+      "broadcastHours": 23.1
     },
     {
       "soopId": "qpqpro",
