@@ -134,17 +134,17 @@ export function CalmmonCard({
     const isTop2 = donor.rank === 2;
     const isTop3 = donor.rank === 3;
 
-    let rowBg = 'hover:bg-slate-50 transition px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-lg';
+    let rowBg = 'hover:bg-slate-50 transition px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center justify-between rounded-lg';
     let valColor = 'text-[13px] sm:text-sm font-extrabold text-slate-800';
 
     if (isTop1) {
-      rowBg = 'bg-amber-50/70 border-l-[3px] border-amber-500 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg shadow-2xs';
+      rowBg = 'bg-amber-50/70 border-l-[3px] border-amber-500 px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center justify-between rounded-r-lg shadow-2xs';
       valColor = 'text-[13px] sm:text-sm font-black text-amber-600';
     } else if (isTop2) {
-      rowBg = 'bg-slate-50/80 border-l-[3px] border-slate-400 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg shadow-2xs';
+      rowBg = 'bg-slate-50/80 border-l-[3px] border-slate-400 px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center justify-between rounded-r-lg shadow-2xs';
       valColor = 'text-[13px] sm:text-sm font-black text-slate-700';
     } else if (isTop3) {
-      rowBg = 'bg-amber-50/40 border-l-[3px] border-amber-700 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg shadow-2xs';
+      rowBg = 'bg-amber-50/40 border-l-[3px] border-amber-700 px-2 sm:px-2.5 py-1.5 sm:py-2 flex items-center justify-between rounded-r-lg shadow-2xs';
       valColor = 'text-[13px] sm:text-sm font-black text-amber-800';
     }
 
@@ -152,70 +152,65 @@ export function CalmmonCard({
 
     return (
       <div key={donor.userId} className={rowBg}>
-        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1 sm:pr-1.5 flex-1">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0 pr-2 flex-1">
           <span className="w-5 sm:w-6 text-center text-xs sm:text-sm font-bold shrink-0 select-none">
             {isTop1 ? '👑' : isTop2 ? '🥈' : isTop3 ? '🥉' : (
               <span className="text-slate-400 font-bold">{donor.rank}</span>
             )}
           </span>
-          <div className="relative shrink-0 w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 shadow-2xs overflow-hidden">
+          <div className="relative shrink-0 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 shadow-2xs overflow-hidden">
             <span className="absolute inset-0 flex items-center justify-center text-[10px] sm:text-xs font-bold text-slate-400 bg-slate-100 select-none">
               {donor.userNick.slice(0, 1)}
             </span>
             <img
               src={avatarSrc}
               alt={donor.userNick}
-              width={28}
-              height={28}
+              width={32}
+              height={32}
               loading="lazy"
-              className="relative z-10 w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover shrink-0"
+              className="relative z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover shrink-0"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = 'none';
               }}
             />
           </div>
-          <a
-            href={`https://ch.sooplive.co.kr/${donor.userId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={`${donor.userNick} (@${donor.userId})`}
-            className="text-[13px] sm:text-sm font-bold text-slate-800 hover:text-blue-600 truncate hover:underline"
-          >
-            {donor.userNick}
-          </a>
-        </div>
-
-        <div className="flex items-center gap-2 shrink-0">
-          <div className="w-[80px] sm:w-[84px] flex items-center justify-center shrink-0">
-            {donor.primaryStreamer ? (
+          <div className="flex flex-col min-w-0 pr-1 leading-tight">
+            <a
+              href={`https://ch.sooplive.co.kr/${donor.userId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`${donor.userNick} (@${donor.userId})`}
+              className="text-[13px] sm:text-sm font-bold text-slate-900 hover:text-blue-600 truncate hover:underline"
+            >
+              {donor.userNick}
+            </a>
+            {donor.primaryStreamer && (
               <div
                 title={`주 후원: ${donor.primaryStreamer}`}
-                className="flex items-center gap-1 bg-slate-100 text-slate-700 border border-slate-200/90 px-1.5 sm:px-2 py-0.5 rounded-full select-none shrink-0 shadow-2xs"
+                className="flex items-center gap-1 mt-0.5 text-[11px] text-slate-500 font-medium select-none"
               >
+                <span className="text-slate-400 text-[10px]">주후원:</span>
                 {donor.primaryStreamerId ? (
                   <img
                     src={getStaticAvatarUrl(donor.primaryStreamerId)}
                     alt={donor.primaryStreamer}
-                    width={18}
-                    height={18}
+                    width={14}
+                    height={14}
                     loading="lazy"
                     onError={(e) => handleAvatarError(e, donor.primaryStreamerId!)}
-                    className="w-4 h-4 rounded-full object-cover shrink-0 border border-slate-300 shadow-2xs"
+                    className="w-3.5 h-3.5 rounded-full object-cover shrink-0 border border-slate-300 shadow-2xs"
                   />
-                ) : (
-                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
-                )}
-                <span className="text-[11px] font-semibold text-slate-700 truncate max-w-[42px]">
+                ) : null}
+                <span className="font-semibold text-slate-700">
                   {donor.primaryStreamer}
                 </span>
               </div>
-            ) : (
-              <span className="text-slate-300 text-xs">-</span>
             )}
           </div>
-          <div className={`w-[76px] sm:w-[80px] text-right ${valColor} shrink-0`}>
-            {donor.balloonCount > 0 ? `${donor.balloonCount.toLocaleString()}개` : '-'}
-          </div>
+        </div>
+
+        <div className={`shrink-0 text-right ${valColor}`}>
+          {donor.balloonCount > 0 ? `${donor.balloonCount.toLocaleString()}개` : '-'}
         </div>
       </div>
     );
@@ -307,10 +302,7 @@ export function CalmmonCard({
               <div className="block md:hidden p-2.5 sm:p-3">
                 <div className="flex justify-between items-center text-xs font-bold text-slate-400 pb-2 border-b border-slate-200 px-2 sm:px-2.5">
                   <span>{(safeDonorPage - 1) * donorPageSize + 1}~{(safeDonorPage - 1) * donorPageSize + pageDonors.length}위</span>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="w-[80px] sm:w-[84px] text-center">주 후원 멤버</span>
-                    <span className="w-[76px] sm:w-[80px] text-right">{getColHeader()}</span>
-                  </div>
+                  <span className="text-right">{getColHeader()}</span>
                 </div>
                 <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
                   {pageDonors.map(renderDonorRow)}
@@ -323,10 +315,7 @@ export function CalmmonCard({
                 <div className="p-3 sm:p-4">
                   <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200 px-2 sm:px-2.5">
                     <span>{leftStartRank}~{leftEndRank}위</span>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="w-[80px] sm:w-[84px] text-center">주 후원 멤버</span>
-                      <span className="w-[76px] sm:w-[80px] text-right">{getColHeader()}</span>
-                    </div>
+                    <span className="text-right">{getColHeader()}</span>
                   </div>
                   <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
                     {leftDonors.map(renderDonorRow)}
@@ -337,10 +326,7 @@ export function CalmmonCard({
                 <div className="p-3 sm:p-4">
                   <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200 px-2 sm:px-2.5">
                     <span>{rightStartRank}~{rightEndRank}위</span>
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="w-[80px] sm:w-[84px] text-center">주 후원 멤버</span>
-                      <span className="w-[76px] sm:w-[80px] text-right">{getColHeader()}</span>
-                    </div>
+                    <span className="text-right">{getColHeader()}</span>
                   </div>
                   <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
                     {rightDonors.map(renderDonorRow)}
@@ -415,8 +401,8 @@ export function CalmmonCard({
         </div>
       )}
 
-      {/* Bottom 3-Card Summary Stats (후원 랭킹은 데스크톱에서 스폰 판수 높이와 1:1 일치시키기 위한 스페이서 유지) */}
-      {currentTab !== 'donor' ? (
+      {/* Bottom 3-Card Summary Stats */}
+      {currentTab !== 'donor' && (
         <div className="p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 grid grid-cols-3 gap-2.5 sm:gap-3.5 text-center">
           <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-slate-200/90 shadow-2xs">
             <div className="text-xs sm:text-[13px] font-semibold text-slate-500 flex items-center justify-center gap-1.5">
@@ -443,8 +429,6 @@ export function CalmmonCard({
             </div>
           </div>
         </div>
-      ) : (
-        <div className="hidden md:block p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 h-[113px]" />
       )}
 
       {/* Bottom Legend or Footer */}
