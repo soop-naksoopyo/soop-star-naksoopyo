@@ -197,7 +197,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
         </div>
 
         {/* 모바일/데스크톱 소속 엠블럼 열 */}
-        <div className="w-8 shrink-0 text-center sm:w-16">
+        <div className="w-8 shrink-0 text-center sm:w-16 mr-2.5 sm:mr-0">
           <span>소속</span>
         </div>
 
@@ -294,7 +294,7 @@ export const RankView: React.FC<RankViewProps> = ({ streamers, currentMonth, sel
               </div>
 
               {/* 모바일/데스크톱 소속 엠블럼 열 */}
-              <div className="flex w-8 shrink-0 items-center justify-center sm:w-16">
+              <div className="flex w-8 shrink-0 items-center justify-center sm:w-16 mr-2.5 sm:mr-0">
                 <CrewAffiliation crewName={streamer.crewName} emptyLabel="-" desktopEmptyLabel="-" />
               </div>
 
