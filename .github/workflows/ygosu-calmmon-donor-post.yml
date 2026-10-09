@@ -1,0 +1,69 @@
+name: Daily Calmmon Donor Post (Star Prison 19:00 KST)
+
+on:
+  schedule:
+    # 매일 19:00 KST (한국 시간 저녁 7시) 1회 실행
+    # UTC 기준 10:00 -> 0 10 * * *
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+    inputs:
+      board:
+        description: '게시판 코드 (기본값: pan_prison [스타감옥])'
+        required: false
+        default: 'pan_prison'
+      title:
+        description: '게시글 제목 (기본값 "calmmon_donors": [MM/DD 19시 기준] 캄몬스타즈 큰손 후원 랭킹 TOP 100 (1~100위) 자동 생성)'
+        required: false
+        default: 'calmmon_donors'
+
+concurrency:
+  group: ygosu-calmmon-donor-post
+  cancel-in-progress: false
+
+jobs:
+  post-calmmon-donors:
+    runs-on: ubuntu-latest
+    name: Capture Calmmon Donors TOP 100 & Post to Star Prison
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Playwright & Chromium
+        run: |
+          pip install playwright
+          npx playwright install --with-deps chromium
+          python -m playwright install chromium
+
+      - name: Capture 5 Pages of Calmmon Donors (TOP 100)
+        run: |
+          node scripts/capture_calmmon_donors.js "https://soop-star-naksoopyo.pages.dev"
+
+      - name: Publish Post to Ygosu Star Prison
+        env:
+          YGOSU_ID: ${{ secrets.YGOSU_ID }}
+          YGOSU_PW: ${{ secrets.YGOSU_PW }}
+          YGOSU_BOARD: ${{ inputs.board || 'pan_prison' }}
+          POST_TITLE: ${{ inputs.title || 'calmmon_donors' }}
+        run: |
+          python3 scripts/ygosu_post.py \
+            --id "$YGOSU_ID" \
+            --pw "$YGOSU_PW" \
+            --board "$YGOSU_BOARD" \
+            --title "$POST_TITLE" \
+            --images "public/captures/calm_donors/01_donor_01_20.png,public/captures/calm_donors/02_donor_21_40.png,public/captures/calm_donors/03_donor_41_60.png,public/captures/calm_donors/04_donor_61_80.png,public/captures/calm_donors/05_donor_81_100.png" \
+            --auto-submit \
+            --headless

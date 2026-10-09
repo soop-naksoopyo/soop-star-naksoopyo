@@ -77,6 +77,8 @@ def main():
         args.title = f"[{now_kst.strftime('%m/%d %H시 기준')}] 스타크루 별풍선 & 뷰어십 랭킹 / 개인 TOP 10"
     elif args.title.strip() == "calmmon":
         args.title = f"[{now_kst.strftime('%m/%d %H시 기준')}] 캄몬스타즈 별풍선·방송시간·스폰·후원 랭킹 현황"
+    elif args.title.strip() == "calmmon_donors":
+        args.title = f"[{now_kst.strftime('%m/%d %H시 기준')}] 캄몬스타즈 큰손 후원 랭킹 TOP 100 (1~100위)"
 
     # 대상 게시판 리스트 파싱
     boards = [b.strip() for b in args.board.split(",") if b.strip()]

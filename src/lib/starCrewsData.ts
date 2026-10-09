@@ -410,13 +410,6 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "broadcastHours": 42.1
       },
       {
-        "soopId": "qkrgkdms01",
-        "nickname": "박하악",
-        "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/qk/qkrgkdms01/qkrgkdms01.jpg",
-        "totalStars": 75080,
-        "broadcastHours": 48.5
-      },
-      {
         "soopId": "clclcl8888",
         "nickname": "늑대채린",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/cl/clclcl8888/clclcl8888.jpg",
