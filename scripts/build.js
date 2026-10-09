@@ -15,4 +15,18 @@ if (process.env.BUILDING_NEXT) {
   const assetsIgnorePath = path.join('.vercel', 'output', 'static', '.assetsignore');
   fs.writeFileSync(assetsIgnorePath, '_worker.js\n');
   console.log('✅ Generated .assetsignore for Cloudflare Workers Static Assets');
+
+  const headersPath = path.join('.vercel', 'output', 'static', '_headers');
+  const customHeaders = `
+/avatars/*
+  Cache-Control: public, max-age=31536000, immutable
+/crests/*
+  Cache-Control: public, max-age=31536000, immutable
+`;
+  if (fs.existsSync(headersPath)) {
+    fs.appendFileSync(headersPath, customHeaders);
+  } else {
+    fs.writeFileSync(headersPath, customHeaders.trim() + '\n');
+  }
+  console.log('✅ Injected immutable Cache-Control headers for avatars and crests');
 }
