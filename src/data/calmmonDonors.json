@@ -38,21 +38,21 @@
     },
     {
       "rank": 5,
+      "userId": "jangyeon89",
+      "userNick": "*제이두두",
+      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ja/jangyeon89/jangyeon89.jpg",
+      "balloonCount": 38908,
+      "primaryStreamer": "지두두",
+      "primaryStreamerId": "wjswlgns09"
+    },
+    {
+      "rank": 6,
       "userId": "wonsang1580",
       "userNick": "도도새주양이",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/wo/wonsang1580/wonsang1580.jpg",
       "balloonCount": 37245,
       "primaryStreamer": "토마토",
       "primaryStreamerId": "freshtomato"
-    },
-    {
-      "rank": 6,
-      "userId": "jangyeon89",
-      "userNick": "*제이두두",
-      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ja/jangyeon89/jangyeon89.jpg",
-      "balloonCount": 35956,
-      "primaryStreamer": "지두두",
-      "primaryStreamerId": "wjswlgns09"
     },
     {
       "rank": 7,
@@ -95,7 +95,7 @@
       "userId": "abcdg11",
       "userNick": "[먼]모야!",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ab/abcdg11/abcdg11.jpg",
-      "balloonCount": 32468,
+      "balloonCount": 32598,
       "primaryStreamer": "먼진",
       "primaryStreamerId": "2meonjin"
     },
@@ -149,7 +149,7 @@
       "userId": "fesias",
       "userNick": "Calm우에스기",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/fe/fesias/fesias.jpg",
-      "balloonCount": 18577,
+      "balloonCount": 18643,
       "primaryStreamer": "김윤환",
       "primaryStreamerId": "brainzerg7"
     },
@@ -302,7 +302,7 @@
       "userId": "hojin132",
       "userNick": "까막눈김윤환",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/ho/hojin132/hojin132.jpg",
-      "balloonCount": 9801,
+      "balloonCount": 9822,
       "primaryStreamer": "낭니",
       "primaryStreamerId": "sksmsskdsl10"
     },
@@ -320,7 +320,7 @@
       "userId": "down8325",
       "userNick": "갈치폭격하랑",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/do/down8325/down8325.jpg",
-      "balloonCount": 9251,
+      "balloonCount": 9306,
       "primaryStreamer": "주하랑",
       "primaryStreamerId": "fpahsdltu1"
     },
@@ -689,7 +689,7 @@
       "userId": "wer1920",
       "userNick": "조류우",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/we/wer1920/wer1920.jpg",
-      "balloonCount": 4608,
+      "balloonCount": 4618,
       "primaryStreamer": "박준오",
       "primaryStreamerId": "h78ert"
     },
