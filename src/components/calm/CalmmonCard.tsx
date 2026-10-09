@@ -135,7 +135,7 @@ export function CalmmonCard({
     const isTop3 = donor.rank === 3;
 
     let rowBg = 'hover:bg-slate-50 transition px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-lg';
-    let valColor = 'text-[13px] sm:text-sm font-extrabold text-pink-600';
+    let valColor = 'text-[13px] sm:text-sm font-extrabold text-slate-800';
 
     if (isTop1) {
       rowBg = 'bg-amber-50/70 border-l-[3px] border-amber-500 px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center justify-between rounded-r-lg shadow-2xs';
@@ -152,7 +152,7 @@ export function CalmmonCard({
 
     return (
       <div key={donor.userId} className={rowBg}>
-        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1 sm:pr-1.5">
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-1 sm:pr-1.5 flex-1">
           <span className="w-5 sm:w-6 text-center text-xs sm:text-sm font-bold shrink-0 select-none">
             {isTop1 ? '👑' : isTop2 ? '🥈' : isTop3 ? '🥉' : (
               <span className="text-slate-400 font-bold">{donor.rank}</span>
@@ -179,39 +179,43 @@ export function CalmmonCard({
             target="_blank"
             rel="noopener noreferrer"
             title={`${donor.userNick} (@${donor.userId})`}
-            className="text-[13px] sm:text-sm font-bold text-slate-800 hover:text-pink-600 truncate hover:underline"
+            className="text-[13px] sm:text-sm font-bold text-slate-800 hover:text-blue-600 truncate hover:underline"
           >
             {donor.userNick}
           </a>
         </div>
 
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 pl-1">
-          {donor.primaryStreamer && (
-            <div
-              title={`주 후원: ${donor.primaryStreamer}`}
-              className="flex items-center gap-1 sm:gap-1.5 bg-pink-50 text-pink-700 border border-pink-200/80 px-1.5 sm:px-2 py-0.5 rounded-full select-none shrink-0"
-            >
-              {donor.primaryStreamerId ? (
-                <img
-                  src={getStaticAvatarUrl(donor.primaryStreamerId)}
-                  alt={donor.primaryStreamer}
-                  width={18}
-                  height={18}
-                  loading="lazy"
-                  onError={(e) => handleAvatarError(e, donor.primaryStreamerId!)}
-                  className="w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full object-cover shrink-0 border border-pink-300 shadow-2xs"
-                />
-              ) : (
-                <span className="w-1.5 h-1.5 rounded-full bg-pink-500 shrink-0" />
-              )}
-              <span className="text-[11px] font-bold">
-                {donor.primaryStreamer}
-              </span>
-            </div>
-          )}
-          <span className={`${valColor} shrink-0`}>
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="w-[80px] sm:w-[84px] flex items-center justify-center shrink-0">
+            {donor.primaryStreamer ? (
+              <div
+                title={`주 후원: ${donor.primaryStreamer}`}
+                className="flex items-center gap-1 bg-slate-100 text-slate-700 border border-slate-200/90 px-1.5 sm:px-2 py-0.5 rounded-full select-none shrink-0 shadow-2xs"
+              >
+                {donor.primaryStreamerId ? (
+                  <img
+                    src={getStaticAvatarUrl(donor.primaryStreamerId)}
+                    alt={donor.primaryStreamer}
+                    width={18}
+                    height={18}
+                    loading="lazy"
+                    onError={(e) => handleAvatarError(e, donor.primaryStreamerId!)}
+                    className="w-4 h-4 rounded-full object-cover shrink-0 border border-slate-300 shadow-2xs"
+                  />
+                ) : (
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
+                )}
+                <span className="text-[11px] font-semibold text-slate-700 truncate max-w-[42px]">
+                  {donor.primaryStreamer}
+                </span>
+              </div>
+            ) : (
+              <span className="text-slate-300 text-xs">-</span>
+            )}
+          </div>
+          <div className={`w-[76px] sm:w-[80px] text-right ${valColor} shrink-0`}>
             {donor.balloonCount > 0 ? `${donor.balloonCount.toLocaleString()}개` : '-'}
-          </span>
+          </div>
         </div>
       </div>
     );
@@ -300,12 +304,12 @@ export function CalmmonCard({
           ) : (
             <>
               {/* 모바일 1열 뷰: 풀 너비로 닉네임, 스트리머 이름, 별풍선이 짤림 없이 선명하게 표시 */}
-              <div className="block md:hidden p-2.5">
-                <div className="flex justify-between items-center text-xs font-bold text-slate-400 pb-2 border-b border-slate-200 px-1">
+              <div className="block md:hidden p-2.5 sm:p-3">
+                <div className="flex justify-between items-center text-xs font-bold text-slate-400 pb-2 border-b border-slate-200 px-2 sm:px-2.5">
                   <span>{(safeDonorPage - 1) * donorPageSize + 1}~{(safeDonorPage - 1) * donorPageSize + pageDonors.length}위</span>
-                  <div className="flex items-center gap-3">
-                    <span>주 후원 멤버</span>
-                    <span>{getColHeader()}</span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="w-[80px] sm:w-[84px] text-center">주 후원 멤버</span>
+                    <span className="w-[76px] sm:w-[80px] text-right">{getColHeader()}</span>
                   </div>
                 </div>
                 <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
@@ -316,12 +320,12 @@ export function CalmmonCard({
               {/* 데스크톱 2열 컴팩트 그리드: 좌10명 / 우10명 규격 유지 */}
               <div className="hidden md:grid md:grid-cols-2 divide-x divide-slate-100">
                 {/* 왼쪽 컬럼 (앞 10명) */}
-                <div className="p-4.5">
-                  <div className="flex justify-between items-center text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
+                <div className="p-3 sm:p-4">
+                  <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200 px-2 sm:px-2.5">
                     <span>{leftStartRank}~{leftEndRank}위</span>
-                    <div className="flex items-center gap-4">
-                      <span>주 후원 멤버</span>
-                      <span>{getColHeader()}</span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="w-[80px] sm:w-[84px] text-center">주 후원 멤버</span>
+                      <span className="w-[76px] sm:w-[80px] text-right">{getColHeader()}</span>
                     </div>
                   </div>
                   <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
@@ -330,12 +334,12 @@ export function CalmmonCard({
                 </div>
 
                 {/* 오른쪽 컬럼 (뒤 10명) */}
-                <div className="p-4.5">
-                  <div className="flex justify-between items-center text-sm font-bold text-slate-400 pb-2 border-b border-slate-200">
+                <div className="p-3 sm:p-4">
+                  <div className="flex justify-between items-center text-xs sm:text-sm font-bold text-slate-400 pb-2 border-b border-slate-200 px-2 sm:px-2.5">
                     <span>{rightStartRank}~{rightEndRank}위</span>
-                    <div className="flex items-center gap-4">
-                      <span>주 후원 멤버</span>
-                      <span>{getColHeader()}</span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="w-[80px] sm:w-[84px] text-center">주 후원 멤버</span>
+                      <span className="w-[76px] sm:w-[80px] text-right">{getColHeader()}</span>
                     </div>
                   </div>
                   <div className="divide-y divide-slate-50 mt-1.5 space-y-0.5">
