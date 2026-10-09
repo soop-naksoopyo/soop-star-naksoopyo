@@ -99,18 +99,18 @@ export async function fetchMonthDonorsForCalmmon(yearMonth) {
 
   list.sort((a, b) => b.balloonCount - a.balloonCount);
 
-  // TOP 200 donors
-  const top200 = list.slice(0, 200).map((d, idx) => ({
+  // TOP 100 donors
+  const top100 = list.slice(0, 100).map((d, idx) => ({
     rank: idx + 1,
     ...d,
   }));
 
-  console.log(`[Donor Sync] ${yearMonth} TOP 5 (Total ${top200.length} donors):`);
-  top200.slice(0, 5).forEach((d) => {
+  console.log(`[Donor Sync] ${yearMonth} TOP 5 (Total ${top100.length} donors):`);
+  top100.slice(0, 5).forEach((d) => {
     console.log(`  #${d.rank} ${d.userNick} (${d.userId}): ${d.balloonCount.toLocaleString()}개 (주후원: ${d.primaryStreamer})`);
   });
 
-  return top200;
+  return top100;
 }
 
 export async function syncCalmmonDonors(targetMonth = '2026-10') {
