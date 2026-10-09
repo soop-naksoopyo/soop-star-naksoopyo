@@ -152,22 +152,22 @@ export function CalmmonCard({
     return (
       <div key={donor.userId} className={rowBg}>
         <div className="flex items-center gap-1 sm:gap-1.5 min-w-0 pr-1">
-          <span className="w-4 sm:w-4.5 text-center text-[10px] sm:text-[11px] shrink-0 select-none">
+          <span className="w-4 sm:w-5 text-center text-[10px] sm:text-[11px] shrink-0 select-none">
             {isTop1 ? '👑' : isTop2 ? '🥈' : isTop3 ? '🥉' : (
               <span className="text-slate-400 font-bold">{donor.rank}</span>
             )}
           </span>
-          <div className="relative shrink-0 w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 shadow-2xs overflow-hidden">
+          <div className="relative shrink-0 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 shadow-2xs overflow-hidden">
             <span className="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-slate-400 bg-slate-100 select-none">
               {donor.userNick.slice(0, 1)}
             </span>
             <img
               src={avatarSrc}
               alt={donor.userNick}
-              width={26}
-              height={26}
+              width={24}
+              height={24}
               loading="lazy"
-              className="relative z-10 w-full h-full rounded-full object-cover shrink-0"
+              className="relative z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover shrink-0"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = 'none';
               }}
