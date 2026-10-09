@@ -440,7 +440,7 @@ export function CalmmonCard({
           </div>
         </div>
       ) : (
-        <div className="hidden md:block p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 h-[97px]" />
+        <div className="hidden md:block p-3 sm:p-4 bg-slate-50/80 border-t border-slate-200 h-[113px]" />
       )}
 
       {/* Bottom Legend or Footer */}
