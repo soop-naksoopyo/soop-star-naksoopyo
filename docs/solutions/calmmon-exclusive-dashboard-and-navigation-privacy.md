@@ -95,9 +95,15 @@ Key requirements included:
    - Positioned the month navigator (`< YYYY년 MM월 >`) cleanly at the top-right above the card.
    - Created `src/app/calm/layout.tsx` and a dynamic `useEffect` to assign the official Monstarz 캄몬 emblem (`/crests/26.png`) as the dedicated favicon and set document title to "캄몬스타즈 대시보드".
 
+13. **Cloudflare Edge Avatar Caching Proxy (`/api/avatar`)**:
+   - Built a dedicated Edge API route (`src/app/api/avatar/route.ts`) acting as an edge-cached proxy for SOOP streamer profile images.
+   - Attaches `Cache-Control: public, max-age=604800, s-maxage=604800, stale-while-revalidate=86400, immutable` and `CDN-Cache-Control` headers.
+   - Solves SOOP's 60-second short cache problem: avatars are cached on Cloudflare Edge (served in ~100ms from Incheon CDN) and in local browser disk cache (instant 0ms loading on subsequent visits).
+   - Applied across both `/calm` and the main dashboard (`/` - StreamerRow, RankView, ViewershipView).
+
 ## Verification
-- **Unit Tests**: `vitest run` passed all 49 test suites across 13 test files.
-- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages (`ec3a857c`).
+- **Unit Tests**: `vitest run` passed all 52 test suites across 14 test files (including `/api/avatar` tests).
+- **Cloudflare Build & Deploy**: Successfully executed `@cloudflare/next-on-pages` and deployed to Cloudflare Pages (`2ad1393c`).
 - **Live Visual Validation**: Verified via Playwright:
-  - Desktop: `calm_standalone_desktop.png` (Title: "캄몬스타즈 대시보드", Favicon: `/crests/26.png`).
-  - Mobile: `calm_standalone_mobile.png` (Completely standalone, ultra-clean headerless card layout).
+  - Desktop: `main_edge_cache_verified.png` & `calm_standalone_desktop.png` (Title: "캄몬스타즈 대시보드", Favicon: `/crests/26.png`).
+  - Mobile: `calm_edge_cache_verified.png` (All 17 member avatars loaded with edge caching, zero layout shift, instant rendering).
