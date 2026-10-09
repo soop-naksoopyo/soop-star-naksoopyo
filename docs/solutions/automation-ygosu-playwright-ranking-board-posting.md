@@ -73,6 +73,16 @@ Implemented an automated Playwright workflow in `scripts/ygosu_post.py`, capture
      - `04_calm_donor.png` (후원 랭킹 TOP 20)
    - 제목 프리셋: `[MM/DD 20시 기준] 캄몬스타즈 별풍선·방송시간·스폰·후원 랭킹 현황` 자동 생성.
    - 대상 게시판: `pan_prison` (스타감옥) 단독 게시.
+5. **캄몬스타즈 큰손 후원 랭킹 TOP 100 5장 스타감옥 19시 일 1회 스케줄러 (`.github/workflows/ygosu-calmmon-donor-post.yml` & `scripts/capture_calmmon_donors.js`)**:
+   - Triggers on `cron: '0 10 * * *'` (KST 기준 매일 19:00 / 일 1회) 및 `workflow_dispatch` 수동 실행 지원.
+   - 후원 랭킹 TOP 1~100위를 20명씩 5개 페이지로 분할 캡처:
+     - `01_donor_01_20.png` (1~20위)
+     - `02_donor_21_40.png` (21~40위)
+     - `03_donor_41_60.png` (41~60위)
+     - `04_donor_61_80.png` (61~80위)
+     - `05_donor_81_100.png` (81~100위)
+   - 제목 프리셋: `[MM/DD 19시 기준] 캄몬스타즈 큰손 후원 랭킹 TOP 100 (1~100위)` 자동 생성.
+   - 대상 게시판: `pan_prison` (스타감옥) 단독 게시.
 
 ## Verification
 - GitHub Actions run `#37813717650` executed end-to-end on Ubuntu runner in 2m 06s.
@@ -83,7 +93,10 @@ Implemented an automated Playwright workflow in `scripts/ygosu_post.py`, capture
 - Visual appearance confirmed via screenshot artifacts:
   - `pan_prison_board_verified.png` & `starbbs_board_verified.png` (게시판 목록 최신글 확인)
   - `pan_prison_post_detail.png` & `starbbs_post_detail.png` (4개 랭킹 이미지 순서 및 레이아웃 정상 표시)
-- **캄몬스타즈 워크플로우 등록 검증**:
-  - `gh workflow list`: `Daily Calmmon Post (Star Prison 20:00 KST)` ID `379301500` active 상태 정상 등록 확인.
-  - `node scripts/capture_calmmon.js`: 4개 탭 캡처 정상 동작 검증 완료.
+- **캄몬스타즈 후원 랭킹 5장 포스팅 테스트 검증**:
+  - `pan_random` (랜능크)에 5장 첨부 테스트 등록 완료: `https://ygosu.com/board/pan_random/124`
+  - `ygosu_donor_post_detail_view.png` 캡처를 통해 5개 이미지 순차 노출 및 레이아웃 정상 확인.
+- **스케줄러 등록 검증**:
+  - `Daily Calmmon Donor Post (Star Prison 19:00 KST)` (ID: `379478938`) GitHub Actions active 등록 확인.
+
 
