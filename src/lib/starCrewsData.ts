@@ -834,8 +834,8 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "soopId": "viwi05",
         "nickname": "럭키위키",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/vi/viwi05/viwi05.jpg",
-        "totalStars": 38688,
-        "broadcastHours": 78.8
+        "totalStars": 38909,
+        "broadcastHours": 79.3
       },
       {
         "soopId": "j4141h",
@@ -849,14 +849,14 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "강구열",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/ku/kuyol/kuyol.jpg",
         "totalStars": 25328,
-        "broadcastHours": 52.8
+        "broadcastHours": 53.3
       },
       {
         "soopId": "djdbstn",
         "nickname": "어윤수",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/dj/djdbstn/djdbstn.jpg",
-        "totalStars": 20662,
-        "broadcastHours": 30.4
+        "totalStars": 20862,
+        "broadcastHours": 30.7
       },
       {
         "soopId": "dbsdydx",
@@ -1104,7 +1104,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "이윤열",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/na/nada11200/nada11200.jpg",
         "totalStars": 10186,
-        "broadcastHours": 48.2
+        "broadcastHours": 48.7
       },
       {
         "soopId": "ghlidhjgioew",
@@ -1419,8 +1419,8 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "soopId": "lily0104",
         "nickname": "정소이",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/li/lily0104/lily0104.jpg",
-        "totalStars": 27140,
-        "broadcastHours": 80.9
+        "totalStars": 27205,
+        "broadcastHours": 81.2
       },
       {
         "soopId": "zealot0846",
@@ -1441,7 +1441,7 @@ export const OFFICIAL_STAR_CREWS: StarCrewGroup[] = [
         "nickname": "미동미동",
         "profileImageUrl": "https://profile.img.sooplive.co.kr/LOGO/qh/qhkrwns12/qhkrwns12.jpg",
         "totalStars": 25236,
-        "broadcastHours": 72.7
+        "broadcastHours": 72.8
       },
       {
         "soopId": "jam0ng",
