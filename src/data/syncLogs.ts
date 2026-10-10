@@ -3,6 +3,78 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791604856359",
+    "timestamp": "2026-10-10T04:00:56.359Z",
+    "kstTime": "2026-10-10 13:00:56",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "success",
+    "requestedCount": 241,
+    "fetchedCount": 241,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 3,
+    "changedCount": 5,
+    "changes": [
+      {
+        "soopId": "youaregood",
+        "nickname": "진니",
+        "crewName": "와플대",
+        "prevStars": 39031,
+        "newStars": 41860,
+        "diffStars": 2829,
+        "prevHours": 43.7,
+        "newHours": 43.7,
+        "diffHours": 0
+      },
+      {
+        "soopId": "dbrbals",
+        "nickname": "초난강",
+        "crewName": "뉴캣슬",
+        "prevStars": 5458,
+        "newStars": 5758,
+        "diffStars": 300,
+        "prevHours": 34.8,
+        "newHours": 34.8,
+        "diffHours": 0
+      },
+      {
+        "soopId": "dbwjdcool1",
+        "nickname": "키링",
+        "crewName": "뉴캣슬",
+        "prevStars": 26338,
+        "newStars": 26438,
+        "diffStars": 100,
+        "prevHours": 52.5,
+        "newHours": 52.5,
+        "diffHours": 0
+      },
+      {
+        "soopId": "parkbano",
+        "nickname": "시라소니aa",
+        "crewName": "소병대",
+        "prevStars": 4028,
+        "newStars": 4078,
+        "diffStars": 50,
+        "prevHours": 29.8,
+        "newHours": 29.8,
+        "diffHours": 0
+      },
+      {
+        "soopId": "1004yomi",
+        "nickname": "단솔",
+        "crewName": "뉴캣슬",
+        "prevStars": 45388,
+        "newStars": 45391,
+        "diffStars": 3,
+        "prevHours": 77.9,
+        "newHours": 77.9,
+        "diffHours": 0
+      }
+    ],
+    "note": "2026-10 전원 정상 수집 완료 (241명, 5명 수치 갱신)"
+  },
+  {
     "id": "run-1791603969191",
     "timestamp": "2026-10-10T03:46:09.191Z",
     "kstTime": "2026-10-10 12:46:09",
@@ -54137,20 +54209,6 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "failedCount": 0,
     "failedStreamers": [],
     "durationSeconds": 6,
-    "note": "2026-10 전원 정상 수집 완료 (237명)"
-  },
-  {
-    "id": "run-1791354210379",
-    "timestamp": "2026-10-07T06:23:30.379Z",
-    "kstTime": "2026-10-07 15:23:30",
-    "yearMonth": "2026-10",
-    "trigger": "manual",
-    "status": "success",
-    "requestedCount": 237,
-    "fetchedCount": 237,
-    "failedCount": 0,
-    "failedStreamers": [],
-    "durationSeconds": 1,
     "note": "2026-10 전원 정상 수집 완료 (237명)"
   }
 ];
