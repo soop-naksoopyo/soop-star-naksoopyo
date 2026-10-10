@@ -25,6 +25,7 @@ function extractAllSoopIds() {
     path.join(root, 'src/data/independentStreamers.ts'),
     path.join(root, 'src/lib/calmmonData.ts'),
     path.join(root, 'src/data/septemberStarCrews.ts'),
+    path.join(root, 'src/data/calmmonDonors.json'),
   ];
 
   for (const f of files) {
@@ -34,6 +35,9 @@ function extractAllSoopIds() {
       ids.add(m[1].toLowerCase().trim());
     }
     for (const m of content.matchAll(/soopId:\s*['"]([^'"]+)['"]/g)) {
+      ids.add(m[1].toLowerCase().trim());
+    }
+    for (const m of content.matchAll(/"userId":\s*"([^"]+)"/g)) {
       ids.add(m[1].toLowerCase().trim());
     }
   }

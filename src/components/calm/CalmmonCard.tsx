@@ -149,7 +149,7 @@ export function CalmmonCard({
       valColor = 'text-xs sm:text-sm font-black text-amber-800';
     }
 
-    const avatarSrc = donor.profileImage || `https://profile.img.sooplive.co.kr/LOGO/${donor.userId.slice(0, 2)}/${donor.userId}/${donor.userId}.jpg`;
+    const avatarSrc = getStaticAvatarUrl(donor.userId);
 
     return (
       <div key={donor.userId} className={rowBg}>
@@ -168,10 +168,11 @@ export function CalmmonCard({
               alt={donor.userNick}
               width={28}
               height={28}
-              loading="lazy"
+              loading="eager"
+              decoding="async"
               className="relative z-10 w-6 h-6 sm:w-7 sm:h-7 rounded-full object-cover shrink-0"
               onError={(e) => {
-                (e.target as HTMLElement).style.display = 'none';
+                handleAvatarError(e, donor.userId, donor.profileImage);
               }}
             />
           </div>
@@ -197,7 +198,8 @@ export function CalmmonCard({
                     alt={donor.primaryStreamer}
                     width={12}
                     height={12}
-                    loading="lazy"
+                    loading="eager"
+                    decoding="async"
                     onError={(e) => handleAvatarError(e, donor.primaryStreamerId!)}
                     className="w-3 h-3 rounded-full object-cover shrink-0 border border-slate-300 shadow-2xs"
                   />
