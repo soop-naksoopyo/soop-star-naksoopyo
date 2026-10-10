@@ -10,6 +10,7 @@ import {
   type CalmmonDonorRow,
 } from '@/lib/calmmonData';
 import { getCurrentMonthDate } from '@/lib/month';
+import calmmonDonors from '@/data/calmmonDonors.json';
 
 // 현재 캄몬 데이터가 유효하게 존재하는 월 목록 (2026-09 아카이브 및 2026-10 현재)
 function getAvailableCalmmonMonths(): string[] {
@@ -41,7 +42,9 @@ export default function CalmmonPage() {
   );
   const [currentTab, setCurrentTab] = useState<CalmmonTabType>('star');
   const [statsMap, setStatsMap] = useState<Map<string, StreamerStatInput>>(new Map());
-  const [donors, setDonors] = useState<CalmmonDonorRow[]>([]);
+  const [donors, setDonors] = useState<CalmmonDonorRow[]>(
+    () => (calmmonDonors as Record<string, CalmmonDonorRow[]>)[availableMonths.includes(currentYearMonth) ? currentYearMonth : availableMonths[availableMonths.length - 1]] || []
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdatedText, setLastUpdatedText] = useState('실시간');
 

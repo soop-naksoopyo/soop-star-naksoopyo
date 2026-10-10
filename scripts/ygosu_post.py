@@ -198,7 +198,7 @@ def main():
 
             # 파일 첨부 (순서 보장을 위해 4장 순차 업로드)
             if valid_images:
-                print("🖼️ 캡처 이미지 4장 순차 첨부 중...")
+                print(f"🖼️ 캡처 이미지 {len(valid_images)}장 순차 첨부 중...")
                 file_input = page.locator("input[type='file'][onchange*='board_file_upload']").first
                 if file_input.count() > 0:
                     for idx, img_path in enumerate(valid_images):

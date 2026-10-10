@@ -23,15 +23,27 @@ async function captureCalmmonDonors() {
   });
 
   try {
-    await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 35000 });
     const cardLocator = page.locator('div.bg-white.rounded-2xl.shadow-sm.border.border-slate-200').first();
     await cardLocator.waitFor({ state: 'visible', timeout: 20000 });
     await cardLocator.scrollIntoViewIfNeeded();
 
     // 후원 랭킹 탭 선택
     console.log('👑 후원 랭킹 탭 선택...');
-    await page.click('button:has-text("후원 랭킹")');
-    await page.waitForTimeout(600);
+    const donorTabBtn = page.locator('button:has-text("후원 랭킹")').first();
+    await donorTabBtn.waitFor({ state: 'visible', timeout: 10000 });
+    await donorTabBtn.click();
+
+    // 후원자 데이터 렌더링 대기: 빈 데이터 문구가 사라지고 5페이지 버튼이 나타날 때까지 대기
+    console.log('⏳ 후원자 데이터 렌더링 대기 중...');
+    await page.waitForFunction(() => {
+      const text = document.body.innerText;
+      const hasEmptyMsg = text.includes('후원자 데이터가 없습니다.');
+      const pageButtons = Array.from(document.querySelectorAll('button')).map(b => b.innerText.trim());
+      const hasPage5 = pageButtons.includes('5');
+      return !hasEmptyMsg && hasPage5;
+    }, { timeout: 25000 });
+    console.log('✅ 후원자 데이터 렌더링 확인 완료!');
 
     const pages = [
       { pageNum: 1, filename: '01_donor_01_20.png', label: '1~20위' },
@@ -45,10 +57,10 @@ async function captureCalmmonDonors() {
       console.log(`📸 [${p.pageNum}/5] 후원 랭킹 ${p.label} (페이지 ${p.pageNum}) 캡처 중...`);
       // 해당 페이지 번호 버튼 클릭
       const pageBtn = page.locator(`button:text-is("${p.pageNum}")`).first();
-      if (await pageBtn.count() > 0) {
-        await pageBtn.click();
-        await page.waitForTimeout(500);
-      }
+      await pageBtn.waitFor({ state: 'visible', timeout: 10000 });
+      await pageBtn.click();
+      await page.waitForTimeout(400);
+
       const outPath = path.join(outDir, p.filename);
       await cardLocator.screenshot({ path: outPath });
       console.log(`✅ ${p.filename} 저장 완료!`);

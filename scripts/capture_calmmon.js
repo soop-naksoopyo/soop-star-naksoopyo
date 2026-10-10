@@ -52,8 +52,13 @@ async function captureCalmmon() {
 
     // 4. 후원 랭킹 탭
     console.log('📸 [4/4] 후원 랭킹 탭 캡처 중...');
-    await page.click('button:has-text("후원 랭킹")');
-    await page.waitForTimeout(600);
+    const donorTabBtn = page.locator('button:has-text("후원 랭킹")').first();
+    await donorTabBtn.waitFor({ state: 'visible', timeout: 10000 });
+    await donorTabBtn.click();
+    await page.waitForFunction(() => {
+      return !document.body.innerText.includes('후원자 데이터가 없습니다.');
+    }, { timeout: 20000 }).catch(() => {});
+    await page.waitForTimeout(400);
     await cardLocator.screenshot({ path: path.join(outDir, '04_calm_donor.png') });
     console.log('✅ 04_calm_donor.png 저장 완료');
 
