@@ -3,6 +3,22 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791634813843",
+    "timestamp": "2026-10-10T12:20:13.843Z",
+    "kstTime": "2026-10-10 21:20:13",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "success",
+    "requestedCount": 228,
+    "fetchedCount": 228,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 3,
+    "changedCount": 0,
+    "changes": [],
+    "note": "2026-10 전원 정상 수집 완료 (228명, 변동 없음)"
+  },
+  {
     "id": "run-1791634613795",
     "timestamp": "2026-10-10T12:16:53.795Z",
     "kstTime": "2026-10-10 21:16:53",
@@ -57397,20 +57413,6 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "id": "run-1791344892509",
     "timestamp": "2026-10-07T03:48:12.509Z",
     "kstTime": "2026-10-07 12:48:12",
-    "yearMonth": "2026-10",
-    "trigger": "schedule",
-    "status": "success",
-    "requestedCount": 237,
-    "fetchedCount": 237,
-    "failedCount": 0,
-    "failedStreamers": [],
-    "durationSeconds": 1,
-    "note": "2026-10 전원 정상 수집 완료 (237명)"
-  },
-  {
-    "id": "run-1791343607750",
-    "timestamp": "2026-10-07T03:26:47.750Z",
-    "kstTime": "2026-10-07 12:26:47",
     "yearMonth": "2026-10",
     "trigger": "schedule",
     "status": "success",
