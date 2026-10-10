@@ -56,6 +56,15 @@
     },
     {
       "rank": 7,
+      "userId": "naiconnect",
+      "userNick": "susu@",
+      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/na/naiconnect/naiconnect.jpg",
+      "balloonCount": 43370,
+      "primaryStreamer": "햇살",
+      "primaryStreamerId": "thelddl"
+    },
+    {
+      "rank": 8,
       "userId": "q8991q5253",
       "userNick": "그여자",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/q8/q8991q5253/q8991q5253.jpg",
@@ -64,22 +73,13 @@
       "primaryStreamerId": "rnaqpdrjf"
     },
     {
-      "rank": 8,
+      "rank": 9,
       "userId": "wonsang1580",
       "userNick": "도도새주양이",
       "profileImage": "https://profile.img.sooplive.co.kr/LOGO/wo/wonsang1580/wonsang1580.jpg",
       "balloonCount": 42642,
       "primaryStreamer": "소주양",
       "primaryStreamerId": "soju2022"
-    },
-    {
-      "rank": 9,
-      "userId": "naiconnect",
-      "userNick": "susu@",
-      "profileImage": "https://profile.img.sooplive.co.kr/LOGO/na/naiconnect/naiconnect.jpg",
-      "balloonCount": 40370,
-      "primaryStreamer": "햇살",
-      "primaryStreamerId": "thelddl"
     },
     {
       "rank": 10,
