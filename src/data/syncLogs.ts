@@ -3,6 +3,188 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791603969191",
+    "timestamp": "2026-10-10T03:46:09.191Z",
+    "kstTime": "2026-10-10 12:46:09",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "success",
+    "requestedCount": 241,
+    "fetchedCount": 241,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 4,
+    "changedCount": 15,
+    "changes": [
+      {
+        "soopId": "aybjc2319",
+        "nickname": "진유성",
+        "crewName": "뉴캣슬",
+        "prevStars": 21188,
+        "newStars": 23188,
+        "diffStars": 2000,
+        "prevHours": 53.7,
+        "newHours": 54.2,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "parkbano",
+        "nickname": "시라소니aa",
+        "crewName": "소병대",
+        "prevStars": 2028,
+        "newStars": 4028,
+        "diffStars": 2000,
+        "prevHours": 29.3,
+        "newHours": 29.8,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "1004yomi",
+        "nickname": "단솔",
+        "crewName": "뉴캣슬",
+        "prevStars": 45188,
+        "newStars": 45388,
+        "diffStars": 200,
+        "prevHours": 77.4,
+        "newHours": 77.9,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "kysvic2",
+        "nickname": "유체리",
+        "crewName": "더블비",
+        "prevStars": 19356,
+        "newStars": 19527,
+        "diffStars": 171,
+        "prevHours": 41.9,
+        "newHours": 42.4,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "janghoman",
+        "nickname": "베트남테란",
+        "crewName": "소병대",
+        "prevStars": 2678,
+        "newStars": 2679,
+        "diffStars": 1,
+        "prevHours": 92.1,
+        "newHours": 92.6,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "youaregood",
+        "nickname": "진니",
+        "crewName": "와플대",
+        "prevStars": 39030,
+        "newStars": 39031,
+        "diffStars": 1,
+        "prevHours": 43.2,
+        "newHours": 43.7,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "killkg2",
+        "nickname": "김건욱",
+        "crewName": "뉴캣슬",
+        "prevStars": 89227,
+        "newStars": 89227,
+        "diffStars": 0,
+        "prevHours": 180.9,
+        "newHours": 181.4,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "corgi1102",
+        "nickname": "냥냥코기",
+        "crewName": "뉴캣슬",
+        "prevStars": 40956,
+        "newStars": 40956,
+        "diffStars": 0,
+        "prevHours": 103.7,
+        "newHours": 104.2,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "dbrbals",
+        "nickname": "초난강",
+        "crewName": "뉴캣슬",
+        "prevStars": 5458,
+        "newStars": 5458,
+        "diffStars": 0,
+        "prevHours": 34.3,
+        "newHours": 34.8,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "yyh3397",
+        "nickname": "[거지]렘레미",
+        "crewName": "소병대",
+        "prevStars": 56420,
+        "newStars": 56420,
+        "diffStars": 0,
+        "prevHours": 67,
+        "newHours": 67.5,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "simcheong23",
+        "nickname": "또봉순",
+        "crewName": "신세계",
+        "prevStars": 36121,
+        "newStars": 36121,
+        "diffStars": 0,
+        "prevHours": 56.9,
+        "newHours": 57.4,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "snfjdro369",
+        "nickname": "윤수철",
+        "crewName": "신세계",
+        "prevStars": 24045,
+        "newStars": 24045,
+        "diffStars": 0,
+        "prevHours": 66.7,
+        "newHours": 67.2,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "hy4985",
+        "nickname": "뽀누나",
+        "crewName": "BGM",
+        "prevStars": 18643,
+        "newStars": 18643,
+        "diffStars": 0,
+        "prevHours": 118.7,
+        "newHours": 119.2,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "sdkels",
+        "nickname": "강덕구",
+        "crewName": "무소속",
+        "prevStars": 44390,
+        "newStars": 44390,
+        "diffStars": 0,
+        "prevHours": 46.3,
+        "newHours": 46.8,
+        "diffHours": 0.5
+      },
+      {
+        "soopId": "jjjjeong",
+        "nickname": "태린",
+        "crewName": "소병대",
+        "prevStars": 31021,
+        "newStars": 31021,
+        "diffStars": 0,
+        "prevHours": 14.7,
+        "newHours": 15.1,
+        "diffHours": 0.4
+      }
+    ],
+    "note": "2026-10 전원 정상 수집 완료 (241명, 15명 수치 갱신)"
+  },
+  {
     "id": "run-1791602491085",
     "timestamp": "2026-10-10T03:21:31.085Z",
     "kstTime": "2026-10-10 12:21:31",
@@ -53969,20 +54151,6 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "failedCount": 0,
     "failedStreamers": [],
     "durationSeconds": 1,
-    "note": "2026-10 전원 정상 수집 완료 (237명)"
-  },
-  {
-    "id": "run-1791354056156",
-    "timestamp": "2026-10-07T06:20:56.156Z",
-    "kstTime": "2026-10-07 15:20:56",
-    "yearMonth": "2026-10",
-    "trigger": "schedule",
-    "status": "success",
-    "requestedCount": 237,
-    "fetchedCount": 237,
-    "failedCount": 0,
-    "failedStreamers": [],
-    "durationSeconds": 2,
     "note": "2026-10 전원 정상 수집 완료 (237명)"
   }
 ];
