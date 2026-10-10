@@ -33,11 +33,7 @@ it('returns the checked-in fallback without fetching or overwriting it', async (
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '캄몬').members)
     .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'freshtomato', nickname: 'Fresh토마토' })]));
   expect(data.independentStreamers).toEqual(INDEPENDENT_STREAMERS_BY_MONTH['2026-10']);
-  expect(data.independentStreamers).toHaveLength(13);
-  expect(data.independentStreamers).toEqual(expect.arrayContaining([
-    expect.objectContaining({ soopId: 'forweourus', nickname: '이유란ㅇ' }),
-  ]));
-  expect(data.independentStreamers.every((streamer: { crewName?: string }) => !streamer.crewName)).toBe(true);
+  expect(data.independentStreamers).toHaveLength(0);
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '신세계').members)
     .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'a6r8zfymkc6', nickname: '카나에_' })]));
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '소병대').members)
@@ -53,7 +49,6 @@ it('uses a complete SoopScope snapshot for the current month', async () => {
   vi.stubEnv('SUPABASE_ANON_KEY', 'test-anon-key');
   vi.stubEnv('SUPABASE_PUBLISHABLE_KEY', '');
   const member = OFFICIAL_STAR_CREWS[0].members[0];
-  const independent = INDEPENDENT_STREAMERS_BY_MONTH['2026-10'].find((streamer) => streamer.soopId === 'gks2wl')!;
   const kanae = OFFICIAL_STAR_CREWS.find((crew) => crew.crewName === '신세계')!.members.find((streamer) => streamer.soopId === 'a6r8zfymkc6')!;
   const parkbano = OFFICIAL_STAR_CREWS.find((crew) => crew.crewName === '소병대')!.members.find((streamer) => streamer.soopId === 'parkbano')!;
   const byId = new Map([
@@ -69,8 +64,8 @@ it('uses a complete SoopScope snapshot for the current month', async () => {
       crew_name: streamer.crewName ?? null,
       collection_status: 'available',
       stars_source: 'canonical',
-      total_stars: streamer.soopId === member.soopId ? 123456 : streamer.soopId === kanae.soopId ? 500 : streamer.soopId === independent.soopId ? 450 : streamer.soopId === parkbano.soopId ? 420 : 0,
-      broadcast_minutes: streamer.soopId === member.soopId ? 510 : streamer.soopId === kanae.soopId ? 120 : streamer.soopId === independent.soopId ? 486 : streamer.soopId === parkbano.soopId ? 576 : 0,
+      total_stars: streamer.soopId === member.soopId ? 123456 : streamer.soopId === kanae.soopId ? 500 : streamer.soopId === parkbano.soopId ? 420 : 0,
+      broadcast_minutes: streamer.soopId === member.soopId ? 510 : streamer.soopId === kanae.soopId ? 120 : streamer.soopId === parkbano.soopId ? 576 : 0,
     })),
   });
   vi.stubGlobal('fetch', fetchMock);
@@ -83,7 +78,7 @@ it('uses a complete SoopScope snapshot for the current month', async () => {
   expect(url.searchParams.get('select')).toContain('total_stars');
   expect(url.searchParams.get('select')).toContain('broadcast_minutes');
   expect(data.source).toBe('supabase_soopscope');
-  expect(data.matchedCount).toBe(240);
+  expect(data.matchedCount).toBe(227);
   expect(data.starCrews[0].members[0].totalStars).toBe(123456);
   expect(data.starCrews[0].members[0].broadcastHours).toBe(8.5);
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '캄몬').members)
@@ -95,10 +90,7 @@ it('uses a complete SoopScope snapshot for the current month', async () => {
     .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'a6r8zfymkc6', nickname: '카나에_', totalStars: 500 })]));
   expect(data.starCrews.find((crew: { crewName: string }) => crew.crewName === '소병대').members)
     .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'parkbano', nickname: '시라소니aa', totalStars: 420, broadcastHours: 9.6 })]));
-  expect(data.independentStreamers)
-    .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'gks2wl', nickname: '앵지', totalStars: 450, broadcastHours: 8.1 })]));
-  expect(data.independentStreamers)
-    .toEqual(expect.arrayContaining([expect.objectContaining({ soopId: 'forweourus', nickname: '이유란ㅇ' })]));
+  expect(data.independentStreamers).toEqual([]);
   expect(fetchMock).toHaveBeenCalledOnce();
 });
 
@@ -130,7 +122,7 @@ it('serves Supabase stats even when inactive streamers have stars_source stats i
   const data = await response.json();
 
   expect(data.source).toBe('supabase_soopscope');
-  expect(data.matchedCount).toBe(240);
+  expect(data.matchedCount).toBe(227);
 });
 
 it('keeps the full checked-in snapshot until the first SoopScope shard cycle completes', async () => {
