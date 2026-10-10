@@ -3,6 +3,573 @@ export type { SyncLogEntry, FailedStreamerInfo } from '@/types/sync';
 
 export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
   {
+    "id": "run-1791628464087",
+    "timestamp": "2026-10-10T10:34:24.087Z",
+    "kstTime": "2026-10-10 19:34:24",
+    "yearMonth": "2026-10",
+    "trigger": "schedule",
+    "status": "success",
+    "requestedCount": 242,
+    "fetchedCount": 242,
+    "failedCount": 0,
+    "failedStreamers": [],
+    "durationSeconds": 4,
+    "changedCount": 95,
+    "changes": [
+      {
+        "soopId": "koreasbg",
+        "nickname": "Stork송병구",
+        "crewName": "더블비",
+        "prevStars": 27828,
+        "newStars": 43599,
+        "diffStars": 15771,
+        "prevHours": 44.6,
+        "newHours": 44.9,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "kimp1ay",
+        "nickname": "구키",
+        "crewName": "와플대",
+        "prevStars": 69963,
+        "newStars": 71460,
+        "diffStars": 1497,
+        "prevHours": 34.6,
+        "newHours": 34.9,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "wlswn6565",
+        "nickname": "진땅콩",
+        "crewName": "드림즈",
+        "prevStars": 49548,
+        "newStars": 51038,
+        "diffStars": 1490,
+        "prevHours": 51.2,
+        "newHours": 51.5,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "xodud1898",
+        "nickname": "태영♥",
+        "crewName": "무소속",
+        "prevStars": 151338,
+        "newStars": 152812,
+        "diffStars": 1474,
+        "prevHours": 71,
+        "newHours": 71.4,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "cyj982002",
+        "nickname": "다나짱",
+        "crewName": "극락회",
+        "prevStars": 33382,
+        "newStars": 34642,
+        "diffStars": 1260,
+        "prevHours": 36.7,
+        "newHours": 37,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "aram1213",
+        "nickname": "아라미",
+        "crewName": "더블비",
+        "prevStars": 79669,
+        "newStars": 80763,
+        "diffStars": 1094,
+        "prevHours": 65.6,
+        "newHours": 65.9,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "ghkdud1617",
+        "nickname": "카히리",
+        "crewName": "마범대",
+        "prevStars": 28518,
+        "newStars": 29548,
+        "diffStars": 1030,
+        "prevHours": 5.2,
+        "newHours": 5.5,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "5eulgii",
+        "nickname": "김말랑",
+        "crewName": "DM",
+        "prevStars": 39552,
+        "newStars": 40446,
+        "diffStars": 894,
+        "prevHours": 89.4,
+        "newHours": 89.7,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "eunjo0105",
+        "nickname": "은조",
+        "crewName": "DM",
+        "prevStars": 13212,
+        "newStars": 13787,
+        "diffStars": 575,
+        "prevHours": 33.8,
+        "newHours": 34.1,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "parkle1006",
+        "nickname": "박듀듀",
+        "crewName": "뉴캣슬",
+        "prevStars": 38422,
+        "newStars": 38822,
+        "diffStars": 400,
+        "prevHours": 75.9,
+        "newHours": 76.2,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "kmj05317",
+        "nickname": "우리밍_",
+        "crewName": "무소속",
+        "prevStars": 77847,
+        "newStars": 78207,
+        "diffStars": 360,
+        "prevHours": 70,
+        "newHours": 70.4,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "zzzz809",
+        "nickname": "백갑숙",
+        "crewName": "뉴캣슬",
+        "prevStars": 35335,
+        "newStars": 35635,
+        "diffStars": 300,
+        "prevHours": 85.2,
+        "newHours": 85.6,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "aybjc2319",
+        "nickname": "진유성",
+        "crewName": "뉴캣슬",
+        "prevStars": 25189,
+        "newStars": 25479,
+        "diffStars": 290,
+        "prevHours": 60.6,
+        "newHours": 60.9,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "alaelddl97",
+        "nickname": "민지",
+        "crewName": "드림즈",
+        "prevStars": 75368,
+        "newStars": 75628,
+        "diffStars": 260,
+        "prevHours": 54.2,
+        "newHours": 54.6,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "soju2022",
+        "nickname": "소주양",
+        "crewName": "캄몬",
+        "prevStars": 54568,
+        "newStars": 54801,
+        "diffStars": 233,
+        "prevHours": 64.1,
+        "newHours": 64.4,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "rnaqpdrjf",
+        "nickname": "남덕선",
+        "crewName": "캄몬",
+        "prevStars": 58591,
+        "newStars": 58820,
+        "diffStars": 229,
+        "prevHours": 68.1,
+        "newHours": 68.5,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "fudnjs0235",
+        "nickname": "려원",
+        "crewName": "JSA",
+        "prevStars": 71918,
+        "newStars": 72118,
+        "diffStars": 200,
+        "prevHours": 44.7,
+        "newHours": 45.1,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "dpfgc3",
+        "nickname": "홍구",
+        "crewName": "JSA",
+        "prevStars": 31700,
+        "newStars": 31900,
+        "diffStars": 200,
+        "prevHours": 60.7,
+        "newHours": 61.1,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "asdsa1113",
+        "nickname": "세월",
+        "crewName": "와플대",
+        "prevStars": 27675,
+        "newStars": 27820,
+        "diffStars": 145,
+        "prevHours": 47.5,
+        "newHours": 47.9,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "chuwari13",
+        "nickname": "요구리",
+        "crewName": "극락회",
+        "prevStars": 35224,
+        "newStars": 35364,
+        "diffStars": 140,
+        "prevHours": 50.7,
+        "newHours": 51.1,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "dmswls4565",
+        "nickname": "공다츠",
+        "crewName": "극락회",
+        "prevStars": 131438,
+        "newStars": 131578,
+        "diffStars": 140,
+        "prevHours": 46.9,
+        "newHours": 47.2,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "thelddl",
+        "nickname": "햇살",
+        "crewName": "캄몬",
+        "prevStars": 106599,
+        "newStars": 106739,
+        "diffStars": 140,
+        "prevHours": 82.1,
+        "newHours": 82.4,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "faker1004",
+        "nickname": "가영",
+        "crewName": "흑카데미",
+        "prevStars": 25431,
+        "newStars": 25531,
+        "diffStars": 100,
+        "prevHours": 79.9,
+        "newHours": 80.3,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "ovoa3316",
+        "nickname": "나예리",
+        "crewName": "흑카데미",
+        "prevStars": 89086,
+        "newStars": 89114,
+        "diffStars": 28,
+        "prevHours": 50.1,
+        "newHours": 50.4,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "seul0316",
+        "nickname": "슬돌이",
+        "crewName": "케이대",
+        "prevStars": 180502,
+        "newStars": 180512,
+        "diffStars": 10,
+        "prevHours": 66.4,
+        "newHours": 66.8,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "jungym0116",
+        "nickname": "아링",
+        "crewName": "더블비",
+        "prevStars": 64161,
+        "newStars": 64171,
+        "diffStars": 10,
+        "prevHours": 70.8,
+        "newHours": 71.1,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "dlaguswl501",
+        "nickname": "임조이",
+        "crewName": "캄몬",
+        "prevStars": 68910,
+        "newStars": 68918,
+        "diffStars": 8,
+        "prevHours": 61.7,
+        "newHours": 62.1,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "wjswlgns09",
+        "nickname": "지두두",
+        "crewName": "캄몬",
+        "prevStars": 161269,
+        "newStars": 161274,
+        "diffStars": 5,
+        "prevHours": 97.9,
+        "newHours": 98.2,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "seols2",
+        "nickname": "정서린",
+        "crewName": "케이대",
+        "prevStars": 77542,
+        "newStars": 77545,
+        "diffStars": 3,
+        "prevHours": 66.5,
+        "newHours": 66.8,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "skygkrtn",
+        "nickname": "김학수",
+        "crewName": "케이대",
+        "prevStars": 108684,
+        "newStars": 108685,
+        "diffStars": 1,
+        "prevHours": 48.8,
+        "newHours": 49.2,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "wittyku",
+        "nickname": "냥수디",
+        "crewName": "케이대",
+        "prevStars": 70853,
+        "newStars": 70854,
+        "diffStars": 1,
+        "prevHours": 49,
+        "newHours": 49.4,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "ftrudals",
+        "nickname": "나린",
+        "crewName": "JSA",
+        "prevStars": 42618,
+        "newStars": 42619,
+        "diffStars": 1,
+        "prevHours": 37.7,
+        "newHours": 38.1,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "dbsdydx",
+        "nickname": "윤용태",
+        "crewName": "드림즈",
+        "prevStars": 80602,
+        "newStars": 80603,
+        "diffStars": 1,
+        "prevHours": 45.2,
+        "newHours": 45.5,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "diniowo",
+        "nickname": "막내현진",
+        "crewName": "뉴캣슬",
+        "prevStars": 126382,
+        "newStars": 126382,
+        "diffStars": 0,
+        "prevHours": 80.5,
+        "newHours": 80.9,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "queenzu",
+        "nickname": "퀸주",
+        "crewName": "뉴캣슬",
+        "prevStars": 79568,
+        "newStars": 79568,
+        "diffStars": 0,
+        "prevHours": 80.1,
+        "newHours": 80.5,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "imducko3o",
+        "nickname": "오리꿍",
+        "crewName": "드림즈",
+        "prevStars": 51073,
+        "newStars": 51073,
+        "diffStars": 0,
+        "prevHours": 55.5,
+        "newHours": 55.9,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "tjgpdus97",
+        "nickname": "요닝",
+        "crewName": "드림즈",
+        "prevStars": 82111,
+        "newStars": 82111,
+        "diffStars": 0,
+        "prevHours": 41.5,
+        "newHours": 41.9,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "zlzl1514",
+        "nickname": "최성원입니다",
+        "crewName": "신세계",
+        "prevStars": 41521,
+        "newStars": 41521,
+        "diffStars": 0,
+        "prevHours": 83.8,
+        "newHours": 84.2,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "jooyoung0040",
+        "nickname": "또아",
+        "crewName": "케이대",
+        "prevStars": 88953,
+        "newStars": 88953,
+        "diffStars": 0,
+        "prevHours": 79.6,
+        "newHours": 80,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "minyoo3972",
+        "nickname": "유민",
+        "crewName": "케이대",
+        "prevStars": 33530,
+        "newStars": 33530,
+        "diffStars": 0,
+        "prevHours": 55.5,
+        "newHours": 55.9,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "dollooo",
+        "nickname": "제갈츄빈",
+        "crewName": "흑카데미",
+        "prevStars": 13028,
+        "newStars": 13028,
+        "diffStars": 0,
+        "prevHours": 73.1,
+        "newHours": 73.5,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "bumsoo552",
+        "nickname": "김범수",
+        "crewName": "BGM",
+        "prevStars": 21108,
+        "newStars": 21108,
+        "diffStars": 0,
+        "prevHours": 51.2,
+        "newHours": 51.6,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "dudwn4974",
+        "nickname": "안아",
+        "crewName": "BGM",
+        "prevStars": 31321,
+        "newStars": 31321,
+        "diffStars": 0,
+        "prevHours": 68,
+        "newHours": 68.4,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "gnsl418",
+        "nickname": "이예훈",
+        "crewName": "DM",
+        "prevStars": 30093,
+        "newStars": 30093,
+        "diffStars": 0,
+        "prevHours": 80.7,
+        "newHours": 81.1,
+        "diffHours": 0.4
+      },
+      {
+        "soopId": "pazzy1",
+        "nickname": "파찌",
+        "crewName": "극락회",
+        "prevStars": 87236,
+        "newStars": 87236,
+        "diffStars": 0,
+        "prevHours": 73,
+        "newHours": 73.3,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "ksmo54",
+        "nickname": "구라미스",
+        "crewName": "뉴캣슬",
+        "prevStars": 61632,
+        "newStars": 61632,
+        "diffStars": 0,
+        "prevHours": 129,
+        "newHours": 129.3,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "wodnrdldia",
+        "nickname": "도재욱",
+        "crewName": "뉴캣슬",
+        "prevStars": 171824,
+        "newStars": 171824,
+        "diffStars": 0,
+        "prevHours": 60.8,
+        "newHours": 61.1,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "totoo23",
+        "nickname": "밍또얌",
+        "crewName": "뉴캣슬",
+        "prevStars": 25305,
+        "newStars": 25305,
+        "diffStars": 0,
+        "prevHours": 47.3,
+        "newHours": 47.6,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "peros777",
+        "nickname": "박성균",
+        "crewName": "뉴캣슬",
+        "prevStars": 81148,
+        "newStars": 81148,
+        "diffStars": 0,
+        "prevHours": 75.4,
+        "newHours": 75.7,
+        "diffHours": 0.3
+      },
+      {
+        "soopId": "dbwjdcool1",
+        "nickname": "키링",
+        "crewName": "뉴캣슬",
+        "prevStars": 26718,
+        "newStars": 26718,
+        "diffStars": 0,
+        "prevHours": 58.8,
+        "newHours": 59.1,
+        "diffHours": 0.3
+      }
+    ],
+    "note": "2026-10 전원 정상 수집 완료 (242명, 95명 수치 갱신)"
+  },
+  {
     "id": "run-1791627120317",
     "timestamp": "2026-10-10T10:12:00.317Z",
     "kstTime": "2026-10-10 19:12:00",
@@ -54088,320 +54655,5 @@ export const SYNC_LOG_HISTORY: SyncLogEntry[] = [
     "failedStreamers": [],
     "durationSeconds": 1,
     "note": "2026-10 전원 정상 수집 완료 (237명)"
-  },
-  {
-    "id": "run-1791338575749",
-    "timestamp": "2026-10-07T02:02:55.749Z",
-    "kstTime": "2026-10-07 11:02:55",
-    "yearMonth": "2026-10",
-    "trigger": "schedule",
-    "status": "failed",
-    "requestedCount": 237,
-    "fetchedCount": 0,
-    "failedCount": 237,
-    "failedStreamers": [
-      {
-        "soopId": "suji84",
-        "nickname": "두디",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "rlekfu6",
-        "nickname": "박재혁",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "pokimasiso",
-        "nickname": "또해영",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "dptmfl1258",
-        "nickname": "예슬",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "jiinii000",
-        "nickname": "밥새",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "palko1",
-        "nickname": "신상문",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "mwhdgus",
-        "nickname": "윤진규",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "aram1213",
-        "nickname": "아라미",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "jungym0116",
-        "nickname": "아링",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "kysvic2",
-        "nickname": "유체리",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "jihoon002",
-        "nickname": "박수범",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "roa0216",
-        "nickname": "허로아",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "kjhanna824",
-        "nickname": "미진이",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "heksd",
-        "nickname": "파메",
-        "crewName": "더블비",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "yuzzzz",
-        "nickname": "유즈",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "diniowo",
-        "nickname": "막내현진",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "123rhaxld",
-        "nickname": "최도랑",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "2ahgo1203",
-        "nickname": "이아깽",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "tndkekdy",
-        "nickname": "하윤",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "killkg2",
-        "nickname": "김건욱",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "queenzu",
-        "nickname": "퀸주",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "corgi1102",
-        "nickname": "냥냥코기",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "ksmo54",
-        "nickname": "구라미스",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "parkle1006",
-        "nickname": "박듀듀",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "wodnrdldia",
-        "nickname": "도재욱",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "dbwjdcool1",
-        "nickname": "키링",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "jun10280",
-        "nickname": "박성준",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "1004yomi",
-        "nickname": "단솔",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "qwer1317",
-        "nickname": "으니",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "aybjc2319",
-        "nickname": "진유성",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "peros777",
-        "nickname": "박성균",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "totoo23",
-        "nickname": "밍또얌",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "zzzz809",
-        "nickname": "백갑숙",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "dbrbals",
-        "nickname": "초난강",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "ywww123",
-        "nickname": "트슈",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "dmk1212",
-        "nickname": "액션구드론",
-        "crewName": "뉴캣슬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "freshtomato",
-        "nickname": "토마토",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "seemin88",
-        "nickname": "비타밍",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "wjswlgns09",
-        "nickname": "지두두",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "sksmsskdsl10",
-        "nickname": "낭니",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "fpahsdltu1",
-        "nickname": "주하랑",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "rnaqpdrjf",
-        "nickname": "남덕선",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "dlaguswl501",
-        "nickname": "임조이",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "vldpfm2",
-        "nickname": "아리송이",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "2meonjin",
-        "nickname": "먼진",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "thelddl",
-        "nickname": "햇살",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "h78ert",
-        "nickname": "박준오",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "hoonykkk",
-        "nickname": "사테",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "soju2022",
-        "nickname": "소주양",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      },
-      {
-        "soopId": "jmc06170",
-        "nickname": "왜냐맨",
-        "crewName": "캄몬",
-        "reason": "SoopScope 403 Forbidden 차단"
-      }
-    ],
-    "durationSeconds": 3,
-    "note": "2026-10 수집 실패 (0명 수집됨, SoopScope 차단 등)"
   }
 ];
