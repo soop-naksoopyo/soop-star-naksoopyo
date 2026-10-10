@@ -58,14 +58,22 @@
 - `scripts/capture_calmmon.js`: 4번 탭(후원 랭킹) 캡처 시에도 `후원자 데이터가 없습니다.`가 사라질 때까지 대기하는 가드 로직 적용.
 - `scripts/ygosu_post.py`: 이미지 업로드 로그에 하드코딩된 '4장' 대신 `len(valid_images)`를 반영하여 정확한 수량(5장)이 로깅되도록 수정.
 
+### 3.4 후원자 아바타 이미지 미렌더링(회색 이니셜 표기) 근본 해결
+1. **문제점**:
+   - SOOP의 원본 프로필 이미지는 개당 1.1MB에 달하는 고용량 파일이며, `CalmmonCard.tsx`에서 `loading="lazy"`로 지정되어 브라우저 뷰포트 지연 로딩이 적용됨.
+   - 해외 GitHub Actions 러너에서 캡처 시 20장의 대용량 이미지를 다운로드받기 전에 스크린샷이 찍혀, 이미지 뒤에 숨겨진 대체 텍스트(이니셜: `F`, `O`, `더` 등)가 노출됨.
+2. **해결 방안**:
+   - **아바타 로컬 정적 에셋 사전 번들링**: `scripts/sync-avatars.mjs`에 `calmmonDonors.json`을 연결하여 상위 100위 후원자 아바타 138개를 sharp로 최적화(개당 2~3KB, 99.8% 절감)하여 `public/avatars/{userId}.jpg`에 저장.
+   - **`CalmmonCard.tsx` 정적 CDN 바인딩**: `getStaticAvatarUrl(donor.userId)` 및 `handleAvatarError` 3단계 폴백 적용, `loading="eager"` 및 `decoding="async"`로 즉각 로드 전환.
+   - **Playwright `waitForVisibleImages(page, cardLocator, 20)` 도입**: 카드 내부의 모든 visible 이미지(`img.complete === true`)가 최소 20개 이상 로드 완료될 때까지 대기하여 100% 렌더링 후 캡처 보장.
+
 ---
 
 ## 4. 검증 결과
 1. **로컬 실행 검증**:
-   - `node scripts/capture_calmmon_donors.js "https://soop-star-naksoopyo.pages.dev"` 재실행 결과, 데이터 렌더링 대기 통과 후 1~5페이지(1~20위, 21~40위, 41~60위, 61~80위, 81~100위)가 정상 캡처됨.
-   - `view_file`로 실제 캡처된 `01_donor_01_20.png` 및 `02_donor_21_40.png`를 확인하여 1위 Fresh제리(69,439개)부터 정상 표기 확인.
+   - `capture_calmmon_donors.js` 및 `capture_calmmon.js` 재실행 결과, 모든 후원자 실제 아바타가 정상 노출된 채 캡처 완료 (`01_donor_01_20.png` 및 `04_calm_donor.png` 직접 시각 검증 통과).
 2. **Next.js 프로덕션 빌드 및 테스트 통과**:
-   - `npm run build`: 성공 (Cloudflare Next-on-Pages 빌드 정상 완료).
+   - `npm run build`: 성공 (449개 정적 에셋 번들링 완료).
    - `npm test`: 15개 테스트 스위트 / 57개 테스트 전체 통과.
 3. **원격 저장소 동기화**:
-   - 변경사항 커밋 및 `origin/main` 푸시 완료 (`fix(capture): wait for calmmon donor data before taking screenshots`).
+   - 변경사항 및 138개 후원자 아바타 에셋 커밋 & `origin/main` 푸시 완료.
